@@ -1,0 +1,1 @@
+Holds json data file from aurin and helper scripts to parse and put them in the CouchDB
