@@ -30,8 +30,8 @@ class SimpleDbLoadBalancer:
             self.__index = 0
 
             config_handler = ConfigHandler()
-            # self.__host_list = config_handler.get_db_host_list()
-            self.__host_list = config_handler.get_db_host_port_list()
+            self.__host_list = config_handler.get_db_host_list()
+            # self.__host_list = config_handler.get_db_host_port_list()
             self.__host_list_size = len(self.__host_list)
 
             self.lock = threading.RLock()

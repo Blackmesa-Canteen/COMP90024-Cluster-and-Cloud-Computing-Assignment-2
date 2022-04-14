@@ -57,6 +57,9 @@ class ConfigHandler:
 
         return self.__db_host_list
 
+    def get_db_port(self):
+        return self.__db_port
+
     def get_db_host_port_list(self):
         """
         :return: list of hosts with port: ["123.123.123.123:5984", "233.2332.332.233:5984"]
