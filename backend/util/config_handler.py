@@ -1,0 +1,60 @@
+# -*- coding: utf-8 -*-
+"""
+-------------------------------------------------
+   File Name：     config_handler
+   Description :  siongleton helper to parse and hold config
+   Author :       Xiaotian Li
+   date：          14/04/2022
+-------------------------------------------------
+"""
+import os
+
+import yaml
+
+import path_helper
+
+
+class ConfigHandler:
+    # singleton
+    __instance = None
+
+    # singleton
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = super(ConfigHandler, cls).__new__(
+                cls, *args, **kwargs)
+
+            # init
+            self = cls.__instance
+            root_path = path_helper.get_project_root_path()
+            self.__config_file_path = os.path.join(
+                root_path, 'config', 'app_config.yaml')
+
+            print("config file read from: " +
+                        self.__config_file_path)
+
+            if not os.path.exists(self.__config_file_path):
+                print("config file not exist!")
+                exit(-1)
+
+            with open(self.__config_file_path, 'r', encoding='utf-8') as f:
+                cfgs = yaml.safe_load(f)
+                self.__db_host_list = cfgs['app']['db']['host-list']
+
+        return cls.__instance
+
+    # once we used __new__, __init__ is not needed
+    def __init__(self):
+        pass
+
+    def get_db_host_list(self):
+        """
+        :return: list of machine names
+        author Xiaotian Li
+        """
+
+        return self.__db_host_list
+
+if __name__ == '__main__':
+    config_handler = ConfigHandler()
+    print(config_handler.get_db_host_list())
