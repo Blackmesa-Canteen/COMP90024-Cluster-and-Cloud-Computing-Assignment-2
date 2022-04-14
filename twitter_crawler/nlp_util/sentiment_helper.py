@@ -30,7 +30,7 @@ def get_polarity_from_text(sanitized_text):
         3. Then, you can pass the text into this function to get result
     :return: The emotion score is a float within the range [-1.0, 1.0]
     """
-    return TextBlob("Textblob is amazingly simple to use. What great fun!").polarity
+    return TextBlob(sanitized_text).polarity
 
 
 def get_subjectivity_from_text(sanitized_text):
@@ -46,7 +46,7 @@ def get_subjectivity_from_text(sanitized_text):
         :return: The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very
         objective and 1.0 is very subjective
         """
-    return TextBlob("Textblob is amazingly simple to use. What great fun!").subjectivity
+    return TextBlob(sanitized_text).subjectivity
 
 
 # test can run here
