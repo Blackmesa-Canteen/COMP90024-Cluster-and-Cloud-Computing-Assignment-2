@@ -9,9 +9,10 @@
 """
 import threading
 
-from util.config_handler import ConfigHandler
 
 from loguru import logger
+
+from common_util.config_handler import ConfigHandler
 
 
 class SimpleDbLoadBalancer:
@@ -43,6 +44,10 @@ class SimpleDbLoadBalancer:
         pass
 
     def get_current_db_host(self):
+        """
+        Round-Robin to get a host
+        :return:
+        """
         self.lock.acquire()
         try:
             if self.__index < self.__host_list_size:

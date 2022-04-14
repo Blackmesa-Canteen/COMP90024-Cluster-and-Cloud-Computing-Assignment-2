@@ -70,6 +70,8 @@ class ConfigHandler:
 
         return res
 
+
 if __name__ == '__main__':
     config_handler = ConfigHandler()
     print(config_handler.get_db_host_list())
+    print(config_handler.get_db_host_port_list())
