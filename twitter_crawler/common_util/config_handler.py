@@ -31,7 +31,7 @@ class ConfigHandler:
                 root_path, 'config', 'app_config.yaml')
 
             print("config file read from: " +
-                        self.__config_file_path)
+                  self.__config_file_path)
 
             if not os.path.exists(self.__config_file_path):
                 print("config file not exist!")
@@ -57,6 +57,9 @@ class ConfigHandler:
 
         return self.__db_host_list
 
+    def get_db_port(self):
+        return self.__db_port
+
     def get_db_host_port_list(self):
         """
         :return: list of hosts with port: ["123.123.123.123:5984", "233.2332.332.233:5984"]
@@ -75,3 +78,4 @@ if __name__ == '__main__':
     config_handler = ConfigHandler()
     print(config_handler.get_db_host_list())
     print(config_handler.get_db_host_port_list())
+    print(config_handler.get_db_port())
