@@ -36,7 +36,7 @@ class SentimentHelper:
     def __init__(self):
         pass
 
-    def get_sanitized_text(self, twitter_content_text):
+    def __get_sanitized_text(self, twitter_content_text):
         """
         sanitize twitter content with NLTK or something else:
             0. use regex to discard special characters: url, retweet(RT), @, #, etc...
@@ -50,14 +50,13 @@ class SentimentHelper:
         :return: sanitized_text for sentiment method calling
         """
 
-        # it will remove the old style retweet text "RT"
+        # Remove the old style retweet text "RT"
         res = re.sub(r'^RT[\s]+', '', twitter_content_text)
 
-        # it will remove hyperlinks
+        # Remove hyperlinks
         res = re.sub(r'https?:\/\/.*[\r\n]*', '', res)
 
-        # it will remove hashtags. We have to be careful here not to remove
-        # the whole hashtag because text of hashtags contains huge information.
+        # it will remove hashtags
         # only removing the hash # sign from the word
         res = re.sub(r'#', '', res)
 
@@ -71,7 +70,6 @@ class SentimentHelper:
         tokenizer = TweetTokenizer(preserve_case=False,
                                    strip_handles=True,
                                    reduce_len=True)
-
 
         # tokenize the tweets
         tweet_tokens = tokenizer.tokenize(res)
@@ -98,38 +96,32 @@ class SentimentHelper:
 
         return " ".join(map(str, tweets_stem))
 
-    def get_polarity_from_text(self, sanitized_text):
+    def get_polarity_from_text(self, twitter_text):
         """
         get polarity (The emotion score is a float within the range [-1.0, 1.0])
 
-        :param sanitized_text: input text need to be filtered!
-            before calling the method, please do something to the input text first:
-            1. using regex to discard special characters: url, retweet(RT), @, #, etc...
-            2. Convert char into lowercase, remove stop words (oh, he, an...) with NLTK
-            3. Then, you can pass the text into this function to get result
+        :param twitter_content_text
         :return: The emotion score is a float within the range [-1.0, 1.0]
         """
-        return TextBlob(sanitized_text).polarity
+        purified_text = self.__get_sanitized_text(twitter_text)
+        return TextBlob(purified_text).polarity
 
-    def get_subjectivity_from_text(self, sanitized_text):
+    def get_subjectivity_from_text(self, twitter_text):
         """
             get subjectivity.
 
-            :param sanitized_text: input text need to be filtered!
-                before calling the method, please do something to the input text first:
-                1. using regex to discard special characters: url, retweet(RT), @, #, etc...
-                2. Convert char into lowercase, remove stop words (oh, he, an...) with NLTK
-                3. Then, you can pass the text into this function to get result
+            :param twitter_content_text
 
             :return: The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very
             objective and 1.0 is very subjective
             """
-        return TextBlob(sanitized_text).subjectivity
+        purified_text = self.__get_sanitized_text(twitter_text)
+        return TextBlob(purified_text).subjectivity
 
 
 # test can run here
 if __name__ == '__main__':
     helper = SentimentHelper()
-    clean_text = helper.get_sanitized_text("I havv goood speling!")
-    print(clean_text)
-    print(helper.get_polarity_from_text(clean_text))
+    text = "Who Wouldn't Love These Big....Juicy....Selfies :) - http://t.co/QVzjgd1uFo http://t.co/oWBL11eQRY"
+    print(text)
+    print(helper.get_polarity_from_text(text))
