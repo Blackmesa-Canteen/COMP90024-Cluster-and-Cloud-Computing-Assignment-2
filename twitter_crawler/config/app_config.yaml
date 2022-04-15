@@ -1,5 +1,12 @@
 app:
   demo-key: 123demo-value
+  key-word-list:
+    - lockdown
+    - COVID
+    - Covid-19
+    - Corona virus
+    - Coronavirus
+    - melbournelockdown
 
   db:
     username: admin
