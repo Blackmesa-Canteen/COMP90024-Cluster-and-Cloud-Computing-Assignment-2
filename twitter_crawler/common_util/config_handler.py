@@ -41,6 +41,10 @@ class ConfigHandler:
                 cfgs = yaml.safe_load(f)
                 self.__db_host_list = cfgs['app']['db']['host-list']
                 self.__db_port = str(cfgs['app']['db']['port'])
+                self.__db_username = str(cfgs['app']['db']['username'])
+                self.__db_password = str(cfgs['app']['db']['password'])
+
+                self.__key_word_list = cfgs['app']['key-word-list']
 
         return cls.__instance
 
@@ -60,6 +64,12 @@ class ConfigHandler:
     def get_db_port(self):
         return self.__db_port
 
+    def get_db_username(self):
+        return self.__db_username
+
+    def get_db_password(self):
+        return self.__db_password
+
     def get_db_host_port_list(self):
         """
         :return: list of hosts with port: ["123.123.123.123:5984", "233.2332.332.233:5984"]
@@ -73,9 +83,15 @@ class ConfigHandler:
 
         return res
 
+    def get_key_word_list(self):
+        return self.__key_word_list
+
 
 if __name__ == '__main__':
     config_handler = ConfigHandler()
     print(config_handler.get_db_host_list())
     print(config_handler.get_db_host_port_list())
     print(config_handler.get_db_port())
+    print(config_handler.get_db_username())
+    print(config_handler.get_db_password())
+    print(config_handler.get_key_word_list())
