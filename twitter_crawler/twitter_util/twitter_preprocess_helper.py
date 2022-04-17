@@ -21,6 +21,9 @@ def preprocess_twitter(original_twitter_doc):
     # set tweet id as document id
     tweet_dict["_id"] = str(original_twitter_doc["id"])
 
+    # date: created_at : "Wed Jan 01 00:00:00 +0000 2020"
+    tweet_dict["created_at"] = original_twitter_doc['created_at']
+
     # unify text attribute
     if "full_text" in original_twitter_doc:
         tweet_dict["text"] = original_twitter_doc["full_text"]

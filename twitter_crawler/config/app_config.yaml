@@ -1,5 +1,8 @@
 app:
 
+  # 1 or 2
+  api-level: 1
+
   api-key: CFDfq0e0UVqwcBs5srwUYD06R
   api-secret: vpnAjv7uBf20TASxsWlH05iQEPzY58t2YnScNQ3WnUWxJbbhcf
   api-token: AAAAAAAAAAAAAAAAAAAAAJ6FbQEAAAAAWeRXYTv8SKSMt%2BkJzKajFeMSGBI%3DHxwsE6GOR3UXUhNGUbYf1YcgaR4lSsp0WQdpNpfLntpFfyt5jI

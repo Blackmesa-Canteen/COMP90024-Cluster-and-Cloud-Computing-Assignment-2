@@ -50,6 +50,7 @@ class ConfigHandler:
                 self.__api_token = cfgs['app']['api-token']
                 self.__access_token = cfgs['app']['access-token']
                 self.__access_token_secret = cfgs['app']['access-token-secret']
+                self.__api_level = cfgs['app']['api-level']
 
                 self.__target_db_name = cfgs['app']['target-db-name']
                 self.__target_box_point_a = cfgs['app']['target-box-points'][0]
@@ -127,6 +128,9 @@ class ConfigHandler:
 
     def get_block_queue_size(self):
         return self.__block_queue_size
+
+    def get_api_level(self):
+        return self.__api_level
 
 
 if __name__ == '__main__':
