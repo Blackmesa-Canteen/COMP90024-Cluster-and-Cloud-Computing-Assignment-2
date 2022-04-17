@@ -1,5 +1,9 @@
 app:
-  demo-key: 123demo-value
+
+  api-key: ErPfjMW8SOgGm4fsJL2buJQAa
+  api-secret: Hg5cfLAVTVOJ9dFOtRXAHRX6Wi1mYzN4gOx29tMOqdyIjJs8pV
+  api-token: AAAAAAAAAAAAAAAAAAAAAJ6FbQEAAAAAWeRXYTv8SKSMt%2BkJzKajFeMSGBI%3DHxwsE6GOR3UXUhNGUbYf1YcgaR4lSsp0WQdpNpfLntpFfyt5jI
+
   key-word-list:
     - lockdown
     - COVID
@@ -8,12 +12,28 @@ app:
     - Coronavirus
     - melbournelockdown
 
+  target-db-name: coivd_lockdown_db
+  # great melbourne box
+  target-box-points:
+    -
+        longtitude: 144.33363
+        latitude: -38.50298
+    -
+        longtitude: 145.87841
+        latitude: -37.17509
+
+
+  is-fetch-english-tweet-only: true
+
   db:
     username: admin
-    password: adm$n
+    password: wQ104cwJ
     port: 5984
     host-list:
-      - 321.321.321.321
-      - 123.123.123.123
-      - 233.233.233.233
+      - 127.0.0.1
+      - 127.0.0.1
+      - 127.0.0.1
+
+  concurrency:
+    block-queue-size: 512
 

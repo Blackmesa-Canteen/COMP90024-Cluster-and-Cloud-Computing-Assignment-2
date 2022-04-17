@@ -45,6 +45,16 @@ class ConfigHandler:
                 self.__db_password = str(cfgs['app']['db']['password'])
 
                 self.__key_word_list = cfgs['app']['key-word-list']
+                self.__api_key = cfgs['app']['api-key']
+                self.__api_secret = cfgs['app']['api-secret']
+                self.__api_token = cfgs['app']['api-token']
+
+                self.__target_db_name = cfgs['app']['target-db-name']
+                self.__target_box_point_a = cfgs['app']['target-box-points'][0]
+                self.__target_box_point_b = cfgs['app']['target-box-points'][1]
+                self.__is_fetch_english_tweet_only = cfgs['app']['is-fetch-english-tweet-only']
+
+                self.__block_queue_size = cfgs['app']['concurrency']['block-queue-size']
 
         return cls.__instance
 
@@ -86,6 +96,30 @@ class ConfigHandler:
     def get_key_word_list(self):
         return self.__key_word_list
 
+    def get_api_key(self):
+        return self.__api_key
+
+    def get_api_secret(self):
+        return self.__api_secret
+
+    def get_api_token(self):
+        return self.__api_token
+
+    def get_target_db_name(self):
+        return self.__target_db_name
+
+    def get_target_box_point_a(self):
+        return self.__target_box_point_a
+
+    def get_target_box_point_b(self):
+        return self.__target_box_point_b
+
+    def is_fetch_english_tweet_only(self):
+        return self.__is_fetch_english_tweet_only
+
+    def get_block_queue_size(self):
+        return self.__block_queue_size
+
 
 if __name__ == '__main__':
     config_handler = ConfigHandler()
@@ -95,3 +129,7 @@ if __name__ == '__main__':
     print(config_handler.get_db_username())
     print(config_handler.get_db_password())
     print(config_handler.get_key_word_list())
+
+    print(config_handler.get_target_box_point_a()['longtitude'])
+    print(config_handler.is_fetch_english_tweet_only())
+    print(config_handler.get_block_queue_size())

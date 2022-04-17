@@ -36,7 +36,7 @@ class SentimentHelper:
     def __init__(self):
         pass
 
-    def __get_sanitized_text(self, twitter_content_text):
+    def get_sanitized_text(self, twitter_content_text):
         """
         sanitize twitter content with NLTK or something else:
             0. use regex to discard special characters: url, retweet(RT), @, #, etc...
@@ -48,6 +48,8 @@ class SentimentHelper:
 
         :param twitter_content_text: twitter content text
         :return: sanitized_text for sentiment method calling
+
+        author: xiaotian li
         """
 
         # Remove the old style retweet text "RT"
@@ -96,32 +98,34 @@ class SentimentHelper:
 
         return " ".join(map(str, tweets_stem))
 
-    def get_polarity_from_text(self, twitter_text):
+    def get_polarity_from_text(self, sanitized_text):
         """
         get polarity (The emotion score is a float within the range [-1.0, 1.0])
 
-        :param twitter_content_text
+        :param sanitized_text
         :return: The emotion score is a float within the range [-1.0, 1.0]
-        """
-        purified_text = self.__get_sanitized_text(twitter_text)
-        return TextBlob(purified_text).polarity
 
-    def get_subjectivity_from_text(self, twitter_text):
+        author: xiaotian li
+        """
+        return TextBlob(sanitized_text).polarity
+
+    def get_subjectivity_from_text(self, sanitized_text):
         """
             get subjectivity.
 
-            :param twitter_content_text
+            :param sanitized_text
 
             :return: The subjectivity is a float within the range [0.0, 1.0] where 0.0 is very
             objective and 1.0 is very subjective
+
+            author: xiaotian li
             """
-        purified_text = self.__get_sanitized_text(twitter_text)
-        return TextBlob(purified_text).subjectivity
+        return TextBlob(sanitized_text).subjectivity
 
 
 # test can run here
 if __name__ == '__main__':
     helper = SentimentHelper()
-    text = "Who Wouldn't Love These Big....Juicy....Selfies :) - http://t.co/QVzjgd1uFo http://t.co/oWBL11eQRY"
-    print(text)
-    print(helper.get_polarity_from_text(text))
+    en_text = "Who Wouldn't Love These Big....Juicy....Selfies :) - http://t.co/QVzjgd1uFo http://t.co/oWBL11eQRY"
+    cn_text = "的确是我的#@%gdtgt"
+    print(helper.get_polarity_from_text(helper.get_sanitized_text(cn_text)))
