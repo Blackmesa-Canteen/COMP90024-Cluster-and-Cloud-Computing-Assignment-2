@@ -48,6 +48,8 @@ class ConfigHandler:
                 self.__api_key = cfgs['app']['api-key']
                 self.__api_secret = cfgs['app']['api-secret']
                 self.__api_token = cfgs['app']['api-token']
+                self.__access_token = cfgs['app']['access-token']
+                self.__access_token_secret = cfgs['app']['access-token-secret']
 
                 self.__target_db_name = cfgs['app']['target-db-name']
                 self.__target_box_point_a = cfgs['app']['target-box-points'][0]
@@ -105,6 +107,12 @@ class ConfigHandler:
     def get_api_token(self):
         return self.__api_token
 
+    def get_access_token(self):
+        return self.__access_token
+
+    def get_access_token_secret(self):
+        return self.__access_token_secret
+
     def get_target_db_name(self):
         return self.__target_db_name
 
@@ -133,3 +141,4 @@ if __name__ == '__main__':
     print(config_handler.get_target_box_point_a()['longtitude'])
     print(config_handler.is_fetch_english_tweet_only())
     print(config_handler.get_block_queue_size())
+    print(config_handler.get_access_token_secret())
