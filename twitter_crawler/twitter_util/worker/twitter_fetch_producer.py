@@ -29,7 +29,8 @@ class TwitterFetchProducer(threading.Thread):
                 consumer_key=self.__config.get_api_key(),
                 consumer_secret=self.__config.get_api_secret(),
                 access_token=self.__config.get_access_token(),
-                access_token_secret=self.__config.get_access_token_secret()
+                access_token_secret=self.__config.get_access_token_secret(),
+                queue=self.__q
             )
 
             # search in box, e.g. [112.28, -44.36, 155.23, -10.37]
@@ -43,17 +44,16 @@ class TwitterFetchProducer(threading.Thread):
             ]
 
             # set filter
+            # can NOT use both track and location! we filter the search_word later in the StreamListenerConsumer
             if self.__config.is_fetch_english_tweet_only():
                 stream.filter(
                     languages=["en"],
-                    track=self.__config.get_key_word_list(),
                     locations=target_location_box
                 )
 
             else:
                 # no language restriction
                 stream.filter(
-                    track=self.__config.get_key_word_list(),
                     locations=target_location_box
                 )
 

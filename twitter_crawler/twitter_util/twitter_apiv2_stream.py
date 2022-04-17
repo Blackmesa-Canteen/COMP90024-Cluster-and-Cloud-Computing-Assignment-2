@@ -1,14 +1,54 @@
+import json
 import time
 
 import tweepy
+from fuzzywuzzy import fuzz
 from loguru import logger
+
+from common_util.config_handler import ConfigHandler
 
 
 class TwitterStream(tweepy.StreamingClient):
 
+    # def __init__(self,
+    #              consumer_key,
+    #              consumer_secret,
+    #              access_token,
+    #              access_token_secret,
+    #              queue
+    #              ):
+    #
+    #     tweepy.StreamingClient.__init__(self,
+    #                            consumer_key=consumer_key,
+    #                            consumer_secret=consumer_secret,
+    #                            access_token=access_token,
+    #                            access_token_secret=access_token_secret
+    #                            )
+    #     self.__queue = queue
+
     def on_data(self, raw_data):
         try:
-            print(raw_data)
+            # filter key words
+            tweet_json_data = json.loads(raw_data)
+            print(tweet_json_data)
+
+            # unify text attribute
+            if "full_text" in tweet_json_data:
+                tweet_json_data["text"] = tweet_json_data["full_text"]
+
+            # get the full text
+            if tweet_json_data["truncated"]:
+                tweet_json_data["text"] = tweet_json_data["extended_tweet"]["full_text"]
+
+            # match keywords
+            config = ConfigHandler()
+            key_word_sentence = config.get_lower_key_word_token_string()
+
+            ratio = fuzz.token_set_ratio(key_word_sentence, tweet_json_data["text"])
+            logger.debug("match score: " + str(ratio) + " in text: " + tweet_json_data["text"])
+            if ratio >= config.get_key_word_match_degree():
+                # matched twitter
+                pass
 
         except BaseException as e:
             logger.debug(raw_data)

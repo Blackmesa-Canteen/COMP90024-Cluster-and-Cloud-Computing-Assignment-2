@@ -9,13 +9,15 @@ app:
   access-token: 982640580512460801-JEhGJC0Oqmmuw8udB8knpfAVp7aMbky
   access-token-secret: 74AgO2bKazn4nFKnIsAU1a6GylXI6L42KdOiAVqlGzzMR
 
+  # don't input to many
   key-word-list:
     - lockdown
     - COVID
     - Covid-19
     - Corona virus
-    - Coronavirus
-    - melbournelockdown
+
+  # 0~100, very loose to very strict match
+  key-word-match-degree: 20
 
   target-db-name: coivd_lockdown_db
   # great melbourne box

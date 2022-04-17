@@ -24,16 +24,16 @@ def preprocess_twitter(original_twitter_doc):
     # date: created_at : "Wed Jan 01 00:00:00 +0000 2020"
     tweet_dict["created_at"] = original_twitter_doc['created_at']
 
-    # unify text attribute
-    if "full_text" in original_twitter_doc:
-        tweet_dict["text"] = original_twitter_doc["full_text"]
+    # unify text attribute (already done in the stream)
+    # if "full_text" in original_twitter_doc:
+    #     tweet_dict["text"] = original_twitter_doc["full_text"]
+    #
+    # else:
+    #     tweet_dict["text"] = original_twitter_doc["text"]
 
-    else:
-        tweet_dict["text"] = original_twitter_doc["text"]
-
-    # get the full text
-    if original_twitter_doc["truncated"]:
-        tweet_dict["text"] = original_twitter_doc["extended_tweet"]["full_text"]
+    # get the full text (already done in the stream)
+    # if original_twitter_doc["truncated"]:
+    #     tweet_dict["text"] = original_twitter_doc["extended_tweet"]["full_text"]
 
     # get language info
     if original_twitter_doc["metadata"] is not None and \
@@ -57,7 +57,7 @@ def preprocess_twitter(original_twitter_doc):
     tweet_dict["polarity"] = npl_helper.get_polarity_from_text(tweet_dict["purified_text"])
     tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(tweet_dict["purified_text"])
 
-    logger.debug("preprocess res: " + str(tweet_dict))
+    tweet_dict["place"] = original_twitter_doc["place"]
 
     return tweet_dict
 

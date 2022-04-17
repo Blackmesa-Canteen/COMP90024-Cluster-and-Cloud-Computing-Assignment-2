@@ -45,6 +45,7 @@ class ConfigHandler:
                 self.__db_password = str(cfgs['app']['db']['password'])
 
                 self.__key_word_list = cfgs['app']['key-word-list']
+                self.__key_word_match_degree = cfgs['app']['key-word-match-degree']
                 self.__api_key = cfgs['app']['api-key']
                 self.__api_secret = cfgs['app']['api-secret']
                 self.__api_token = cfgs['app']['api-token']
@@ -58,6 +59,8 @@ class ConfigHandler:
                 self.__is_fetch_english_tweet_only = cfgs['app']['is-fetch-english-tweet-only']
 
                 self.__block_queue_size = cfgs['app']['concurrency']['block-queue-size']
+
+                self.__lower_key_word_token_string = (" ".join(self.__key_word_list)).lower()
 
         return cls.__instance
 
@@ -99,6 +102,9 @@ class ConfigHandler:
     def get_key_word_list(self):
         return self.__key_word_list
 
+    def get_lower_key_word_token_string(self):
+        return self.__lower_key_word_token_string
+
     def get_api_key(self):
         return self.__api_key
 
@@ -132,6 +138,9 @@ class ConfigHandler:
     def get_api_level(self):
         return self.__api_level
 
+    def get_key_word_match_degree(self):
+        return self.__key_word_match_degree
+
 
 if __name__ == '__main__':
     config_handler = ConfigHandler()
@@ -142,7 +151,9 @@ if __name__ == '__main__':
     print(config_handler.get_db_password())
     print(config_handler.get_key_word_list())
 
-    print(config_handler.get_target_box_point_a()['longtitude'])
+    print(config_handler.get_target_box_point_a()['longitude'])
     print(config_handler.is_fetch_english_tweet_only())
     print(config_handler.get_block_queue_size())
     print(config_handler.get_access_token_secret())
+    print(config_handler.get_lower_key_word_token_string())
+    print(config_handler.get_key_word_match_degree())
