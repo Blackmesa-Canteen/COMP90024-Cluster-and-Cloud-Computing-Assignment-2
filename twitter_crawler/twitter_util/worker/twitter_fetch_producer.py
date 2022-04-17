@@ -1,6 +1,7 @@
 # author: xiaotian Li
 import threading
 
+import tweepy
 from tweepy import Stream
 
 from common_util.config_handler import ConfigHandler
@@ -55,3 +56,18 @@ class TwitterFetchProducer(threading.Thread):
             )
 
 
+if __name__ == '__main__':
+    # test
+    config = ConfigHandler()
+    auth = tweepy.OAuth1UserHandler(
+        consumer_key=config.get_api_key(),
+        consumer_secret=config.get_api_secret(),
+        access_token=config.get_access_token(),
+        access_token_secret=config.get_access_token_secret()
+    )
+
+    api = tweepy.API(auth)
+
+    public_tweets = api.home_timeline()
+    for tweet in public_tweets:
+        print(tweet.text)
