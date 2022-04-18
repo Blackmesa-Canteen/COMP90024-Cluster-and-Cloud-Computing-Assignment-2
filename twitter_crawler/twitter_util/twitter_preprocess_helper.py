@@ -10,7 +10,7 @@ def preprocess_twitter(original_twitter_doc):
     """
     preprocess the original twitter fetched to object that is suitable for database to store
 
-    :param original_twitter_doc: original twitter obj
+    :param original_twitter_doc: original twitter json doc
     :return: twitter_dict: the dict that is suitable for database to store
 
     author: xiaotian li

@@ -11,7 +11,6 @@ app:
 
   # don't input to many
   key-word-list:
-    - lockdown
     - COVID
     - Covid-19
     - Corona virus
@@ -20,12 +19,15 @@ app:
   key-word-match-degree: 20
 
   target-db-name: coivd_lockdown_db
-  # great melbourne box
+  # melbourne place box
   target-box-points:
-    - longitude: 144.33363
-      latitude: -38.50298
-    - longitude: 145.87841
-      latitude: -37.17509
+    - longitude: 144.59374
+      latitude: -38.43385
+    - longitude: 145.51252
+      latitude: -37.51127
+
+  historical-tweet-file-path: /data/historical-tweets
+  covid-tweet-id-file-path: /data/covid-tweet-ids
 
 
   is-fetch-english-tweet-only: true

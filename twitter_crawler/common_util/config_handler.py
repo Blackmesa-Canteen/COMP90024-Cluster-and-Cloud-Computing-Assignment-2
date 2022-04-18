@@ -62,6 +62,9 @@ class ConfigHandler:
 
                 self.__lower_key_word_token_string = (" ".join(self.__key_word_list)).lower()
 
+                self.__historical_tweet_file_path = cfgs['app']['historical-tweet-file-path']
+                self.__covid_tweet_id_file_path = cfgs['app']['covid-tweet-id-file-path']
+
         return cls.__instance
 
     # once we used __new__, __init__ is not needed
@@ -141,6 +144,12 @@ class ConfigHandler:
     def get_key_word_match_degree(self):
         return self.__key_word_match_degree
 
+    def get_historical_tweet_file_path(self):
+        return self.__historical_tweet_file_path
+
+    def get_covid_tweet_id_file_path(self):
+        return self.__covid_tweet_id_file_path
+
 
 if __name__ == '__main__':
     config_handler = ConfigHandler()
@@ -157,3 +166,4 @@ if __name__ == '__main__':
     print(config_handler.get_access_token_secret())
     print(config_handler.get_lower_key_word_token_string())
     print(config_handler.get_key_word_match_degree())
+    print(config_handler.get_covid_tweet_id_file_path())

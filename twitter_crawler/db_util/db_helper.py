@@ -57,6 +57,34 @@ class DbHelper:
     def __init__(self):
         pass
 
+    def __pick_master_db_node(self):
+        """
+        The db is not strong consistent, so use one master node to put data
+        :return: db on the master node
+        """
+        # the first node is the master node
+        server = self.__db_connections[0]
+        db_name = self.__config_handler.get_target_db_name()
+        try:
+            return server[db_name]
+
+        except ConnectionRefusedError:
+            logger.error('db connection failed! on ' + str(server))
+            return None
+
+        except Unauthorized:
+            logger.error('db password/username incorrect!')
+            return None
+
+        except OSError as e:
+            logger.error(e)
+            return None
+
+        except Exception as e:
+
+            logger.debug('db: ' + db_name + ' not exist, created.')
+            return server.create(db_name)
+
     def __pick_db_via_rr_load_balance(self):
         """
         Round Robin to get a valid database connection
@@ -117,18 +145,22 @@ class DbHelper:
 
         database = None
         # pickup one database with RoundRobin load balance to put tweet
-        for i in range(0, self.__db_connections_size):
-            database = self.__pick_db_via_rr_load_balance()
+        # for i in range(0, self.__db_connections_size):
+        #     database = self.__pick_db_via_rr_load_balance()
+        #
+        #     # if we can connect to this database
+        #     if database is not None:
+        #         break
 
-            # if we can connect to this database
-            if database is not None:
-                break
+        # the db is not strong consistent, so use one master node to put data
+        database = self.__pick_master_db_node()
 
         # if the db is still none
         if database is None:
 
             logger.error('all database nodes are dead!!')
             exit(-1)
+            return
 
         # prevent duplicate twitter
         if str(tweet_doc["id"]) not in database:

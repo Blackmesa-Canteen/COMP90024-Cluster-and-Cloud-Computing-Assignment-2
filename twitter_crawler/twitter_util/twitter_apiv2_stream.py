@@ -28,6 +28,10 @@ class TwitterStream(tweepy.StreamingClient):
 
     def on_data(self, raw_data):
         try:
+
+            # TODO filter place - melbourne
+
+
             # filter key words
             tweet_json_data = json.loads(raw_data)
             print(tweet_json_data)
