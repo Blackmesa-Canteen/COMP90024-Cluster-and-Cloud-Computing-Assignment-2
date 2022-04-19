@@ -7,8 +7,8 @@
    date：          14/04/2022
 -------------------------------------------------
 """
-from twitter_util.worker.twitter_doc_queue import TwitterDocQueue
-from twitter_util.worker.twitter_fetch_producer import TwitterFetchProducer
+from twitter_stream_util.worker.twitter_doc_queue import TwitterDocQueue
+from twitter_stream_util.worker.twitter_fetch_producer import TwitterFetchProducer
 
 if __name__ == '__main__':
     # start the crawler logic here

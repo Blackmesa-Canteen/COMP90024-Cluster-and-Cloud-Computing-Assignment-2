@@ -1,15 +1,11 @@
 import threading
 
-import loguru
 from couchdb import Unauthorized
 
 from common_util.config_handler import ConfigHandler
 import couchdb
 
 from loguru import logger
-
-from nlp_util.sentiment_helper import SentimentHelper
-from twitter_util import twitter_preprocess_helper
 
 
 class DbHelper:
@@ -137,7 +133,23 @@ class DbHelper:
         """
         put the tweet doc into the database
 
-        :param tweet_doc: fetched from tw api
+        :param tweet_doc: tweet doc need to be preprocessed to remove redundants!
+        tweet_doc will be like:
+        {
+        '_id': '493805281185263600',
+        'id': '493805281185263600',
+        'created_at': 'Mon Jul 28 17:08:48 +0000 2014',
+        'text': 'What? Boiled Milk? You mean.... Burnt milk. *facepalm*',
+        'iso_language_code': 'en',
+        'lang': 'en',
+        'coordinates': {
+            'type': 'Point',
+            'coordinates': [Decimal('145.2093684'), Decimal('-37.8145959')]
+        },
+        'purified_text': 'boil silk mean ... burnt milk facepalm',
+        'polarity': -0.3125,
+        'subjectivity': 0.6875
+    }
         author: xiaotian li
         """
         if tweet_doc is None:
@@ -165,10 +177,10 @@ class DbHelper:
         # prevent duplicate twitter
         if str(tweet_doc["id"]) not in database:
             # preprocess original tweet_doc, then store it in db
-            twitter_dict = twitter_preprocess_helper.preprocess_twitter(tweet_doc)
+            # twitter_dict = twitter_preprocess_helper.preprocess_twitter(tweet_doc)
 
             try:
-                database.save(twitter_dict)
+                database.save(tweet_doc)
             except Exception as e:
                 logger.error(e)
 

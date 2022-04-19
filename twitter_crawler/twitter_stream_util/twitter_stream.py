@@ -42,7 +42,7 @@ class TwitterStream(tweepy.Stream):
                 tweet_json_data["text"] = tweet_json_data["full_text"]
 
             # get the full text
-            if tweet_json_data["truncated"]:
+            if tweet_json_data.get("truncated") is not None and tweet_json_data["truncated"]:
                 tweet_json_data["text"] = tweet_json_data["extended_tweet"]["full_text"]
 
             # match keywords

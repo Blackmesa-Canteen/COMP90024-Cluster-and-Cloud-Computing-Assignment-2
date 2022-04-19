@@ -5,7 +5,7 @@ import tweepy
 from tweepy import Stream
 
 from common_util.config_handler import ConfigHandler
-from twitter_util.twitter_stream import TwitterStream
+from twitter_stream_util.twitter_stream import TwitterStream
 
 
 class TwitterFetchProducer(threading.Thread):
