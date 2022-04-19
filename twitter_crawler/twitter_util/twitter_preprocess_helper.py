@@ -7,6 +7,45 @@ from nlp_util.sentiment_helper import SentimentHelper
 CONFIG = ConfigHandler()
 
 
+def get_full_text(original_twitter_doc):
+    """
+    quickly get full text from original twitter
+
+    :param original_twitter_doc:
+    :return: full text
+
+    author: xiaotian li
+    """
+    res = original_twitter_doc["text"]
+    if "full_text" in original_twitter_doc:
+        res = original_twitter_doc["full_text"]
+
+    # get the full text
+    if original_twitter_doc.get("truncated") is not None and original_twitter_doc["truncated"]:
+        res = original_twitter_doc["extended_tweet"]["full_text"]
+
+    return res
+
+
+def get_lang(original_twitter_doc):
+    """
+    get lang code
+
+    :param original_twitter_doc:
+    :return:
+    """
+    if original_twitter_doc.get("lang") is not None:
+        return original_twitter_doc["lang"]
+
+    elif original_twitter_doc.get("metadata") is not None and \
+            original_twitter_doc["metadata"].get("iso_language_code") is not None:
+        return original_twitter_doc["metadata"]["iso_language_code"]
+    else:
+        return "und"
+
+def is_tweet_english(original_twitter_doc):
+    return get_lang(original_twitter_doc) == "en"
+
 def preprocess_twitter(original_twitter_doc):
     """
     preprocess the original twitter fetched to object that is suitable for database to store
@@ -46,27 +85,10 @@ def preprocess_twitter(original_twitter_doc):
     tweet_dict["created_at"] = original_twitter_doc['created_at']
 
     # unify text attribute
-    if "full_text" in original_twitter_doc:
-        tweet_dict["text"] = original_twitter_doc["full_text"]
-    else:
-        tweet_dict["text"] = original_twitter_doc["text"]
-
-    # get the full text
-    if original_twitter_doc.get("truncated") is not None and original_twitter_doc["truncated"]:
-        tweet_dict["text"] = original_twitter_doc["extended_tweet"]["full_text"]
+    tweet_dict["text"] = get_full_text(original_twitter_doc)
 
     # get language info
-    if original_twitter_doc.get("metadata") is not None and \
-            original_twitter_doc["metadata"].get("iso_language_code") is not None:
-
-        tweet_dict["iso_language_code"] = original_twitter_doc["metadata"]["iso_language_code"]
-    else:
-        tweet_dict["iso_language_code"] = "und"
-
-    if original_twitter_doc.get("lang") is not None:
-        tweet_dict["lang"] = original_twitter_doc["lang"]
-    else:
-        tweet_dict["lang"] = "und"
+    tweet_dict["lang"] = get_lang(original_twitter_doc)
 
     # get coordinates
     if original_twitter_doc.get("coordinates") is not None:
@@ -82,7 +104,7 @@ def preprocess_twitter(original_twitter_doc):
     npl_helper = SentimentHelper()
 
     # only do NLP on english twitter
-    if CONFIG.is_fetch_english_tweet_only():
+    if tweet_dict["lang"] == 'en':
         tweet_dict["purified_text"] = npl_helper.get_sanitized_text(tweet_dict["text"])
         tweet_dict["polarity"] = npl_helper.get_polarity_from_text(tweet_dict["purified_text"])
         tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(tweet_dict["purified_text"])
