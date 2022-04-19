@@ -1,5 +1,6 @@
 from loguru import logger
 
+from common_util import config_handler
 from nlp_util.sentiment_helper import SentimentHelper
 
 
@@ -53,9 +54,17 @@ def preprocess_twitter(original_twitter_doc):
 
     # Do NLP process
     npl_helper = SentimentHelper()
-    tweet_dict["purified_text"] = npl_helper.get_sanitized_text(tweet_dict["text"])
-    tweet_dict["polarity"] = npl_helper.get_polarity_from_text(tweet_dict["purified_text"])
-    tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(tweet_dict["purified_text"])
+
+    # only do NLP on english twitter
+    config = config_handler.ConfigHandler()
+    if config.is_fetch_english_tweet_only():
+        tweet_dict["purified_text"] = npl_helper.get_sanitized_text(tweet_dict["text"])
+        tweet_dict["polarity"] = npl_helper.get_polarity_from_text(tweet_dict["purified_text"])
+        tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(tweet_dict["purified_text"])
+    else:
+        tweet_dict["purified_text"] = ""
+        tweet_dict["polarity"] = 0.0
+        tweet_dict["subjectivity"] = 0.0
 
     tweet_dict["place"] = original_twitter_doc["place"]
 

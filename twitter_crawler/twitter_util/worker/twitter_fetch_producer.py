@@ -44,7 +44,7 @@ class TwitterFetchProducer(threading.Thread):
             ]
 
             # set filter
-            # can NOT use both track and location! we filter the search_word later in the StreamListenerConsumer
+            # can NOT use both keyword track and location! we filter the search_word later in the StreamListenerConsumer
             if self.__config.is_fetch_english_tweet_only():
                 stream.filter(
                     languages=["en"],

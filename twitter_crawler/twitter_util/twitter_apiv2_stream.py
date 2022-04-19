@@ -48,10 +48,15 @@ class TwitterStream(tweepy.StreamingClient):
             config = ConfigHandler()
             key_word_sentence = config.get_lower_key_word_token_string()
 
-            ratio = fuzz.token_set_ratio(key_word_sentence, tweet_json_data["text"])
-            logger.debug("match score: " + str(ratio) + " in text: " + tweet_json_data["text"])
-            if ratio >= config.get_key_word_match_degree():
-                # matched twitter
+            if len(key_word_sentence) != 0:
+                ratio = fuzz.token_set_ratio(key_word_sentence, tweet_json_data["text"])
+                logger.debug("match score: " + str(ratio) + " in text: " + tweet_json_data["text"])
+                if ratio >= config.get_key_word_match_degree():
+                    # matched twitter into queue
+                    pass
+
+            else:
+                # if key_word is empty, get all twitter
                 pass
 
         except BaseException as e:
