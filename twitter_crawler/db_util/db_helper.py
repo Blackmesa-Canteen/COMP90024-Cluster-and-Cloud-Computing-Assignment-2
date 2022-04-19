@@ -182,7 +182,7 @@ class DbHelper:
 
             try:
                 database.save(tweet_doc)
-                logger.success('tweet saved to db: ' + tweet_doc["_id"])
+                logger.info('tweet saved to db: ' + tweet_doc["_id"])
             except Exception as e:
                 logger.error(e)
 

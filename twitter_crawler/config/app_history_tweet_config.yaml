@@ -23,7 +23,7 @@ app:
 
   is-fetch-english-tweet-only: true
 
-  target-db-name: history_environment_tweet_db
+  target-db-name: history_house_price_tweet_db
 
   # melbourne place box
   target-box-points:
