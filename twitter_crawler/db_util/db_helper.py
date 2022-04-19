@@ -1,3 +1,4 @@
+import json
 import threading
 
 from couchdb import Unauthorized
@@ -6,6 +7,8 @@ from common_util.config_handler import ConfigHandler
 import couchdb
 
 from loguru import logger
+
+from db_util.decimal_encoder import DecimalEncoder
 
 
 class DbHelper:
@@ -140,13 +143,11 @@ class DbHelper:
         'id': '493805281185263600',
         'created_at': 'Mon Jul 28 17:08:48 +0000 2014',
         'text': 'What? Boiled Milk? You mean.... Burnt milk. *facepalm*',
-        'iso_language_code': 'en',
         'lang': 'en',
         'coordinates': {
             'type': 'Point',
-            'coordinates': [Decimal('145.2093684'), Decimal('-37.8145959')]
+            'coordinates': [145.2093684, -37.8145959]
         },
-        'purified_text': 'boil silk mean ... burnt milk facepalm',
         'polarity': -0.3125,
         'subjectivity': 0.6875
     }
@@ -181,6 +182,7 @@ class DbHelper:
 
             try:
                 database.save(tweet_doc)
+                logger.success('tweet saved to db: ' + tweet_doc["_id"])
             except Exception as e:
                 logger.error(e)
 

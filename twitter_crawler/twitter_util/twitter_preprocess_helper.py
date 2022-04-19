@@ -43,8 +43,10 @@ def get_lang(original_twitter_doc):
     else:
         return "und"
 
+
 def is_tweet_english(original_twitter_doc):
     return get_lang(original_twitter_doc) == "en"
+
 
 def preprocess_twitter(original_twitter_doc):
     """
@@ -57,13 +59,11 @@ def preprocess_twitter(original_twitter_doc):
         'id': '493805281185263600',
         'created_at': 'Mon Jul 28 17:08:48 +0000 2014',
         'text': 'What? Boiled Milk? You mean.... Burnt milk. *facepalm*',
-        'iso_language_code': 'en',
         'lang': 'en',
         'coordinates': {
             'type': 'Point',
-            'coordinates': [Decimal('145.2093684'), Decimal('-37.8145959')]
+            'coordinates': [145.2093684, -37.8145959]
         },
-        'purified_text': 'boil silk mean ... burnt milk facepalm',
         'polarity': -0.3125,
         'subjectivity': 0.6875
     }
@@ -91,8 +91,14 @@ def preprocess_twitter(original_twitter_doc):
     tweet_dict["lang"] = get_lang(original_twitter_doc)
 
     # get coordinates
-    if original_twitter_doc.get("coordinates") is not None:
-        tweet_dict["coordinates"] = original_twitter_doc["coordinates"]
+    is_coor_exist = original_twitter_doc.get("coordinates") is not None
+    if is_coor_exist and original_twitter_doc.get("coordinates")['type'] == 'Point':
+        longitude = float(original_twitter_doc["coordinates"]["coordinates"][0])
+        latitude = float(original_twitter_doc["coordinates"]["coordinates"][1])
+        tweet_dict["coordinates"] = {
+            'type': 'Point',
+            'coordinates': [longitude, latitude]
+        }
     else:
         # default coordinates
         tweet_dict["coordinates"] = {
@@ -105,9 +111,9 @@ def preprocess_twitter(original_twitter_doc):
 
     # only do NLP on english twitter
     if tweet_dict["lang"] == 'en':
-        tweet_dict["purified_text"] = npl_helper.get_sanitized_text(tweet_dict["text"])
-        tweet_dict["polarity"] = npl_helper.get_polarity_from_text(tweet_dict["purified_text"])
-        tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(tweet_dict["purified_text"])
+        purified_text = npl_helper.get_sanitized_text(tweet_dict["text"])
+        tweet_dict["polarity"] = npl_helper.get_polarity_from_text(purified_text)
+        tweet_dict["subjectivity"] = npl_helper.get_subjectivity_from_text(purified_text)
     else:
         tweet_dict["purified_text"] = ""
         tweet_dict["polarity"] = 0.0

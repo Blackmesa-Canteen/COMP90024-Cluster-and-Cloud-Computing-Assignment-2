@@ -1,5 +1,3 @@
-# This config file is for debug use!
-
 app:
 
   # melb historical twitter json file from 2014-7 to 2017-6
@@ -18,14 +16,15 @@ app:
   # don't input to many
   # if key-word is an empty list, i.e. [], get all twitter
   key-word-list:
-    - cat
+    - covid
+    - covid-19
 
   # 0~100, very loose to very strict match
   key-word-match-degree: 40
 
-  is-fetch-english-tweet-only: yes
+  is-fetch-english-tweet-only: true
 
-  target-db-name: test_db
+  target-db-name: covid_search_tweet_db
 
   # melbourne place box
   target-box-points:

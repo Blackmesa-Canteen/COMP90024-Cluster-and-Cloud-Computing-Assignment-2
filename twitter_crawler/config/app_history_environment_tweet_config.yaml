@@ -15,14 +15,16 @@ app:
 
   # don't input to many
   # if key-word is an empty list, i.e. [], get all twitter
-  key-word-list: []
+  key-word-list:
+    - pollution
+    - environment
 
   # 0~100, very loose to very strict match
-  key-word-match-degree: 20
+  key-word-match-degree: 40
 
-  is-fetch-english-tweet-only: false
+  is-fetch-english-tweet-only: true
 
-  target-db-name: all_lang_twitter_db
+  target-db-name: history_environment_tweet_db
 
   # melbourne place box
   target-box-points:

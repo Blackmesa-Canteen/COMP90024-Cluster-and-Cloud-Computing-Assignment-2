@@ -30,7 +30,7 @@ class ConfigHandler:
 
             # init
             self = cls.__instance
-            logger.warning('Using default config file name, '
+            logger.info('Using default config file name, '
                                'Please reset config file name after first instantiate configHandler object')
             ConfigHandler.__parse_config_file(self, DEFAULT_CONFIG_FILE_NAME)
 
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     print(config_handler.get_key_word_match_degree())
     print(config_handler.get_covid_tweet_id_file_path())
 
-    config_handler.reset_config_file_name('app_environment_tweet_config.yaml')
+    config_handler.reset_config_file_name('app_history_environment_tweet_config.yaml')
     config_handler = ConfigHandler()
     print(config_handler.get_db_host_list())
     print(config_handler.get_db_host_port_list())
@@ -204,7 +204,7 @@ if __name__ == '__main__':
     print(config_handler.get_key_word_match_degree())
     print(config_handler.get_covid_tweet_id_file_path())
 
-    config_handler.reset_config_file_name('app_all_lang_tweet_config.yaml')
+    config_handler.reset_config_file_name('app_all_lang_tweet_stream_config.yaml')
     print(config_handler.get_key_word_list())
 
 

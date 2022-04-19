@@ -41,9 +41,8 @@ class HistoricalTwitterHandler:
                         continue
 
                     tweet_dict_for_storage = preprocess_twitter(original_tweet_dict)
-                    print('*****************')
-                    print(tweet_dict_for_storage)
-                    print('*****************')
+
+                    self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
 
                 except StopIteration as finish_e:
                     logger.success('finished parse local twitter')
@@ -81,9 +80,8 @@ class HistoricalTwitterHandler:
                         continue
 
                     tweet_dict_for_storage = preprocess_twitter(original_tweet_dict)
-                    print('*****************')
-                    print(tweet_dict_for_storage)
-                    print('*****************')
+
+                    self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
 
                 except StopIteration as finish_e:
                     logger.success('finished parse local twitter')
