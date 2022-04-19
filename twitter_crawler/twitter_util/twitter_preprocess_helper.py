@@ -22,7 +22,10 @@ def get_full_text(original_twitter_doc):
 
     # get the full text
     if original_twitter_doc.get("truncated") is not None and original_twitter_doc["truncated"]:
-        res = original_twitter_doc["extended_tweet"]["full_text"]
+        if original_twitter_doc.get("extended_tweet") is not None:
+            res = original_twitter_doc["extended_tweet"]["full_text"]
+        elif original_twitter_doc.get("full_text") is not None:
+            res = original_twitter_doc["full_text"]
 
     return res
 

@@ -18,17 +18,32 @@ def is_text_match_keywords(input_text):
     """
     key_word_sentence = config.get_lower_key_word_token_string()
 
+    lower_input_text = input_text.lower()
+
     if len(key_word_sentence) != 0:
-        ratio = fuzz.token_set_ratio(key_word_sentence, input_text)
-        # logger.debug("match score: " + str(ratio) + " in text: " + input_text)
-        if ratio >= config.get_key_word_match_degree():
-            # matched twitter into queue
-            return True
+
+        match_degree = config.get_key_word_match_degree()
+        if match_degree != 100:
+            # fyzz matching
+            ratio = fuzz.token_set_ratio(key_word_sentence, lower_input_text)
+            # logger.debug("match score: " + str(ratio) + " in text: " + input_text)
+            if ratio >= match_degree:
+                # matched twitter into queue
+                return True
+            else:
+                return False
+
         else:
-            return False
+            # Precise matching
+            lower_key_word_list = config.get_lower_key_word_list()
+            for keyword in lower_key_word_list:
+                if keyword not in lower_input_text:
+                    return False
+
     # no keywords defined at all, all text will match
     return True
 
 if __name__ == '__main__':
-    text = "7 away WTF?!"
+    text = "Hey pal, you just blow in from stupid-town?"
+    config.reset_config_file_name("app_history_tweet_config.yaml")
     print(is_text_match_keywords(text))

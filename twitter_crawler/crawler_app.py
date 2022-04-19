@@ -19,8 +19,10 @@ from optparse import OptionParser
 
 from loguru import logger
 
-from apps.history_environment_tweet_crawler import HistoryEnvironmentTweetCrawler
+from apps.history_tweet_crawler import HistoryTweetCrawler
 from common_util.config_handler import ConfigHandler
+
+S_3_CONFIG_FILE_NAME = "app_history_tweet_config.yaml"
 
 if __name__ == '__main__':
 
@@ -48,10 +50,11 @@ if __name__ == '__main__':
                         'local tweet IDs, then put it into db')
 
         elif choice == 3:
-            logger.info('Fetch all environment related historical tweets in melbourne from local file, '
+            logger.info('Scenario 3 running:  all environment related historical tweets in melbourne from local file, '
                         'then put it into db')
 
-            handler = HistoryEnvironmentTweetCrawler()
+            handler = HistoryTweetCrawler()
+            config.reset_config_file_name(S_3_CONFIG_FILE_NAME)
             handler.run()
 
         else:

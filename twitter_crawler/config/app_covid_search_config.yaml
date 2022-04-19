@@ -37,7 +37,7 @@ app:
 
   db:
     username: admin
-    password: wQ104cwJ
+    password: 0F9YUJIgGoxIhgRWfHKS
     port: 5984
     host-list:
       - 161.117.88.132

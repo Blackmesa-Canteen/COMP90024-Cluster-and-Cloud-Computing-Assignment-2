@@ -61,8 +61,13 @@ class ConfigHandler:
             self.__key_word_list = cfgs['app']['key-word-list']
             if len(self.__key_word_list) != 0:
                 self.__lower_key_word_token_string = (" ".join(self.__key_word_list)).lower()
+                self.__lower_key_word_list = []
+
+                for word in self.__key_word_list:
+                    self.__lower_key_word_list.append(word.lower())
             else:
                 self.__lower_key_word_token_string = ""
+                self.__lower_key_word_list = []
 
             self.__key_word_match_degree = cfgs['app']['key-word-match-degree']
             self.__api_key = cfgs['app']['api-key']
@@ -119,6 +124,9 @@ class ConfigHandler:
 
     def get_key_word_list(self):
         return self.__key_word_list
+
+    def get_lower_key_word_list(self):
+        return self.__lower_key_word_list
 
     def get_lower_key_word_token_string(self):
         return self.__lower_key_word_token_string
@@ -185,7 +193,7 @@ if __name__ == '__main__':
     print(config_handler.get_key_word_match_degree())
     print(config_handler.get_covid_tweet_id_file_path())
 
-    config_handler.reset_config_file_name('app_history_environment_tweet_config.yaml')
+    config_handler.reset_config_file_name('app_history_tweet_config.yaml')
     config_handler = ConfigHandler()
     print(config_handler.get_db_host_list())
     print(config_handler.get_db_host_port_list())
@@ -204,7 +212,8 @@ if __name__ == '__main__':
     print(config_handler.get_key_word_match_degree())
     print(config_handler.get_covid_tweet_id_file_path())
 
-    config_handler.reset_config_file_name('app_all_lang_tweet_stream_config.yaml')
+    config_handler.reset_config_file_name('app_history_tweet_config.yaml')
     print(config_handler.get_key_word_list())
+    print(config_handler.get_lower_key_word_list())
 
 
