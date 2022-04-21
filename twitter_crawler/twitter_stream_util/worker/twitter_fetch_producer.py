@@ -11,6 +11,10 @@ from twitter_stream_util.twitter_stream import TwitterStream
 
 
 class TwitterFetchProducer(threading.Thread):
+    """
+    Time decoupling is achieved using the publisher/subscriber pattern
+    author: Xiaotian Li
+    """
 
     def __init__(self, queue):
         threading.Thread.__init__(self)

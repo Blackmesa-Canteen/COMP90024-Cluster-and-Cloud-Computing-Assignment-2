@@ -8,12 +8,15 @@ from twitter_stream_util.worker.twitter_fetch_producer import TwitterFetchProduc
 
 
 class TwitterStreamCrawler:
+    """
+        stream latest tweets and put them in db
+        This crawler will run forever to crawl latests
+
+        author: Xiaotian Li
+        """
 
     def __init__(self):
         # build up the rule:
-
-        self.__config = ConfigHandler()
-
         self.__queue = TwitterDocQueue()
         self.__consumer_threads = []
         self.__producer_threads = []
@@ -47,8 +50,3 @@ class TwitterStreamCrawler:
             thread.join()
         for thread in self.__producer_threads:
             thread.join()
-
-if __name__ == '__main__':
-    config = ConfigHandler()
-    config.reset_config_file_name('app_twitter_stream_config.yaml')
-    crawler = TwitterStreamCrawler()

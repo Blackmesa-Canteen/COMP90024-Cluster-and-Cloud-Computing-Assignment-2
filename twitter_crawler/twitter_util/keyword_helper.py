@@ -44,6 +44,7 @@ def is_text_match_keywords(input_text):
     return True
 
 if __name__ == '__main__':
+    # test
     text = "Hey pal, you just blow in from stupid-town?"
     config.reset_config_file_name("app_history_tweet_config.yaml")
     print(is_text_match_keywords(text))

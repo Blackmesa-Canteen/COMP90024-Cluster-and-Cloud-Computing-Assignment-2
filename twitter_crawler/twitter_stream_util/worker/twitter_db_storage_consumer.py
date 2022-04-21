@@ -7,7 +7,8 @@ from twitter_util.twitter_preprocess_helper import preprocess_twitter
 
 class TwitterDbStorageConsumer(threading.Thread):
     """
-    author: xiaotian li
+    Time decoupling is achieved using the publisher/subscriber pattern
+    author: Xiaotian Li
     """
 
     def __init__(self, queue):

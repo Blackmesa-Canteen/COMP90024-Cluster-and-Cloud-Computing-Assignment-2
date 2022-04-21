@@ -189,8 +189,8 @@ class DbHelper:
 
 
 if __name__ == '__main__':
+    #test
     a = DbHelper()
-
     a.put_twitter_to_db(None)
     a.put_twitter_to_db(None)
     a.put_twitter_to_db(None)

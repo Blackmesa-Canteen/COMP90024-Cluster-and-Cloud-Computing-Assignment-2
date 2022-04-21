@@ -92,5 +92,6 @@ class HistoricalTwitterHandler:
 
 
 if __name__ == '__main__':
+    # test
     handler = HistoricalTwitterHandler()
     handler.parse_twitter_with_keyword_and_put_to_db()

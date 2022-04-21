@@ -4,6 +4,10 @@ from common_util.config_handler import ConfigHandler
 
 
 class TwitterDocQueue:
+    """
+    Time decoupling is achieved using the publisher/subscriber pattern
+    author: Xiaotian Li
+    """
     # singleton
     __instance = None
 

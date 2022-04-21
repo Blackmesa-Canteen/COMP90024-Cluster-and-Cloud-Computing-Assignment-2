@@ -4,14 +4,16 @@ import time
 import fuzzywuzzy.fuzz
 import tweepy
 
-# TODO 完成此处
 from loguru import logger
 
 from common_util.config_handler import ConfigHandler
 
 
+
+@DeprecationWarning
 class TwitterStream(tweepy.Stream):
     """
+    Deprecated, we will not support twitter vpi v1.1 anymore
     author: xiaotian li
     """
 

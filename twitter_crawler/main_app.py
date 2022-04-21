@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     crawler_app.py
+   File Name：     main_app.py
    Description :  main entrance of the tweet crawler
 
    There are 3 scenarios:
@@ -19,8 +19,8 @@ from optparse import OptionParser
 
 from loguru import logger
 
-from apps.history_tweet_crawler import HistoryTweetCrawler
-from apps.twitter_stream_crawler import TwitterStreamCrawler
+from crawlers.history_tweet_crawler import HistoryTweetCrawler
+from crawlers.twitter_stream_crawler import TwitterStreamCrawler
 from common_util.config_handler import ConfigHandler
 S_1_CONFIG_FILE_NAME = "app_twitter_stream_config.yaml"
 S_2_CONFIG_FILE_NAME = "app_covid_search_config.yaml"
@@ -35,7 +35,7 @@ if __name__ == '__main__':
                       type='int',
                       dest="scenario",
                       default=1,
-                      help="Specify scenario to run the crawler, see comment in the crawler_app.py"
+                      help="Specify scenario to run the crawler, see comment in the main_app.py"
                       )
 
     (options, args) = parser.parse_args()
@@ -47,6 +47,7 @@ if __name__ == '__main__':
         if choice == 1:
             logger.info('Scenario 1 running: Stream new tweets in melbourne into db, running forever')
             handler = TwitterStreamCrawler()
+            # set config file
             config.reset_config_file_name(S_1_CONFIG_FILE_NAME)
             handler.run(
                 twitter_fetch_thread_num=1,
@@ -62,6 +63,7 @@ if __name__ == '__main__':
                         'then put it into db')
 
             handler = HistoryTweetCrawler()
+            # set config file
             config.reset_config_file_name(S_3_CONFIG_FILE_NAME)
             handler.run()
 
@@ -71,5 +73,5 @@ if __name__ == '__main__':
 
     else:
         logger.error('Running arguments error.')
-        logger.info('usage: python3 crawler_app.py -s [scenario number]')
+        logger.info('usage: python3 main_app.py -s [scenario number]')
         exit(-1)
