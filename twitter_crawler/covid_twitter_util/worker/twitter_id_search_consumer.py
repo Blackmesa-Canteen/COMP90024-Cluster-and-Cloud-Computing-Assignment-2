@@ -6,6 +6,8 @@ from loguru import logger
 
 from common_util.config_handler import ConfigHandler
 from covid_twitter_util.worker import twitter_hydrate_producer
+from db_util import db_helper
+from twitter_util import twitter_preprocess_helper, keyword_helper
 from twitter_util.twitter_preprocess_helper import is_tweet_english
 
 MELBOURNE_PLACE_ID = '01864a8a64df9dc4'
@@ -23,6 +25,8 @@ class TwitterIdSearchConsumer(threading.Thread):
 
         self.__config = ConfigHandler()
         self.__id_list = []
+
+        self.__db_helper = db_helper.DbHelper()
 
         # api authentication
         self.__tweepy_client = tweepy.Client(
@@ -64,26 +68,37 @@ class TwitterIdSearchConsumer(threading.Thread):
                 place_fields='country,country_code,geo,name'
             )
 
+            if response.get('data') is None:
+                logger.warning('get an Empty response from query ids')
+                return
+
             # Location in melbourne?
             if response.get('includes') is not None and response.get('includes').get('places') is not None:
                 places = response.get('includes').get('places')
                 # check places exist melbourne or not
                 for place in places:
                     if place.get('id') == MELBOURNE_PLACE_ID or place.get('name') == 'melbourne':
-                        # melbourne twitter exists, locate it:
-                        raw_twitters = response.get('data')
 
+                        raw_twitters = response.get('data')
+                        # find the melbourne raw_twitter
                         for raw_twitter in raw_twitters:
                             if raw_twitter.get('geo') is not None \
-                                and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID:
-
+                                  and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID:
                                 # language filter
                                 if self.__config.is_fetch_english_tweet_only() and not is_tweet_english(raw_twitter):
                                     continue
 
-                                # TODO preprocess this twitter
-                                print(raw_twitter)
+                                full_text = twitter_preprocess_helper.get_full_text(raw_twitter)
+                                logger.debug('full text: ' + full_text)
 
+                                # keyword filter
+                                if not keyword_helper.is_text_match_keywords(full_text):
+                                    continue
+
+                                tweet_dict_for_storage = twitter_preprocess_helper.preprocess_twitter(raw_twitter)
+
+                                # put it to db
+                                self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
 
     def run(self) -> None:
         while True:
