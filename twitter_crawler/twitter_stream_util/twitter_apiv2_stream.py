@@ -16,7 +16,8 @@ class TwitterV2Stream(tweepy.StreamingClient):
                  ):
 
         tweepy.StreamingClient.__init__(self,
-                                        bearer_token=bearer_token
+                                        bearer_token=bearer_token,
+                                        wait_on_rate_limit=True
                                         )
         self.__queue = queue
 
@@ -45,7 +46,7 @@ class TwitterV2Stream(tweepy.StreamingClient):
 
             # parse income into dict
             raw_data_doc = json.loads(raw_data)
-            self.__queue.put_twitter_doc_in_queue(raw_data_doc)
+            self.__queue.put_twitter_id_in_queue(raw_data_doc)
 
         except BaseException as e:
             logger.debug(raw_data)

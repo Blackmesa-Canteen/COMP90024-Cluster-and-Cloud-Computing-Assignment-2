@@ -56,11 +56,11 @@ class TwitterStream(tweepy.Stream):
                 logger.debug("match score: " + str(ratio) + " in text: " + tweet_json_data["text"])
                 if ratio >= config.get_key_word_match_degree():
                     # matched twitter into queue
-                    self.__queue.put_twitter_doc_in_queue(twitter_doc=tweet_json_data)
+                    self.__queue.put_twitter_id_in_queue(twitter_doc=tweet_json_data)
 
             else:
                 # if key_word is empty, get all twitter
-                self.__queue.put_twitter_doc_in_queue(twitter_doc=tweet_json_data)
+                self.__queue.put_twitter_id_in_queue(twitter_doc=tweet_json_data)
 
 
 

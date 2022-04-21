@@ -58,6 +58,9 @@ if __name__ == '__main__':
             logger.info('Scenario 2 running: Search covid-19 related tweet in melbourne in 2020 based on '
                         'local tweet IDs, then put it into db')
 
+            data_dirs = ['2020-01', '2020-02', '2020-03', '2020-04', '2020-05', '2020-06', '2020-07', '2020-08',
+                         '2020-09', '2020-10', '2020-11', '2020-12']
+
         elif choice == 3:
             logger.info('Scenario 3 running:  all environment related historical tweets in melbourne from local file, '
                         'then put it into db')
