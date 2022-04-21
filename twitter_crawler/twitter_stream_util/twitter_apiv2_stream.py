@@ -8,56 +8,44 @@ from loguru import logger
 from common_util.config_handler import ConfigHandler
 
 
-class TwitterStream(tweepy.StreamingClient):
+class TwitterV2Stream(tweepy.StreamingClient):
 
-    # def __init__(self,
-    #              consumer_key,
-    #              consumer_secret,
-    #              access_token,
-    #              access_token_secret,
-    #              queue
-    #              ):
-    #
-    #     tweepy.StreamingClient.__init__(self,
-    #                            consumer_key=consumer_key,
-    #                            consumer_secret=consumer_secret,
-    #                            access_token=access_token,
-    #                            access_token_secret=access_token_secret
-    #                            )
-    #     self.__queue = queue
+    def __init__(self,
+                 bearer_token,
+                 queue
+                 ):
+
+        tweepy.StreamingClient.__init__(self,
+                                        bearer_token=bearer_token
+                                        )
+        self.__queue = queue
 
     def on_data(self, raw_data):
+        """
+
+        :param raw_data: raw data received from twitter
+        {
+            "data": {
+            "created_at": "2022-04-21T01:42:22.000Z",
+            "geo": {},
+            "id": "1516955469935349760",
+            "lang": "en",
+            "source": "Twitter for iPhone",
+            "text": "RT @Sarah77414568: This weekend in Melbourne I can stand at a bar and order a drink with No Vax Passport BUT I can\'t stand behind a bar and\xe2\x80\xa6"
+                },
+
+            "matching_rules": [{
+                "id": "1516955317023940609",
+                "tag": "tweets about keywords in melbourne"
+            }]
+        }
+        :return:
+        """
         try:
 
-            # TODO filter place - melbourne
-
-
-            # filter key words
-            tweet_json_data = json.loads(raw_data)
-            print(tweet_json_data)
-
-            # unify text attribute
-            if "full_text" in tweet_json_data:
-                tweet_json_data["text"] = tweet_json_data["full_text"]
-
-            # get the full text
-            if tweet_json_data["truncated"]:
-                tweet_json_data["text"] = tweet_json_data["extended_tweet"]["full_text"]
-
-            # match keywords
-            config = ConfigHandler()
-            key_word_sentence = config.get_lower_key_word_token_string()
-
-            if len(key_word_sentence) != 0:
-                ratio = fuzz.token_set_ratio(key_word_sentence, tweet_json_data["text"])
-                logger.debug("match score: " + str(ratio) + " in text: " + tweet_json_data["text"])
-                if ratio >= config.get_key_word_match_degree():
-                    # matched twitter into queue
-                    pass
-
-            else:
-                # if key_word is empty, get all twitter
-                pass
+            # parse income into dict
+            raw_data_doc = json.loads(raw_data)
+            self.__queue.put_twitter_doc_in_queue(raw_data_doc)
 
         except BaseException as e:
             logger.debug(raw_data)

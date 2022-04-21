@@ -46,10 +46,10 @@ class ConfigHandler:
         root_path = path_helper.get_project_root_path()
         self.__config_file_path = os.path.join(
             root_path, 'config', config_file_name)
-        print("config file read from: " +
+        logger.info("config file read from: " +
               self.__config_file_path)
         if not os.path.exists(self.__config_file_path):
-            print("config file not exist!")
+            logger.error("config file not exist!")
             exit(-1)
         with open(self.__config_file_path, 'r', encoding='utf-8') as f:
             cfgs = yaml.safe_load(f)

@@ -20,8 +20,10 @@ from optparse import OptionParser
 from loguru import logger
 
 from apps.history_tweet_crawler import HistoryTweetCrawler
+from apps.twitter_stream_crawler import TwitterStreamCrawler
 from common_util.config_handler import ConfigHandler
-
+S_1_CONFIG_FILE_NAME = "app_twitter_stream_config.yaml"
+S_2_CONFIG_FILE_NAME = "app_covid_search_config.yaml"
 S_3_CONFIG_FILE_NAME = "app_history_tweet_config.yaml"
 
 if __name__ == '__main__':
@@ -32,7 +34,7 @@ if __name__ == '__main__':
                       action="store",
                       type='int',
                       dest="scenario",
-                      default=0,
+                      default=1,
                       help="Specify scenario to run the crawler, see comment in the crawler_app.py"
                       )
 
@@ -44,6 +46,12 @@ if __name__ == '__main__':
 
         if choice == 1:
             logger.info('Scenario 1 running: Stream new tweets in melbourne into db, running forever')
+            handler = TwitterStreamCrawler()
+            config.reset_config_file_name(S_1_CONFIG_FILE_NAME)
+            handler.run(
+                twitter_fetch_thread_num=1,
+                db_consumer_thread_num=1
+            )
 
         elif choice == 2:
             logger.info('Scenario 2 running: Search covid-19 related tweet in melbourne in 2020 based on '

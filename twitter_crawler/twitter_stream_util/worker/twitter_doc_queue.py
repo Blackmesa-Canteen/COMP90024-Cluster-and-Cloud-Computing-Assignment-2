@@ -23,7 +23,7 @@ class TwitterDocQueue:
 
     def put_twitter_doc_in_queue(self, twitter_doc):
         """
-        put twitter doc in doc,
+        put original twitter doc in doc,
         if queue is full, block the producer thread
 
         :param twitter_doc:
@@ -32,7 +32,7 @@ class TwitterDocQueue:
 
     def get_twitter_doc_from_queue(self):
         """
-        get twitter doc from queue,
+        get original twitter doc from queue,
         if the queue is empty, block consumer thread
         """
         return self.__q.get(block=True, timeout=None)

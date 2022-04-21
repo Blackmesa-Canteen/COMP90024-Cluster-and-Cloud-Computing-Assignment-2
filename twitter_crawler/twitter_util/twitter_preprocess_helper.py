@@ -67,6 +67,7 @@ def preprocess_twitter(original_twitter_doc):
             'type': 'Point',
             'coordinates': [145.2093684, -37.8145959]
         },
+        'source' : "Twitter for iPhone",
         'polarity': -0.3125,
         'subjectivity': 0.6875
     }
@@ -108,6 +109,13 @@ def preprocess_twitter(original_twitter_doc):
             'type': 'Point',
             'coordinates': [144.9631, 37.8136]
         }
+
+    # record source:
+    if original_twitter_doc.get('source') is not None:
+        tweet_dict['source'] = original_twitter_doc.get('source')
+    else:
+        tweet_dict['source'] = 'unknown'
+
 
     # Do NLP process
     npl_helper = SentimentHelper()
