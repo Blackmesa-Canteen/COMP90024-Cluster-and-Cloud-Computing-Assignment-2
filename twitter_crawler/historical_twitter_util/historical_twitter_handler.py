@@ -2,6 +2,7 @@ import os.path
 
 import ijson
 from loguru import logger
+from lxml import etree
 
 from common_util.config_handler import ConfigHandler
 from db_util.db_helper import DbHelper
@@ -80,8 +81,16 @@ class HistoricalTwitterHandler:
                     if not is_text_match_keywords(full_text):
                         continue
 
-                    tweet_dict_for_storage = preprocess_twitter(original_tweet_dict)
+                    # fix: handle source html text
+                    try:
+                        if original_tweet_dict.get('source') is not None:
+                            html = original_tweet_dict.get('source')
+                            _element = etree.HTML(html)
+                            original_tweet_dict['source'] = _element.xpath('//a/text()')[0]
+                    except:
+                        original_tweet_dict['source'] = 'unknown'
 
+                    tweet_dict_for_storage = preprocess_twitter(original_tweet_dict)
                     self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
 
                 except StopIteration as finish_e:

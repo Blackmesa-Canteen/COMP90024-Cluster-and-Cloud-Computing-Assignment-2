@@ -83,7 +83,7 @@ class TwitterIdSearchConsumer(threading.Thread):
                     # melbourne condition
                     is_result_set_contains_melbourne_res = place.get('id') == MELBOURNE_PLACE_ID \
                             or place.get('name').lower() == 'melbourne'\
-                            or place.get('full_name').lower() == 'melbourne, australia'
+                            or place.get('full_name').lower() == 'melbourne'
 
                     if is_result_set_contains_melbourne_res:
                         logger.debug('passed place filter')
@@ -126,7 +126,6 @@ class TwitterIdSearchConsumer(threading.Thread):
                 twitter_id = self.__queue.get_twitter_id_from_queue()
                 self.__push_id_to_search(twitter_id)
 
-            # TODO: End logic
             except Empty as empty_queue_exception:
                 # if the producer has been finished, gracefully exit
                 if self.__end_signal_helper.is_end_of_id_file():
@@ -141,7 +140,5 @@ class TwitterIdSearchConsumer(threading.Thread):
 
 
 if __name__ == '__main__':
+    # test
     elements = None
-
-    for i in elements:
-        print()
