@@ -8,13 +8,12 @@
 
    1 - Stream new tweets in melbourne into db, running forever
    2 - Search covid-19 related tweet in melbourne in 2020 based on local tweet IDs, then put it into db
-   3- Fetch all environment related historical tweets in melbourne from local file, then put it into db
+   3-  Fetch historical (2014-2017) tweets in melbourne from local file, then put it into db
 
    Author :       Xiaotian Li
    date：          14/04/2022
 -------------------------------------------------
 """
-import sys
 from optparse import OptionParser
 
 from loguru import logger
@@ -80,7 +79,9 @@ if __name__ == '__main__':
 
         else:
             logger.warning('Undefined scenario number: ' + choice)
-            exit(0)
+            exit(-1)
+
+        logger.success("crawler job's done")
 
     else:
         logger.error('Running arguments error.')
