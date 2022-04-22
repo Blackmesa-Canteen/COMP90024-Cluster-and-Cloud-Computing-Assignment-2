@@ -5,7 +5,6 @@ import tweepy
 from loguru import logger
 
 from common_util.config_handler import ConfigHandler
-from covid_twitter_util.worker import twitter_hydrate_producer
 from db_util import db_helper
 from twitter_util import twitter_preprocess_helper, keyword_helper
 from twitter_util.twitter_preprocess_helper import is_tweet_english
@@ -38,9 +37,10 @@ class TwitterIdSearchConsumer(threading.Thread):
 
     def __push_id_to_search(self, tweet_id):
         """
-        queue size is 100, if the queue size reaches 100, query 100 ids with API, then clear queue for next
-        100.
-        This logic is created because of twitter api's 100 ID query limitation
+        queue size is NUM_TWEETS_PER_REQUEST, if the queue size reaches NUM_TWEETS_PER_REQUEST, query NUM_TWEETS_PER_REQUEST
+         ids with API, then clear queue for next NUM_TWEETS_PER_REQUEST.
+
+        This logic is created because of Twitter API's 100 ID query limitation
         :param tweet_id:
         :return: null
 
