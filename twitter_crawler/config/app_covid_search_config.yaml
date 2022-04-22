@@ -20,7 +20,8 @@ app:
   # 0~100, very loose to very strict match
   key-word-match-degree: 40
 
-  is-fetch-english-tweet-only: true
+  # true or false
+  is-fetch-english-tweet-only: false
 
   target-db-name: covid_search_tweet_db
 

@@ -21,6 +21,7 @@ app:
   # 0~100, very loose to very strict match, 100 means the text must have key words
   key-word-match-degree: 75
 
+  # true or false
   is-fetch-english-tweet-only: true
 
   target-db-name: history_house_price_tweet_db
