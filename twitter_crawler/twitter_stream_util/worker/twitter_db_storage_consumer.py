@@ -20,7 +20,7 @@ class TwitterDbStorageConsumer(threading.Thread):
 
         # constantly consume the queue, preprocess db and put data into db
         while True:
-            raw_twitter_doc = self.__q.get_twitter_id_from_queue()
+            raw_twitter_doc = self.__q.get_twitter_doc_from_queue()
 
             # normalize before put to db
             original_twitter_doc = raw_twitter_doc['data']

@@ -82,22 +82,20 @@ class TwitterIdSearchConsumer(threading.Thread):
                 for place in places:
                     # melbourne condition
                     is_result_set_contains_melbourne_res = place.get('id') == MELBOURNE_PLACE_ID \
-                            or place.get('name') == 'melbourne'\
-                            or place.get('full_name') == 'Melbourne, Australia'
+                            or place.get('name').lower() == 'melbourne'\
+                            or place.get('full_name').lower() == 'melbourne, australia'
 
-                    # TODO debug
-                    if True:
+                    if is_result_set_contains_melbourne_res:
                         logger.debug('passed place filter')
 
                         raw_twitters = response.data
-                        # find the melbourne raw_twitter
+                        # find all melbourne raw_twitters
                         for raw_twitter in raw_twitters:
                             # melbourne condition for each tweet
                             is_tweet_from_melbourne = raw_twitter.get('geo') is not None \
                                   and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID
 
-                            # TODO debug
-                            if True:
+                            if is_tweet_from_melbourne:
                                 logger.debug('passed geo filter')
                                 # language filter
                                 if self.__config.is_fetch_english_tweet_only() and not is_tweet_english(raw_twitter):
@@ -117,6 +115,9 @@ class TwitterIdSearchConsumer(threading.Thread):
 
                                 # put it to db
                                 self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
+
+                        # have found all melbourne tweets in this batch, exit place loop
+                        break
 
     def run(self) -> None:
         while True:
