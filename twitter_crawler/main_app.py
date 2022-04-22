@@ -69,7 +69,7 @@ if __name__ == '__main__':
             )
 
         elif choice == 3:
-            logger.info('Scenario 3 running:  all environment related historical tweets in melbourne from local file, '
+            logger.info('Scenario 3 running:  Fetch historical (2014-2017) tweets in melbourne from local file, '
                         'then put it into db')
 
             handler = HistoryTweetCrawler()
