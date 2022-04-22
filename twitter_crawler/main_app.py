@@ -19,6 +19,7 @@ from optparse import OptionParser
 
 from loguru import logger
 
+from crawlers.covid_search_crawler import CovidSearchCrawler
 from crawlers.history_tweet_crawler import HistoryTweetCrawler
 from crawlers.twitter_stream_crawler import TwitterStreamCrawler
 from common_util.config_handler import ConfigHandler
@@ -60,6 +61,13 @@ if __name__ == '__main__':
 
             data_dirs = ['2020-01', '2020-02', '2020-03', '2020-04', '2020-05', '2020-06', '2020-07', '2020-08',
                          '2020-09', '2020-10', '2020-11', '2020-12']
+
+            handler = CovidSearchCrawler(data_dirs=data_dirs)
+            # set config file
+            config.reset_config_file_name(S_2_CONFIG_FILE_NAME)
+            handler.run(
+                search_consumer_thread_num=1
+            )
 
         elif choice == 3:
             logger.info('Scenario 3 running:  all environment related historical tweets in melbourne from local file, '

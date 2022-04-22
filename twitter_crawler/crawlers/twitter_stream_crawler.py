@@ -41,8 +41,10 @@ class TwitterStreamCrawler:
         # run all threads
         for thread in self.__consumer_threads:
             thread.start()
+        logger.success('all consumer threads are running.')
         for thread in self.__producer_threads:
             thread.start()
+        logger.success('all producer threads are running.')
 
         # block the main thread until all done
         # it seems that no one will stop

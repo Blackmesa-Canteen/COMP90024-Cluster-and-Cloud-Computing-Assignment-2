@@ -141,7 +141,7 @@ class DbHelper:
         {
         '_id': '493805281185263600',
         'id': '493805281185263600',
-        'created_at': 'Mon Jul 28 17:08:48 +0000 2014',
+        'created_at': "2022-04-21T01:42:22.000Z",
         'text': 'What? Boiled Milk? You mean.... Burnt milk. *facepalm*',
         'lang': 'en',
         'coordinates': {

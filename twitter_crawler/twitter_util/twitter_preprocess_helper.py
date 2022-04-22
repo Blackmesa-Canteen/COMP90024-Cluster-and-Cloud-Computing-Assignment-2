@@ -1,3 +1,6 @@
+import re
+from datetime import datetime
+
 from loguru import logger
 
 from common_util import config_handler
@@ -5,6 +8,33 @@ from common_util.config_handler import ConfigHandler
 from nlp_util.sentiment_helper import SentimentHelper
 
 CONFIG = ConfigHandler()
+
+
+def check_date_str_match_iso8601(date_text):
+    regex = r'^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$'
+    match_iso8601 = re.compile(regex).match
+    try:
+
+        if match_iso8601(date_text) is not None:
+            return True
+    except:
+        pass
+    return False
+
+
+def datetime_object_to_string(datetime_obj):
+    """
+    take in a date time object, returns text:
+
+    :param datetime_obj: datime object
+    :return:
+    """
+    s = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S.%f")
+    return s[:-3] + 'Z'
+
+
+def parse_tweet_date_to_iso8601(tweet_date_text):
+    return datetime.strftime(datetime.strptime(tweet_date_text, '%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%dT%H:%M:%S.000Z')
 
 
 def get_full_text(original_twitter_doc):
@@ -60,7 +90,7 @@ def preprocess_twitter(original_twitter_doc):
     {
         '_id': '493805281185263600',
         'id': '493805281185263600',
-        'created_at': 'Mon Jul 28 17:08:48 +0000 2014',
+        'created_at': "2022-04-21T01:42:22.000Z",
         'text': 'What? Boiled Milk? You mean.... Burnt milk. *facepalm*',
         'lang': 'en',
         'coordinates': {
@@ -85,8 +115,18 @@ def preprocess_twitter(original_twitter_doc):
         tweet_dict["_id"] = str(original_twitter_doc["_id"])
     tweet_dict["id"] = tweet_dict["_id"]
 
-    # date: created_at : "Wed Jan 01 00:00:00 +0000 2020"
-    tweet_dict["created_at"] = original_twitter_doc['created_at']
+    # stream: ISO8601:  "2022-04-21T01:42:22.000Z"
+    # history: Twitter format: "Mon Jul 28 17:03:36 +0000 2014"
+    # covid: datetime: datetime(2020-01-29 18:11:15+00:00)
+    if isinstance(original_twitter_doc['created_at'], datetime):
+        # if the record is datetime object
+        tweet_dict["created_at"] = datetime_object_to_string(original_twitter_doc['created_at'])
+    else:
+        if check_date_str_match_iso8601(original_twitter_doc['created_at']):
+            # if already obey the ISO8601
+            tweet_dict["created_at"] = original_twitter_doc['created_at']
+        else:
+            tweet_dict["created_at"] = parse_tweet_date_to_iso8601(original_twitter_doc['created_at'])
 
     # unify text attribute
     tweet_dict["text"] = get_full_text(original_twitter_doc)
@@ -116,7 +156,6 @@ def preprocess_twitter(original_twitter_doc):
     else:
         tweet_dict['source'] = 'unknown'
 
-
     # Do NLP process
     npl_helper = SentimentHelper()
 
@@ -133,3 +172,14 @@ def preprocess_twitter(original_twitter_doc):
     # tweet_dict["place"] = original_twitter_doc["place"]
 
     return tweet_dict
+
+
+if __name__ == '__main__':
+    # test
+    text = '2022-04-22T13:21.563Z'
+    text2 = '2022-04-21T01:42:22.22233'
+    datetime_obj = datetime.now()
+
+    print(check_date_str_match_iso8601(datetime_object_to_string(datetime_obj)))
+
+    print(check_date_str_match_iso8601(parse_tweet_date_to_iso8601('Mon Jul 28 17:08:48 +0000 2014')))
