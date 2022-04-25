@@ -22,6 +22,8 @@ from crawlers.covid_search_crawler import CovidSearchCrawler
 from crawlers.history_tweet_crawler import HistoryTweetCrawler
 from crawlers.twitter_stream_crawler import TwitterStreamCrawler
 from common_util.config_handler import ConfigHandler
+from nlp_util.sentiment_helper import SentimentHelper
+
 S_1_CONFIG_FILE_NAME = "app_twitter_stream_config.yaml"
 S_2_CONFIG_FILE_NAME = "app_covid_search_config.yaml"
 S_3_CONFIG_FILE_NAME = "app_history_tweet_config.yaml"
@@ -44,6 +46,9 @@ if __name__ == '__main__':
         config = ConfigHandler()
         choice = options.scenario
 
+        # init Sentiment helper first:
+        SentimentHelper()
+
         if choice == 1:
             logger.info('Scenario 1 running: Stream new tweets in melbourne into db, running forever')
             handler = TwitterStreamCrawler()
@@ -65,7 +70,7 @@ if __name__ == '__main__':
             # set config file
             config.reset_config_file_name(S_2_CONFIG_FILE_NAME)
             handler.run(
-                search_consumer_thread_num=1
+                search_consumer_thread_num=4
             )
 
         elif choice == 3:

@@ -71,8 +71,9 @@ class DbHelper:
             logger.error('db connection failed! on ' + str(server))
             return None
 
-        except Unauthorized:
+        except Unauthorized as e:
             logger.error('db password/username incorrect!')
+            print(e)
             return None
 
         except OSError as e:
@@ -153,7 +154,9 @@ class DbHelper:
     }
         author: xiaotian li
         """
+        logger.debug('called put db method')
         if tweet_doc is None:
+            logger.warning('tweet_doc is none')
             return
 
         database = None

@@ -23,7 +23,7 @@ app:
   # true or false
   is-fetch-english-tweet-only: true
 
-  target-db-name: covid_search_tweet_db
+  target-db-name: covid_search_tweet_mentioned_melb_db
 
   # melbourne place box
   target-box-points:

@@ -63,7 +63,7 @@ class TwitterIdSearchConsumer(threading.Thread):
 
     def __query_ids_mentioned_melbourne(self, id_list):
         """
-        fetch tweets that mentioned melbourne
+        fetch tweets that mentioned melbourne, or place id is melbourne
         """
 
         if len(id_list) > 0:
@@ -74,6 +74,8 @@ class TwitterIdSearchConsumer(threading.Thread):
                 user_fields=None,
                 place_fields='country,country_code,geo,name'
             )
+
+            # logger.debug('handling a response tweet patch')
 
             if response.data is None:
                 logger.warning('get an Empty response from query ids')
@@ -95,9 +97,14 @@ class TwitterIdSearchConsumer(threading.Thread):
                     input_text=full_text
                 )
 
-                if not is_tweet_mentioned_melb:
+                is_tweet_from_melbourne = raw_twitter.get('geo') is not None \
+                                          and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID
+
+                if not (is_tweet_mentioned_melb or is_tweet_from_melbourne):
                     continue
-                logger.debug('Mentioned melbourne, full text: ' + full_text)
+
+                # if mentioned melb or located in melb
+                logger.debug('Mentioned or located melbourne, full text: ' + full_text)
 
                 # other keyword filter
                 if not keyword_helper.is_text_match_keywords(full_text):
@@ -138,7 +145,6 @@ class TwitterIdSearchConsumer(threading.Thread):
                     is_result_set_contains_melbourne_res = place.get('id') == MELBOURNE_PLACE_ID \
                                                            or place.get('name').lower() == 'melbourne' \
                                                            or place.get('full_name').lower() == 'melbourne'
-
 
                     if is_result_set_contains_melbourne_res:
                         logger.debug('passed place filter')
