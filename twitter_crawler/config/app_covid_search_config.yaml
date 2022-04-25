@@ -2,7 +2,7 @@ app:
 
   # melb historical twitter json file from 2014-7 to 2017-6
   historical-tweet-file-path: /data/historical-tweets/twitter-melb.json
-  covid-tweet-id-file-path: /data/covid-tweet-ids
+  covid-tweet-id-file-path: E:\data\COVID-19-TweetIDs-2.27\compressed
 
   # for twitter streaming , select api version 1 or 2
   api-level: 2
