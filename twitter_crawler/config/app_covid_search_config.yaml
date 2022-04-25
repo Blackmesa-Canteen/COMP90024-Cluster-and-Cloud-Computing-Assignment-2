@@ -21,7 +21,7 @@ app:
   key-word-match-degree: 40
 
   # true or false
-  is-fetch-english-tweet-only: false
+  is-fetch-english-tweet-only: true
 
   target-db-name: covid_search_tweet_db
 

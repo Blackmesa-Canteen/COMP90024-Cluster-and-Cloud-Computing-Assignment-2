@@ -3,7 +3,7 @@ import queue
 from common_util.config_handler import ConfigHandler
 
 # 15 min
-BLOCK_TIME_FOR_GET = 900
+BLOCK_TIME_FOR_GET = 1000
 
 class TwitterIdQueue:
     """

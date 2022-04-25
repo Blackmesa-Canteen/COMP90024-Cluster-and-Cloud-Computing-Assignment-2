@@ -6,6 +6,13 @@ from common_util.config_handler import ConfigHandler
 config = ConfigHandler()
 
 
+def is_text_contains_a_keyword(keyword, input_text):
+    lower_keyword = keyword.lower()
+    lower_input_text = input_text.lower()
+
+    return lower_keyword in lower_input_text
+
+
 def is_text_match_keywords(input_text):
     """
     keywords are defined in config file.
@@ -43,8 +50,11 @@ def is_text_match_keywords(input_text):
     # no keywords defined at all, all text will match
     return True
 
+
 if __name__ == '__main__':
     # test
     text = "Hey pal, you just blow in from stupid-town?"
     config.reset_config_file_name("app_history_tweet_config.yaml")
     print(is_text_match_keywords(text))
+
+    print(is_text_contains_a_keyword(keyword='Melbou', input_text='Do you like melbourne, my friend'))

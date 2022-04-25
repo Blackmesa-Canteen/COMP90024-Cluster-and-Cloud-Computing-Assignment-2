@@ -13,6 +13,7 @@ MELBOURNE_PLACE_ID = '01864a8a64df9dc4'
 
 NUM_TWEETS_PER_REQUEST = 50
 
+
 class TwitterIdSearchConsumer(threading.Thread):
     """
     producer: read tweet id into a queue
@@ -48,17 +49,70 @@ class TwitterIdSearchConsumer(threading.Thread):
         """
 
         if len(self.__id_list) >= NUM_TWEETS_PER_REQUEST:
-            # query 100 ids each time
-            self.__query_ids(self.__id_list)
+            # query NUM_TWEETS_PER_REQUEST ids each time
+            # it is better to use tweets mentioned melbourne, rather than located in melbourne
+            # because tweets located in melbourne can discuss covid on the other place, and number
+            # of tweets are too low
+            # self.__query_ids_located_in_melbourne(self.__id_list)
+            self.__query_ids_mentioned_melbourne(self.__id_list)
             # free the queue
             del self.__id_list
             self.__id_list = []
         else:
             self.__id_list.append(str(tweet_id))
 
-    def __query_ids(self, id_list):
+    def __query_ids_mentioned_melbourne(self, id_list):
         """
-        handle response
+        fetch tweets that mentioned melbourne
+        """
+
+        if len(id_list) > 0:
+            response = self.__tweepy_client.get_tweets(
+                ids=id_list,
+                expansions='geo.place_id',
+                tweet_fields='id,text,lang,source,created_at,geo',
+                user_fields=None,
+                place_fields='country,country_code,geo,name'
+            )
+
+            if response.data is None:
+                logger.warning('get an Empty response from query ids')
+                return
+
+            raw_twitters = response.data
+            # find all melbourne raw_twitters
+            for raw_twitter in raw_twitters:
+                # melbourne condition for each tweet
+                # language filter
+                if self.__config.is_fetch_english_tweet_only() and not is_tweet_english(raw_twitter):
+                    continue
+
+                full_text = twitter_preprocess_helper.get_full_text(raw_twitter)
+
+                # melbourne keyword filter
+                is_tweet_mentioned_melb = keyword_helper.is_text_contains_a_keyword(
+                    keyword='melbourne',
+                    input_text=full_text
+                )
+
+                if not is_tweet_mentioned_melb:
+                    continue
+                logger.debug('Mentioned melbourne, full text: ' + full_text)
+
+                # other keyword filter
+                if not keyword_helper.is_text_match_keywords(full_text):
+                    continue
+
+                logger.debug('passed keyword filter')
+                tweet_dict_for_storage = twitter_preprocess_helper.preprocess_twitter(raw_twitter)
+
+                # put it to db
+                self.__db_helper.put_twitter_to_db(tweet_dict_for_storage)
+
+    @DeprecationWarning
+    def __query_ids_located_in_melbourne(self, id_list):
+        """
+        fetch tweets that located melbourne
         """
         # logger.info('query ids')
         if len(id_list) > 0:
@@ -82,8 +136,9 @@ class TwitterIdSearchConsumer(threading.Thread):
                 for place in places:
                     # melbourne condition
                     is_result_set_contains_melbourne_res = place.get('id') == MELBOURNE_PLACE_ID \
-                            or place.get('name').lower() == 'melbourne'\
-                            or place.get('full_name').lower() == 'melbourne'
+                                                           or place.get('name').lower() == 'melbourne' \
+                                                           or place.get('full_name').lower() == 'melbourne'
+
 
                     if is_result_set_contains_melbourne_res:
                         logger.debug('passed place filter')
@@ -93,7 +148,7 @@ class TwitterIdSearchConsumer(threading.Thread):
                         for raw_twitter in raw_twitters:
                             # melbourne condition for each tweet
                             is_tweet_from_melbourne = raw_twitter.get('geo') is not None \
-                                  and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID
+                                                      and raw_twitter.get('geo').get('place_id') == MELBOURNE_PLACE_ID
 
                             if is_tweet_from_melbourne:
                                 logger.debug('passed geo filter')
@@ -130,7 +185,8 @@ class TwitterIdSearchConsumer(threading.Thread):
                 # if the producer has been finished, gracefully exit
                 if self.__end_signal_helper.is_end_of_id_file():
                     # handle rest query
-                    self.__query_ids(self.__id_list)
+                    # self.__query_ids_located_in_melbourne(self.__id_list)
+                    self.__query_ids_mentioned_melbourne(self.__id_list)
 
                     logger.success('Successfully handled all tweet IDs')
                     break
