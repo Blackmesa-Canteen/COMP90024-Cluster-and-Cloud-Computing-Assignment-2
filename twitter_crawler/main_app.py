@@ -70,7 +70,7 @@ if __name__ == '__main__':
             # set config file
             config.reset_config_file_name(S_2_CONFIG_FILE_NAME)
             handler.run(
-                search_consumer_thread_num=4
+                search_consumer_thread_num=5
             )
 
         elif choice == 3:
