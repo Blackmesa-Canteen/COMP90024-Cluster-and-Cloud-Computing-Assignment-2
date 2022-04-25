@@ -68,7 +68,7 @@ class TwitterStream(tweepy.Stream):
 
         except BaseException as e:
             logger.debug(raw_data)
-            logger.error(e)
+            logger.exception(e)
             return True
 
         return True
