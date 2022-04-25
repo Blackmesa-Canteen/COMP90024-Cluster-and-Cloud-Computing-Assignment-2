@@ -199,6 +199,6 @@ if __name__ == '__main__':
     text2 = '2022-04-21T01:42:22.22233'
     datetime_obj = datetime.now()
 
-    print(check_date_str_match_iso8601(datetime_object_to_string(datetime_obj)))
+    print(datetime_object_to_string(datetime_obj))
 
-    print(check_date_str_match_iso8601(parse_tweet_date_to_iso8601('Mon Jul 28 17:08:48 +0000 2014')))
+    print(parse_tweet_date_to_iso8601('Mon Jul 28 17:08:48 +0000 2014'))
