@@ -70,7 +70,7 @@ class TwitterIdSearchConsumer(threading.Thread):
             response = self.__tweepy_client.get_tweets(
                 ids=id_list,
                 expansions='geo.place_id',
-                tweet_fields='id,text,lang,source,created_at,geo',
+                tweet_fields='id,text,lang,source,created_at,geo,geo.coordinates,geo.place_id',
                 user_fields=None,
                 place_fields='country,country_code,geo,name'
             )
@@ -126,7 +126,7 @@ class TwitterIdSearchConsumer(threading.Thread):
             response = self.__tweepy_client.get_tweets(
                 ids=id_list,
                 expansions='geo.place_id',
-                tweet_fields='id,text,lang,source,created_at,geo',
+                tweet_fields='id,text,lang,source,created_at,geo,geo.coordinates,geo.place_id',
                 user_fields=None,
                 place_fields='country,country_code,geo,name'
             )
