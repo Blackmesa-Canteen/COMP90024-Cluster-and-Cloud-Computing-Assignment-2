@@ -143,6 +143,15 @@ def preprocess_twitter(original_twitter_doc):
             'type': 'Point',
             'coordinates': [longitude, latitude]
         }
+    elif original_twitter_doc.get("geo") is not None and original_twitter_doc.get("geo").get("coordinates") is not None:
+        coordinate_obj = original_twitter_doc.get("geo").get("coordinates")
+        coordinate_arr = coordinate_obj.get('coordinates')
+        longitude = float(coordinate_arr[0])
+        latitude = float(coordinate_arr[1])
+        tweet_dict["coordinates"] = {
+            'type': 'Point',
+            'coordinates': [longitude, latitude]
+        }
     else:
         # default coordinates
         tweet_dict["coordinates"] = {
