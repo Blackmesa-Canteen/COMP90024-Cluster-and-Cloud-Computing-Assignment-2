@@ -123,10 +123,9 @@ class SentimentHelper:
         return TextBlob(sanitized_text).subjectivity
 
 
-# test can run here
 if __name__ == '__main__':
     # test
     helper = SentimentHelper()
-    en_text = "Who Wouldn't Love These Big....Juicy....Selfies :) - http://t.co/QVzjgd1uFo http://t.co/oWBL11eQRY"
+    en_text = "Who Wouldn't Love These Big....Selfies :) - http://t.co/QVzjgd1uFo http://t.co/oWBL11eQRY"
     cn_text = "的确是我的#@%gdtgt"
     print(helper.get_polarity_from_text(helper.get_sanitized_text(cn_text)))
