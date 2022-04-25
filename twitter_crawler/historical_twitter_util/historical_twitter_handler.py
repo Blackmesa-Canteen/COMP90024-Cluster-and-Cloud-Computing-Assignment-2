@@ -50,7 +50,7 @@ class HistoricalTwitterHandler:
                     break
                 except Exception as e:
                     print(original_tweet_dict)
-                    logger.error(e)
+                    logger.exception(e)
                     break
 
     def parse_twitter_with_keyword_and_put_to_db(self):
