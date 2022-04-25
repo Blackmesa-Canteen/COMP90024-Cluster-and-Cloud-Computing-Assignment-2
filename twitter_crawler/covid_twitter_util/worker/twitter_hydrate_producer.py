@@ -3,7 +3,7 @@ import os
 import threading
 
 from loguru import logger
-from pathlib import Path
+from pathlib2 import Path
 
 from common_util.config_handler import ConfigHandler
 
