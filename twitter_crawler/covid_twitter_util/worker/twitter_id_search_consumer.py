@@ -96,7 +96,7 @@ class TwitterIdSearchConsumer(threading.Thread):
 
                     # melbourne keyword filter
                     is_tweet_mentioned_melb = keyword_helper.is_text_contains_a_keyword(
-                        keyword='melbourne',
+                        keyword='#melbourne',
                         input_text=full_text
                     )
 

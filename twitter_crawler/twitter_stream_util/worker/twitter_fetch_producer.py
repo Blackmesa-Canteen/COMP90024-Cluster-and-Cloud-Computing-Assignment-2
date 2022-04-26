@@ -58,65 +58,123 @@ class TwitterFetchProducer(threading.Thread):
 
         # twitter stream api v2
         else:
-            key_word_list = self.__config.get_key_word_list()
-
-            # location rule: melbourne
-            # avaliable only for research access level
-            # self.__location_rule = tweepy.StreamRule(
-            #     value="place:melbourne",
-            #     tag="tweets in melbourne"
-            # )
-
-            # altenative location rule: melbourne
-            if len(key_word_list) != 0:
-
-                keyword_string = "melbourne ("
-
-                # keywords
-                processed_keyword_list = []
-                for keyword in key_word_list:
-                    keyword_string = \
-                        keyword_string \
-                        + '"' \
-                        + keyword \
-                        + '"' \
-                        + ' OR '
-
-                # remove redundant OR
-                keyword_string = keyword_string[:-4]
-                keyword_string = keyword_string + ')'
-
+            if not config.get_academic_access():
+                self.stream_without_academic_account()
             else:
-                keyword_string = "melbourne"
+                self.stream_with_academic_account()
 
-            rule_text = keyword_string
-            # language rule
-            if self.__config.is_fetch_english_tweet_only():
-                rule_text = rule_text + " lang:en"
 
-            # build the rule
-            logger.info('stream rule: ' + rule_text)
-            stream_rule = tweepy.StreamRule(
-                value=rule_text,
-                tag="tweets about keywords in melbourne"
-            )
+    def stream_without_academic_account(self):
+        """
+        If you don't have elevated level, please use this method
 
-            # setup stream
-            stream = TwitterV2Stream(
-                bearer_token=self.__config.get_api_token(),
-                queue=self.__q
-            )
-            # link search rule
-            stream.add_rules(stream_rule)
-            # link output filter
-            stream.filter(
-                expansions="geo.place_id",
-                tweet_fields=['id', 'text', 'lang', 'source', 'created_at', 'geo'],
-                user_fields=None,
-                place_fields=['country', 'country_code', 'geo', 'name'],
-            )
+        """
+        key_word_list = self.__config.get_key_word_list()
+        # location rule: melbourne
+        # avaliable only for research access level
+        # self.__rule = tweepy.StreamRule(
+        #     value="place:melbourne",
+        #     tag="tweets in melbourne"
+        # )
+        # altenative location rule: melbourne
+        if len(key_word_list) != 0:
 
-            # then run forever to fetch new coming twitters
+            keyword_string = "(#melbourne OR #Melbourne) ("
+
+            # keywords
+            processed_keyword_list = []
+            for keyword in key_word_list:
+                keyword_string = \
+                    keyword_string \
+                    + '"' \
+                    + keyword \
+                    + '"' \
+                    + ' OR '
+
+            # remove redundant OR
+            keyword_string = keyword_string[:-4]
+            keyword_string = keyword_string + ')'
+
+        else:
+            keyword_string = "(#melbourne OR #Melbourne)"
+        rule_text = keyword_string
+        # language rule
+        if self.__config.is_fetch_english_tweet_only():
+            rule_text = rule_text + " lang:en"
+        # build the rule
+        logger.info('stream rule: ' + rule_text)
+        stream_rule = tweepy.StreamRule(
+            value=rule_text,
+            tag="tweets about keywords in melbourne"
+        )
+        # setup stream
+        stream = TwitterV2Stream(
+            bearer_token=self.__config.get_api_token(),
+            queue=self.__q
+        )
+        # link search rule
+        stream.add_rules(stream_rule)
+        # link output filter
+        stream.filter(
+            expansions="geo.place_id",
+            tweet_fields=['id', 'text', 'lang', 'source', 'created_at', 'geo'],
+            user_fields=None,
+            place_fields=['country', 'country_code', 'geo', 'name'],
+        )
+        # then run forever to fetch new coming twitters
+
+    def stream_with_academic_account(self):
+        """
+        If you don't have elevated level, please use this method
+
+        """
+        key_word_list = self.__config.get_key_word_list()
+        if len(key_word_list) != 0:
+
+            # can use geo keyword with elevated level
+            keyword_string = "place:melbourne ("
+
+            # keywords
+            processed_keyword_list = []
+            for keyword in key_word_list:
+                keyword_string = \
+                    keyword_string \
+                    + '"' \
+                    + keyword \
+                    + '"' \
+                    + ' OR '
+
+            # remove redundant OR
+            keyword_string = keyword_string[:-4]
+            keyword_string = keyword_string + ')'
+
+        else:
+            keyword_string = "place:melbourne"
+        rule_text = keyword_string
+        # language rule
+        if self.__config.is_fetch_english_tweet_only():
+            rule_text = rule_text + " lang:en"
+        # build the rule
+        logger.info('stream rule: ' + rule_text)
+        stream_rule = tweepy.StreamRule(
+            value=rule_text,
+            tag="tweets about keywords in melbourne"
+        )
+        # setup stream
+        stream = TwitterV2Stream(
+            bearer_token=self.__config.get_api_token(),
+            queue=self.__q
+        )
+        # link search rule
+        stream.add_rules(stream_rule)
+        # link output filter
+        stream.filter(
+            expansions="geo.place_id",
+            tweet_fields=['id', 'text', 'lang', 'source', 'created_at', 'geo'],
+            user_fields=None,
+            place_fields=['country', 'country_code', 'geo', 'name'],
+        )
+        # then run forever to fetch new coming twitters
 
 
 if __name__ == '__main__':

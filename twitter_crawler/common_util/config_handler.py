@@ -76,6 +76,7 @@ class ConfigHandler:
             self.__access_token = cfgs['app']['access-token']
             self.__access_token_secret = cfgs['app']['access-token-secret']
             self.__api_level = cfgs['app']['api-level']
+            self.__got_academic_access = cfgs['app']['got-academic-access']
 
             self.__target_db_name = cfgs['app']['target-db-name']
             self.__target_box_point_a = cfgs['app']['target-box-points'][0]
@@ -164,6 +165,9 @@ class ConfigHandler:
     def get_api_level(self):
         return self.__api_level
 
+    def get_academic_access(self):
+        return self.__got_academic_access
+
     def get_key_word_match_degree(self):
         return self.__key_word_match_degree
 
@@ -215,5 +219,6 @@ if __name__ == '__main__':
     config_handler.reset_config_file_name('app_history_tweet_config.yaml')
     print(config_handler.get_key_word_list())
     print(config_handler.get_lower_key_word_list())
+    print(config_handler.get_academic_access())
 
 

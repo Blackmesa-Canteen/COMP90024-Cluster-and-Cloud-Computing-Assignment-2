@@ -57,4 +57,4 @@ if __name__ == '__main__':
     config.reset_config_file_name("app_history_tweet_config.yaml")
     print(is_text_match_keywords(text))
 
-    print(is_text_contains_a_keyword(keyword='Melbou', input_text='Do you like melbourne, my friend'))
+    print(is_text_contains_a_keyword(keyword='#melbourne', input_text='D#Melbourne bit lost along docklands but was a block from end of Collins St. Whilst being lost not the most fun, seeing families whizzing around this art on their scooters was super cute. Finally made it to ferry, you can'))

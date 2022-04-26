@@ -4,8 +4,10 @@ app:
   historical-tweet-file-path: /data/historical-tweets/twitter-melb.json
   covid-tweet-id-file-path: /data/covid-tweet-ids
 
-  # for twitter streaming , select api version 1 or 2
-  api-level: 1
+  # for twitter streaming , select api version 1 or 2. Now 2 only.
+  api-level: 2
+  # is the api key has Academic Research access? true or false
+  got-academic-access: false
 
   api-key: CFDfq0e0UVqwcBs5srwUYD06R
   api-secret: vpnAjv7uBf20TASxsWlH05iQEPzY58t2YnScNQ3WnUWxJbbhcf
