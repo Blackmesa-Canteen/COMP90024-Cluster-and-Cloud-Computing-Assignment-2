@@ -9,7 +9,6 @@ app:
   # is the api key has Academic Research access? true or false
   got-academic-access: false
 
-  # elevated api only
   api-key: bfa9kSteSfb1SXyVCfxfr1mWs
   api-secret: bYwtGehL0L3eNremqAk0nBOcXurwRIGvLvfNjgcDh0FSVXn0y8
   api-token: AAAAAAAAAAAAAAAAAAAAAMp1bgEAAAAAqWJoKo%2F7IgG7Z7%2FKIqr5i8ssApo%3DydM5w19XfscAuklgFz9bZzhaY7pB8m4y403KXEDAYWAG00AL2P
