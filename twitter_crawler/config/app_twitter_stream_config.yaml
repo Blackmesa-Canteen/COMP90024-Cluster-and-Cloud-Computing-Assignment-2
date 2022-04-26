@@ -21,13 +21,13 @@ app:
   key-word-list:
     []
 
+  target-db-name: stream_tweet_db
+
   # 0~100, very loose to very strict match
   key-word-match-degree: 40
 
   # true or false
   is-fetch-english-tweet-only: false
-
-  target-db-name: stream_tweet_db
 
   # melbourne place box
   target-box-points:
