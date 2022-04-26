@@ -15,9 +15,22 @@ app:
   access-token: 982640580512460801-JEhGJC0Oqmmuw8udB8knpfAVp7aMbky
   access-token-secret: 74AgO2bKazn4nFKnIsAU1a6GylXI6L42KdOiAVqlGzzMR
 
+#  api-key: bfa9kSteSfb1SXyVCfxfr1mWs
+#  api-secret: bYwtGehL0L3eNremqAk0nBOcXurwRIGvLvfNjgcDh0FSVXn0y8
+#  api-token: AAAAAAAAAAAAAAAAAAAAAMp1bgEAAAAAqWJoKo%2F7IgG7Z7%2FKIqr5i8ssApo%3DydM5w19XfscAuklgFz9bZzhaY7pB8m4y403KXEDAYWAG00AL2P
+#  access-token: 1515881246039359488-lMhG3MeErJvfPqpfe0CG9qXGd8rksj
+#  access-token-secret: kbeccnUWeo4ZuwKUhT47M08yWiRVcTmGiDJ7KMec0sAgQ
+
+#  api-key: QtnNzxVauOdQzGNPNxDq9NCnR
+#  api-secret: nWOV9xtcG9CSpIkgHULefqhMPpxI52pXxJc0O2E0xTqWvbA9lz
+#  api-token: AAAAAAAAAAAAAAAAAAAAAB2XbwEAAAAAN4MA38T7WhlpSKOhOR1b5kD7%2Fn0%3DJaU0jpBUCLR7F7DgHlZLh6RFqn1lQ6CeTwHoS1hnyzkO1p3HtC
+#  access-token: null
+#  access-token-secret: null
+
   # don't input to many
   # if key-word is an empty list, i.e. [], get all twitter
-  key-word-list: []
+  key-word-list:
+    - lockdown
 
   target-db-name: covid_search_tweet_melb_oct_to_dec_2020_db
 
