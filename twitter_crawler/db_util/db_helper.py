@@ -188,6 +188,8 @@ class DbHelper:
                 logger.info('tweet saved to db: ' + tweet_doc["_id"])
             except Exception as e:
                 logger.exception(e)
+        else:
+            logger.info('duplicated tweet id, skip')
 
 
 

@@ -53,7 +53,7 @@ def is_text_match_keywords(input_text):
 
 if __name__ == '__main__':
     # test
-    text = "Hey pal, you just blow in from stupid-town?"
+    text = "Hey Price pal, you just blow in from stupid-town house gft?"
     config.reset_config_file_name("app_history_tweet_config.yaml")
     print(is_text_match_keywords(text))
 
