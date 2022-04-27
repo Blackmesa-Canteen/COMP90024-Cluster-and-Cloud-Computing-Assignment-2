@@ -14,6 +14,14 @@
    date：          14/04/2022
 -------------------------------------------------
 """
+
+import sys
+import os
+
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+
 from optparse import OptionParser
 
 from loguru import logger
@@ -66,13 +74,13 @@ if __name__ == '__main__':
             # data_dirs = ['2020-01', '2020-02', '2020-03', '2020-04', '2020-05', '2020-06', '2020-07', '2020-08',
             #              '2020-09', '2020-10', '2020-11', '2020-12']
 
-            data_dirs = ['2020-10', '2020-11', '2020-12']
+            data_dirs = ['2020-07']
 
             handler = CovidSearchCrawler(data_dirs=data_dirs)
             # set config file
             config.reset_config_file_name(S_2_CONFIG_FILE_NAME)
             handler.run(
-                search_consumer_thread_num=4
+                search_consumer_thread_num=2
             )
 
         elif choice == 3:
