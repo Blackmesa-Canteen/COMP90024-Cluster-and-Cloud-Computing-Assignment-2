@@ -22,7 +22,8 @@ COPY ./config $WORKDIR/config
 # dependencies
 RUN pip install -r requirements.txt
 
-# Running params, when build the docker, `docker run --name="crawler" -e SCENARIO="1"` to select senario
+# Running params, when run the docker image build by this script,
+# `docker run --name="crawler" -e SCENARIO="1" image_name` to select senario
 ENV SCENARIO=""
 
 CMD ["python", '$WORKDIR/main_app.py -s $SCENARIO']

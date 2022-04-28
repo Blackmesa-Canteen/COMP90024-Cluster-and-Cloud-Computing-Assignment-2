@@ -93,7 +93,7 @@ if __name__ == '__main__':
             handler.run()
 
         else:
-            logger.warning('Undefined scenario number: ' + choice)
+            logger.warning('Undefined scenario number: ' + str(choice))
             exit(-1)
 
         logger.success("crawler job's done")
