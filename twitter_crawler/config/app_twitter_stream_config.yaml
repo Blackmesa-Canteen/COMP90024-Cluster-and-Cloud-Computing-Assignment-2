@@ -20,7 +20,7 @@ app:
   key-word-list:
     - covid
 
-  target-db-name: stream_tweet_covid_debug_db
+  target-db-name: stream_debug_db
 
   # 0~100, very loose to very strict match
   key-word-match-degree: 40

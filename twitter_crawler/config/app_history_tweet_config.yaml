@@ -1,7 +1,7 @@
 app:
 
   # melb historical twitter json file from 2014-7 to 2017-6
-  historical-tweet-file-path: E:\data\twitter-melb.json
+  historical-tweet-file-path: /data/historical-tweets/twitter-melb.json
   covid-tweet-id-file-path: /data/covid-tweet-ids
 
   # for twitter streaming , select api version 1 or 2. Now 2 only.
@@ -21,7 +21,7 @@ app:
     - house
     - price
 
-  target-db-name: history_house_price_tweet_2_db
+  target-db-name: history_debug_db
 
   # 0~100, very loose to very strict match, 100 means the text must have key words
   key-word-match-degree: 63

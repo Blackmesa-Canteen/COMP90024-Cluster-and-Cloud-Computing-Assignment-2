@@ -58,7 +58,7 @@ class TwitterFetchProducer(threading.Thread):
 
         # twitter stream api v2
         else:
-            if not config.get_academic_access():
+            if not self.__config.get_academic_access():
                 self.stream_without_academic_account()
             else:
                 self.stream_with_academic_account()
