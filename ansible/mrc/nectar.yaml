@@ -1,0 +1,12 @@
+- hosts: localhost
+  vars_files:
+    - host_vars/nectar.yaml
+  # to gether facts about the remote host(where this file is runned)
+  gather_facts: true 
+  roles: # in sequence
+    - role: openstack-common
+    - role: openstack-images
+    - role: openstack-volume
+    - role: openstack-security-group
+    - role: openstack-instance
+
