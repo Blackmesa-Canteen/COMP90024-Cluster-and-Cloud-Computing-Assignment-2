@@ -7,6 +7,9 @@
 # Make sure your covid_related_tweet_id folder is located in host's /data/covid-tweet-ids
 WORKDIR=$(cd $(dirname $0); pwd)
 
+docker stop "search_crawler"
+docker rm "search_crawler"
+
 docker build -t twitter_crawler_demo:v1 .
 
 docker run --name="search_crawler" -e SCENARIO="2" \

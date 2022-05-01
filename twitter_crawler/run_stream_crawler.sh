@@ -4,6 +4,9 @@
 # you can configurate it in ./config 's app_twitter_stream_config.yaml
 WORKDIR=$(cd $(dirname $0); pwd)
 
+docker stop "stream_crawler"
+docker rm "stream_crawler"
+
 docker build -t twitter_crawler_demo:v1 .
 
 docker run --name="stream_crawler" -e SCENARIO="1" \

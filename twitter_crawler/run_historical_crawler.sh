@@ -6,6 +6,9 @@
 # Make sure your historical json file are located in host's /data/historical-tweets/twitter-melb.json
 WORKDIR=$(cd $(dirname $0); pwd)
 
+docker stop "historical_crawler"
+docker rm "historical_crawler"
+
 docker build -t twitter_crawler_demo:v1 .
 
 docker run --name="historical_crawler" -e SCENARIO="3" \
