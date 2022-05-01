@@ -7,9 +7,9 @@ couch = couchdb.Server(cfg.LOCAL_DB)
 def save_rai(data):
     db_name = cfg.HOUSE_PRICE_RAI_DB
     if db_name in couch:
-        # db = couch[db_name]
-        print("db has been created")
-        return False
+        db = couch[db_name]
+        print("db has been created...")
+        # return False
     else:
         db = couch.create(db_name)
     for key, value in data.items():
@@ -23,9 +23,9 @@ def save_rai(data):
 
 def save_common(db_name, data):
     if db_name in couch:
-        # db = couch[db_name]
-        print("db has been created")
-        return False
+        db = couch[db_name]
+        print("db has been created...")
+        # return False
     else:
         db = couch.create(db_name)
     

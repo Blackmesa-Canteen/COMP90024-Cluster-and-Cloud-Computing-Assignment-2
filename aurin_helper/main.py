@@ -46,6 +46,18 @@ def process_data(data):
    return saved_data
 
 
+def save_single_file(file_path, data_info, data_to_saved):
+   with open(file_path, 'r') as file:
+      reader = csv.DictReader(file)
+      for row in reader:
+         row_data = {}
+         for key, value in row.items():
+            if (key:= key.strip()) in data_info.keys():
+               row_data[data_info[key]] = value
+         data_to_saved[uuid4().hex] = row_data
+   return data_to_saved
+
+
 def save_rai(): 
    file_path = path.get_path() + cfg.RAI_FILE_PATH
 
@@ -94,19 +106,35 @@ def save_house_price():
 def save_income():
    income_path = path.get_path() + cfg.INCOME_PATH
    data_to_saved = {}
-
    for file_name in os.listdir(income_path):
       if file_name[-4:] != '.csv': continue
-      with open(income_path+file_name, 'r') as file:
-         reader = csv.DictReader(file)
-         for row in reader:
-            row_data = {}
-            for key, value in row.items():
-               if (key:= key.strip()) in cfg.INCOME_INFO.keys():
-                  row_data[cfg.INCOME_INFO[key]] = value
-            data_to_saved[uuid4().hex] = row_data
+      save_single_file(income_path+file_name, cfg.INCOME_INFO, data_to_saved)
 
    return database.save_common(cfg.INCOME_DB, data_to_saved)
+
+
+def save_born():
+   born_path = path.get_path() + cfg.BORN_PATH
+   data_to_saved = save_single_file(born_path, cfg.BORN_INFO, {})
+   return database.save_common(cfg.MIGRATION_DB, data_to_saved)
+
+
+def save_migrations():
+   migration_path = path.get_path() + cfg.MIGRATION_PATH
+   data_to_saved = {}
+   for file_name in os.listdir(migration_path):
+      if file_name[-4:] != '.csv' or file_name[:4] == 'born': continue
+      save_single_file(migration_path+file_name, cfg.MIGRATION_INFO, data_to_saved)
+   return database.save_common(cfg.MIGRATION_DB, data_to_saved)
+
+
+def save_education():
+   education_path = path.get_path() + cfg.EDUCATION_PATH
+   data_to_saved = {}
+   for file_name in os.listdir(education_path):
+      if file_name[-4:] != '.csv': continue
+      save_single_file(education_path+file_name, cfg.EDUCATION_INFO, data_to_saved)
+   return database.save_common(cfg.EDUCATION_DB, data_to_saved)
 
 
 if __name__ == '__main__':
@@ -114,7 +142,11 @@ if __name__ == '__main__':
    # 从AURIN网站下载所需的JSON文件到data里
    # 解析JSON, 整理数据后, 上传到数据库
    # 除非数据库内容丢失, 否则不用再运行
-   print(save_rai())
-   print(save_house_price())
-   print(save_income())
+   # print(save_rai())
+   # print(save_house_price())
+   # print(save_income())
+   # print(save_born())
+   # print(save_migrations())
+   # print(save_education())
+   
    pass
