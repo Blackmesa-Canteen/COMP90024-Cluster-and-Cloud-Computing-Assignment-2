@@ -8,10 +8,11 @@
 -------------------------------------------------
 """
 import os
+from time import sleep
 
 import yaml
 
-import path_helper
+import path_helper as path
 
 
 class ConfigHandler:
@@ -26,7 +27,7 @@ class ConfigHandler:
 
             # init
             self = cls.__instance
-            root_path = path_helper.get_project_root_path()
+            root_path = path.get_project_root_path()
             self.__config_file_path = os.path.join(
                 root_path, 'config', 'app_config.yaml')
 
@@ -41,6 +42,8 @@ class ConfigHandler:
                 cfgs = yaml.safe_load(f)
                 self.__db_host_list = cfgs['app']['db']['host-list']
                 self.__db_port = str(cfgs['app']['db']['port'])
+                self.__db_username = cfgs['app']['db']['username']
+                self.__db_password = cfgs['app']['db']['password']
 
         return cls.__instance
 
@@ -59,6 +62,12 @@ class ConfigHandler:
 
     def get_db_port(self):
         return self.__db_port
+
+    def get_db_username(self):
+        return self.__db_username
+
+    def get_db_password(self):
+        return self.__db_password
 
     def get_db_host_port_list(self):
         """

@@ -3,10 +3,10 @@ app:
 
   db:
     username: admin
-    password: adm$n
+    password: 0F9YUJIgGoxIhgRWfHKS
     port: 5984
     host-list:
-      - 321.321.321.321
-      - 123.123.123.123
-      - 233.233.233.233
+      - 161.117.88.132
+      # - 123.123.123.123
+      # - 233.233.233.233
 
