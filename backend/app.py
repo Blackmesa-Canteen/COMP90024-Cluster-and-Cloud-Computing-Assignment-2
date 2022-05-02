@@ -16,7 +16,7 @@ def handle404(err):
    return 'your request is wrong, please try again'
 
 @app.errorhandler(500)
-def handle404(err):
+def handle500(err):
    return 'server data error, please contact the administrator'
 
 #local test
