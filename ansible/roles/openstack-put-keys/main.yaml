@@ -1,0 +1,7 @@
+---
+- name: put key pairs on nectar
+  gather_facts: true
+  copy:
+    src: ".ssh/testssh.pem"
+    dest: ~/.ssh/testssh
+    mode: 0600

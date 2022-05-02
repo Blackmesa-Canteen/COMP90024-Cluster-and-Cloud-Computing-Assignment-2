@@ -1,0 +1,22 @@
+---
+volumes:
+  - device: /dev/vdb
+    mountpoint: /data
+
+ansible_user: ubuntu
+ansible_ssh_private_key_file: .ssh/MRC-group52.pem
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+
+couchdb_image: ibmcom/couchdb3:latest
+couchdb_user: admin
+couchdb_password: admin
+couchdb_VERSION: '3.2.1'
+couchdb_cookie: 'a192aeb9904e6590849337933b000c99'
+couchdb_uuid: 'a192aeb9904e6590849337933b001159'
+#cluster_name: '_cluster_setup'
+couchdb_container_name: 'couchdb'
+couchdb_db_name: "twitter-analysis"
+
+# github source repository
+git_dir: /data/COMP90024

@@ -1,0 +1,17 @@
+---
+- hosts: backend
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+
+  roles:
+    - role: backend-volumes
+    # - role: docker # duplicated. for test
+    - role: backend-create-docker-couchdb
+
+- hosts: masternode
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+  roles:
+    - role: backend-create-couchdb-cluster

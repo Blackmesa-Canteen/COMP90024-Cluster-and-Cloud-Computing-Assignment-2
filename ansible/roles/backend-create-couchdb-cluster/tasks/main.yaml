@@ -1,0 +1,60 @@
+---
+# Standard http post to couchdb to create the cluster
+- name: Enable couchdb cluster
+  ansible.builtin.uri:
+    url: http://{{ groups['backend'][0] }}:5984/_cluster_setup
+    status_code: [200, 201]
+    method: POST
+    user: admin
+    password:  admin
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body: "{\"action\": \"enable_cluster\", \"bind_address\":\"0.0.0.0\",\
+             \"username\": \"{{ couchdb_user }}\", \"password\":\"{{ couchdb_password }}\", \"port\": \"5984\",\
+             \"remote_node\": \"{{ item }}\", \"node_count\": \"{{ groups['backend'] | length }}\",\
+             \"remote_current_user\":\"{{ couchdb_user }}\", \"remote_current_password\":\"{{ couchdb_password }}\"}"
+    return_content: yes
+  loop: "{{ groups['othernode']}}"
+
+# add node
+- name: Add cluster node
+  ansible.builtin.uri:
+    url: http://{{ groups['backend'][0] }}:5984/_cluster_setup
+    status_code: [201, 409]
+    method: POST
+    user: "{{ couchdb_user }}"
+    password: "{{ couchdb_password }}"
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body: "{\"action\": \"add_node\", \"host\":\"{{ item }}\",\
+             \"port\": \"5984\", \"username\": \"{{ couchdb_user }}\", \"password\":\"{{ couchdb_password }}\"}"
+  loop: "{{ groups['othernode']}}"
+
+- name: dealt with error
+  ansible.builtin.uri:
+    url: http://{{ groups['backend'][0] }}:5984/
+    status_code: [200,201,409]
+    method: GET
+    user: "{{ couchdb_user }}"
+    password:  "{{ couchdb_password }}"
+    force_basic_auth: yes
+    return_content: yes
+
+- name: Finish
+  ignore_errors: true
+  ansible.builtin.uri:
+    url: http://{{ groups['backend'][0] }}:5984/_cluster_setup
+    method: POST
+    user: "{{ couchdb_user }}"
+    password:  "{{ couchdb_password }}"
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body: "{\"action\": \"finish_cluster\"}"
+    return_content: yes
+    
