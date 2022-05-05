@@ -79,7 +79,7 @@
   command: systemctl restart docker
 
 # check docker state
-- name: Restart docker
+- name: check docker state
   become: true
   service:
     name: docker

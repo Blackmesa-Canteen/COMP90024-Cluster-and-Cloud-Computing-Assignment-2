@@ -3,7 +3,7 @@ availability_zone: melbourne-qh2-uom
 instance_image: 356ff1ed-5960-4ac2-96a1-0c0198e6a999
 instance_key_name: MRC-group52
 instance_flavor: uom.mse.2c9g
-host_ip_file: ./inventory/host_ip_file.ini # to store instances' ips
+host_file: ./inventory/host_file.ini # to store instances' ips
 
 ansible_user: ubuntu
 ansible_ssh_private_key_file: .ssh/MRC-group52.pem

@@ -1,0 +1,45 @@
+# Integrated ansible playbook
+
+# create mrc instances/dependencies
+- hosts: localhost
+  vars_files:
+    - host_vars/nectar.yaml
+  # to gether facts about the remote host(where this file is runned)
+  gather_facts: true 
+  roles: # in sequence
+    - role: openstack-common
+    #  - role: openstack-create-images # just for debug purposes
+    - role: openstack-create-volume
+    - role: openstack-create-security-group
+    - role: openstack-create-instance
+    - role: openstack-put-keys
+
+# prepare instance/envir
+- hosts: all
+  vars_files:
+    - host_vars/nectar.yaml
+  gather_facts: true
+
+  roles:
+     - role: common-dependencies
+     - role: docker
+     - role: git-checkout-repo
+
+# deploy docker/backend
+- hosts: backend
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+
+  roles:
+    - role: backend-volumes
+    # - role: docker # duplicated. for test
+    - role: backend-create-docker-couchdb
+
+- hosts: masternode
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+  roles:
+    - role: backend-create-couchdb-cluster
+    
