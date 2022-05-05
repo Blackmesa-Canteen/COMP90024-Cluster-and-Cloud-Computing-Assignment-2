@@ -28,11 +28,13 @@ class Database:
         print(self.server.version())
 
     def get_rai(self):
-        req_link = self.req_url.format(db='aurin_rai_db', doc='rai_view', view_name='show_all', group_level='')
+        req_link = self.req_url.format(db='aurin_rai_db', doc='rai_view', 
+            view_name='show_all', group_level='')
         response = requests.get(req_link)
         result = json.loads(response.text)
         return result
 
+    
     def get_income(self, view=None):
         view_name = 'income'
         group_level = ''
@@ -42,10 +44,12 @@ class Database:
                 group_level = '?group_level=' + constants.income_api[view][1]
             except KeyError:
                 view_name = 'kksk'
-        req_link = self.req_url.format(db='aurin_income_db', doc='income', view_name=view_name, group_level=group_level)
+        req_link = self.req_url.format(db='aurin_income_db', doc='income', 
+            view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
     
+
     def get_house_price(self, type=None, view=None):
         view_name = 'house_price'
         group_level = ''
@@ -57,32 +61,54 @@ class Database:
                 group_level = '?group_level=' + constants.hp_api[view][1]
             except KeyError:
                 view_name = 'kksk'
-        req_link = self.req_url.format(db='aurin_house_price_db', doc=doc, view_name=view_name, group_level=group_level)
+        req_link = self.req_url.format(db='aurin_house_price_db', 
+            doc=doc, view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
     
-    def get_twitter_house_price(self, view=None, statistics=None):
-        basic_url = self.get_server_link() +  '/history_house_price_tweet_db/_design/house_price_view/_view/'
-        if view is None:
-            req_url = basic_url + 'show_all'
-        elif statistics is None:
-            req_url = basic_url + 'show_'  + view
-        else:
-            req_url = basic_url + statistics + '_' + view
-        response = requests.get(req_url + '?group_level=1')
+
+    def get_twitter_house_price(self, view=None):
+        view_name = 'house_price'
+        group_level = ''
+        if view is not None:
+            try:
+                view_name = constants.twitter_hp_api[view][0]
+                group_level = '?group_level=' + constants.twitter_hp_api[view][1]
+            except KeyError:
+                view_name = 'kksk'
+        req_link = self.req_url.format(db='history_house_price_tweet_db', 
+            doc='house_price_view', view_name=view_name, group_level=group_level)
+        response = requests.get(req_link)
         return json.loads(response.text)
     
-    def get_twitter_covid(self, view=None, statistics=None):
-        basic_url = self.get_server_link() + '/covid_search_tweet_mentioned_melb_db/_design/covid_view/_view/'
-        if view is None:
-            req_url = basic_url + 'show_all'
-        elif statistics is None:
-            req_url = basic_url + 'show_'  + view
-        else:
-            req_url = basic_url + statistics + '_' + view
-        print(req_url)
-        response = requests.get(req_url + '?group_level=1')
-        print(response.text)
+
+    def get_twitter_covid(self, view=None):
+        view_name = 'show_all'
+        group_level = ''
+        if view is not None:
+            try:
+                view_name = constants.twitter_covid_api[view][0]
+                group_level = '?group_level=' + constants.twitter_covid_api[view][1]
+            except KeyError:
+                view_name = 'kksk'
+        req_link = self.req_url.format(db='covid_search_tweet_mentioned_melb_db', 
+            doc='covid', view_name=view_name, group_level=group_level)
+        response = requests.get(req_link)
+        return json.loads(response.text)
+    
+    def get_migration(self, view=None):
+        view_name = 'show_all'
+        group_level = ''
+        if view is not None:
+            try:
+                view_api = constants.migration_api[view]
+                view_name = view_api[0]
+                group_level = ('?group_level=' + view_api[1]) if view_api[1] != '' else ''
+            except KeyError:
+                view_name = 'kksk'
+        req_link = self.req_url.format(db='aurin_migration_db', 
+            doc='migration', view_name=view_name, group_level=group_level)
+        response = requests.get(req_link)
         return json.loads(response.text)
 
 if __name__ == '__main__':

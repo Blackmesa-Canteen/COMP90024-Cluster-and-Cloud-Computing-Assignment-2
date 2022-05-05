@@ -11,14 +11,17 @@ app.register_blueprint(demo_controller, url_prefix='')
 app.register_blueprint(aurin_controller, url_prefix='/api/aurin')
 app.register_blueprint(twitter_controller, url_prefix='/api/twitter')
 
+# handle 404 error
 @app.errorhandler(404)
 def handle404(err):
    return 'your request is wrong, please try again'
 
+# handle 500 error
 @app.errorhandler(500)
 def handle500(err):
    return 'server data error, please contact the administrator'
 
 #local test
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+   #  app.run(debug=True, host='127.0.0.1', port=5000)
+   app.run(debug=True, host='0.0.0.0')

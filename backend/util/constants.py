@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     constants
-   Description :  some constants
-   Author :       Xiaotian Li
-   date：          14/04/2022
+   File Name:     constants
+   Description :  some constants of database or views
+   Author :       Xiaotian Li, Bocan Yang
+   Date:          14/04/2022
 -------------------------------------------------
 """
+
+from itertools import count
+
 
 covid_db_name = "covid-19-tweets"
 all_tweets_db_name = "all-tweets"
@@ -30,3 +33,23 @@ hp_api = {
    'year-position': ['_avg_stat_by_year_pos', '2'],
    'sumary': ['_avg_stat_by_type_year_pos', '3']
 }
+
+migration_api = {
+   'sex': ['sex_2016', '1'],
+   'year': ['year_sum', '1'],
+   'english': ['english_2016', ''],
+   'English': ['english_2016', '']
+}
+
+twitter_hp_api = {
+   'year': ['year', '1'],
+   'polarity': ['polarity', '1'],
+   'subjectivity': ['subjectivity', '1']
+}
+
+twitter_covid_api = {
+   'language': ['language_count', '1'],
+   'polarity': ['polarity_count', '1'],
+   'subjectivity': ['subjectivity_count', '1']
+}
+
