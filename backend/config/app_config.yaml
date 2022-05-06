@@ -3,10 +3,17 @@ app:
 
   db:
     username: admin
-    password: adm$n
+    # password: password
+    password: 0F9YUJIgGoxIhgRWfHKS
     port: 5984
     host-list:
-      - 321.321.321.321
-      - 123.123.123.123
-      - 233.233.233.233
+      # local test
+      # - 127.0.0.1
+      # Xiao Tian test
+      - 161.117.88.132
+      # MRC cluster
+      - 172.26.128.254
+      - 172.26.134.211
+      - 172.26.133.48
+
 
