@@ -40,6 +40,7 @@ class ConfigHandler:
 
             with open(self.__config_file_path, 'r', encoding='utf-8') as f:
                 cfgs = yaml.safe_load(f)
+                self.__db_master_node = cfgs['app']['db']['master-node']
                 self.__db_host_list = cfgs['app']['db']['host-list']
                 self.__db_port = str(cfgs['app']['db']['port'])
                 self.__db_username = cfgs['app']['db']['username']
@@ -50,6 +51,9 @@ class ConfigHandler:
     # once we used __new__, __init__ is not needed
     def __init__(self):
         pass
+
+    def get_db_master_node(self):
+        return self.__db_master_node
 
     def get_db_host_list(self):
         """

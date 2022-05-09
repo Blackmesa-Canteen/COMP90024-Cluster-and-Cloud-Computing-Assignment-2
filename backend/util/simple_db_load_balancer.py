@@ -11,7 +11,7 @@ import threading
 
 from util.config_handler import ConfigHandler
 
-from loguru import logger
+# from loguru import logger
 
 
 class SimpleDbLoadBalancer:
