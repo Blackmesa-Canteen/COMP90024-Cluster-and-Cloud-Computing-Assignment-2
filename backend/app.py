@@ -3,6 +3,7 @@ from flask import Flask
 from controller.demo_controller import demo_controller
 from controller.aurin_controller import aurin_controller
 from controller.twitter_controller import twitter_controller
+from controller.scenario_controller import scenario_controller
 
 app = Flask(__name__)
 
@@ -10,6 +11,7 @@ app = Flask(__name__)
 app.register_blueprint(demo_controller, url_prefix='')
 app.register_blueprint(aurin_controller, url_prefix='/api/aurin')
 app.register_blueprint(twitter_controller, url_prefix='/api/twitter')
+app.register_blueprint(scenario_controller, url_prefix='/api/scenario')
 
 # handle 404 error
 @app.errorhandler(404)

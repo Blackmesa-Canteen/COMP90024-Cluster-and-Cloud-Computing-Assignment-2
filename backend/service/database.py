@@ -1,5 +1,6 @@
 from util import config_handler as cfg_handler
 from util import constants
+from util.simple_db_load_balancer import SimpleDbLoadBalancer as Balancer
 import requests
 import couchdb
 import json
@@ -18,7 +19,9 @@ class Database:
         self.req_url = self.get_server_link() + '/{db}/_design/{doc}/_view/{view_name}{group_level}'
         
     def get_server_link(self):
-        server_link = 'http://'+ self.db_username + ':'+ self.db_password + '@' + self.master_host + '/'
+        db_balancer = Balancer()
+        db_host = db_balancer.get_current_db_host() + ':' + self.db_port
+        server_link = 'http://'+ self.db_username + ':'+ self.db_password + '@' + db_host
         return server_link
 
     def connect(self):
@@ -110,12 +113,24 @@ class Database:
             doc='migration', view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
+    
+    def get_languages(self, db_list):
+        view_name = 'language_count'
+        responses = []
+        for db_name in db_list:
+            req_link = self.req_url.format(db=db_name, 
+                doc='scenario', view_name=view_name, group_level='?group_level=1')
+            response = requests.get(req_link)
+            responses.append(json.loads(response.text))
+        return responses
 
 if __name__ == '__main__':
     db = Database()
     print(db.__dict__)
     db.connect()
     print(db.__dict__)
+    res = db.get_migration('population')
+    print(res)
 
    
 
