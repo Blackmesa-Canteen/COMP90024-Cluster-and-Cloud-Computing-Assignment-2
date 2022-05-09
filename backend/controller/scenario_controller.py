@@ -14,10 +14,12 @@ from flask import Blueprint, abort, jsonify
 scenario_controller = Blueprint('scenario_controller', __name__)
 server = Database()
 
-# Get all house price data
+# Get languages data
 @scenario_controller.route('/languages', methods=['GET'])
 def process_languages():
     server.connect()
+
+    # Get Twitter language counting information
     processed_dbs = constants.language_db_names
     twitter_results = server.get_languages(processed_dbs)
     twitter_data = {
@@ -56,10 +58,38 @@ def process_languages():
         migration['details'][year] = num
         population['details'][year] = population['details'][str(year_int-1)] + num
     
-    print(twitter_data)
-    print(migration)
-    print(population)
+    # Get 2016 - 2020 Total Population Data
+    total_population = {
+        'name': 'total_population',
+        'details': {}
+    }
+    total_results = server.get_migration('total-population')['rows']
+    for result in total_results:
+        year = result['key']
+        num = result['value']
+        total_population['details'][year] = num
 
-    data = [twitter_data, migration, population]
+    data = [twitter_data, migration, population, total_population]
 
+    return jsonify(data)
+
+
+# Get languages data with month level for display
+@scenario_controller.route('/languages-month', methods=['GET'])
+def process_languages_with_time():
+    server.connect()
+
+    # Get Twitter language counting information
+    processed_dbs = constants.language_db_names
+    results = server.get_languages(processed_dbs, "month")
+    data = {}
+    for result in results:
+        for each in result['rows']:
+            month = each['key'][0] + '-' + each['key'][1]
+            lang = each['key'][2]
+            count = each['value']
+            if month not in data:
+                data[month] = {lang: count}
+            else:
+                data[month][lang] = count
     return jsonify(data)

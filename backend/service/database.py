@@ -95,7 +95,7 @@ class Database:
             except KeyError:
                 view_name = 'kksk'
         req_link = self.req_url.format(db='covid_search_tweet_mentioned_melb_db', 
-            doc='covid', view_name=view_name, group_level=group_level)
+            doc='scenario', view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
     
@@ -114,12 +114,12 @@ class Database:
         response = requests.get(req_link)
         return json.loads(response.text)
     
-    def get_languages(self, db_list):
-        view_name = 'language_count'
+    def get_languages(self, db_list, time=None):
+        view_name = 'language_count' if time is None else 'language_month_count'
         responses = []
         for db_name in db_list:
             req_link = self.req_url.format(db=db_name, 
-                doc='scenario', view_name=view_name, group_level='?group_level=1')
+                doc='scenario', view_name=view_name, group_level='?group_level=3')
             response = requests.get(req_link)
             responses.append(json.loads(response.text))
         return responses
@@ -129,8 +129,12 @@ if __name__ == '__main__':
     print(db.__dict__)
     db.connect()
     print(db.__dict__)
-    res = db.get_migration('population')
+    # res = db.get_migration('population')
+    res = db.get_languages(constants.language_db_names)
     print(res)
+    for each_db in res:
+        print()
+        print(each_db['rows'])
 
    
 

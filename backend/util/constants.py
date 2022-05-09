@@ -41,6 +41,7 @@ migration_api = {
    'sex': ['sex_2016', '1'],
    'year': ['year_sum', '1'],
    'population': ['population_sum', '1'],
+   'total-population': ['total_population_sum', '1'],
    'english': ['english_2016', ''],
    'English': ['english_2016', '']
 }
@@ -56,6 +57,9 @@ twitter_hp_api = {
 
 twitter_covid_api = {
    'language': ['language_count', '1'],
+   'language-year': ['language_year_count', '2'],
+   'language-quarter': ['language_quarter_count', '3'],
+   'language-month': ['language_month_count', '3'],
    'polarity': ['polarity_count', '1'],
    'subjectivity': ['subjectivity_count', '1']
 }
