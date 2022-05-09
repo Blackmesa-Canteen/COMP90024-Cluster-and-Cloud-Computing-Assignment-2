@@ -62,7 +62,7 @@ HOUSE_PRICE_INFO = {
     'for_sale_both_auction_private_treaty_minimumprice': 'sale_min'
     }
 
-
+# 2016 - 2020 migration, population data
 MIGRATION_DB = 'aurin_migration_db'
 MIGRATION_PATH = '/data/Aurin/Population/'
 MIGRATION_INFO = {
@@ -121,7 +121,24 @@ BORN_INFO = {
     'year_arrival_of_persons_born_overseas_census_arrival_stated_pc': 'arrived_not_stated_pc'
 }
 
+BIRTH_PATH = '/data/Aurin/Population/birth_2016_2020.csv'
+BIRTH_INFO = {
+    'sa4_code': 'sa4_code',
+    'sa4_name': 'position',
+    '_2016_births_no': 'birth_2016_num',
+    '_2017_births_no': 'birth_2017_num',
+    '_2018_birthsa_no': 'birth_2018_num',
+    '_2019_births_no': 'birth_2019_num',
+    '_2020_births_no': 'birth_2020_num',
+    '_2016_estimated_resident_population_persons': 'population_2016',
+    '_2017_estimated_resident_populationa_persons': 'population_2017',
+    '_2018_estimated_resident_populationa_persons': 'population_2018',
+    '_2019_estimated_resident_populationa_persons': 'population_2019',
+    '_2020_estimated_resident_populationa_persons': 'population_2020'
+}
 
+
+# education data, not useful for now
 EDUCATION_DB = 'aurin_education_db'
 EDUCATION_PATH = '/data/Aurin/Education/'
 EDUCATION_INFO = {

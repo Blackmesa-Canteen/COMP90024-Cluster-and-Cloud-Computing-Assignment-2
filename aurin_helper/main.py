@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     main
+   File Name:     main
    Description :  main entrance of the aurin
-   Author :       Xiaotian Li
-   date：          14/04/2022
+   Author :       Xiaotian Li, Bocan Yang
+   date:          14/04/2022
 -------------------------------------------------
 """
 import json
@@ -46,6 +46,7 @@ def process_data(data):
    return saved_data
 
 
+# save one file data to database
 def save_single_file(file_path, data_info, data_to_saved):
    with open(file_path, 'r') as file:
       reader = csv.DictReader(file)
@@ -58,6 +59,7 @@ def save_single_file(file_path, data_info, data_to_saved):
    return data_to_saved
 
 
+# save rai data
 def save_rai(): 
    file_path = path.get_path() + cfg.RAI_FILE_PATH
 
@@ -82,7 +84,7 @@ def save_rai():
       saved_data = process_data(data_to_saved)
       return database.save_rai(saved_data)
 
-
+# save house price data
 def save_house_price():
    hp_root_path = path.get_path() + cfg.HOUSE_PRICE_PATH
    file_paths = list(map(lambda year: hp_root_path+year, cfg.HOUSE_PRICE_TIME))
@@ -103,6 +105,7 @@ def save_house_price():
    return database.save_common(cfg.HOUSE_PRICE_DB, data_to_saved)
 
 
+# save income data
 def save_income():
    income_path = path.get_path() + cfg.INCOME_PATH
    data_to_saved = {}
@@ -113,12 +116,21 @@ def save_income():
    return database.save_common(cfg.INCOME_DB, data_to_saved)
 
 
+# save birth data for languages scenario
+def save_birth():
+   birth_path =  path.get_path() + cfg.BIRTH_PATH
+   data_to_saved = save_single_file(birth_path, cfg.BIRTH_INFO, {})
+   return database.save_common(cfg.MIGRATION_DB, data_to_saved)
+
+
+# save born data for languages scenario
 def save_born():
    born_path = path.get_path() + cfg.BORN_PATH
    data_to_saved = save_single_file(born_path, cfg.BORN_INFO, {})
    return database.save_common(cfg.MIGRATION_DB, data_to_saved)
 
 
+# save migration data for languages scenario
 def save_migrations():
    migration_path = path.get_path() + cfg.MIGRATION_PATH
    data_to_saved = {}
@@ -127,7 +139,7 @@ def save_migrations():
       save_single_file(migration_path+file_name, cfg.MIGRATION_INFO, data_to_saved)
    return database.save_common(cfg.MIGRATION_DB, data_to_saved)
 
-
+# not useful for now
 def save_education():
    education_path = path.get_path() + cfg.EDUCATION_PATH
    data_to_saved = {}
@@ -137,16 +149,14 @@ def save_education():
    return database.save_common(cfg.EDUCATION_DB, data_to_saved)
 
 
+
+# run all the functions to save all data to database
 if __name__ == '__main__':
-   # aurin_helper是个初始化用的脚本, 只运行一次
-   # 从AURIN网站下载所需的JSON文件到data里
-   # 解析JSON, 整理数据后, 上传到数据库
-   # 除非数据库内容丢失, 否则不用再运行
-   # print(save_rai())
-   # print(save_house_price())
-   # print(save_income())
-   # print(save_born())
-   # print(save_migrations())
-   # print(save_education())
-   
+   print(save_rai())
+   print(save_house_price())
+   print(save_income())
+   print(save_born())
+   print(save_migrations())
+   print(save_education())
+   print(save_birth())
    pass

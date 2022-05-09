@@ -22,6 +22,7 @@ def save_rai(data):
     return True
 
 def save_common(db_name, data):
+    # update new data
     if db_name in couch:
         db = couch[db_name]
         print("db has been created...")
