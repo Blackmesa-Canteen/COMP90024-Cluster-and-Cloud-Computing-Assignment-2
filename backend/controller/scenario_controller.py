@@ -93,3 +93,67 @@ def process_languages_with_time():
             else:
                 data[month][lang] = count
     return jsonify(data)
+
+
+# Get languages data with month level for display
+@scenario_controller.route('/house-price', methods=['GET'])
+def process_house_price():
+    server.connect()
+
+    results = server.get_house_price()
+    result = results['rows']
+    data1 = {
+        'name': 'aurin',
+        'details': {}
+    }
+    for each in result:
+        key = each['key']
+        value = each['value']
+        _time = key[0] + '-' + key[1]
+        pos_price = {
+            key[2]: {
+                'avg': value[0],
+                'max': value[1]
+            }
+        }
+        _type = key[3]
+        if _time not in data1['details']: 
+            data1['details'][_time] = {
+                _type: pos_price
+            }
+        else:
+            if _type not in data1['details'][_time]:
+                data1['details'][_time][_type] = pos_price
+            else:
+                data1['details'][_time][_type][key[2]] = {
+                    'avg': value[0],
+                    'max': value[1]
+                }
+
+    results_t1 = server.get_twitter_house_price('map-sum')
+    results_t2 = server.get_twitter_house_price('map-count')
+
+    result = results_t1['rows']
+    res_length = len(result)
+
+    data2 = {
+        'name':'twitter',
+        'details': {}
+    }
+
+    for i in range(res_length):
+        time_t = result[i]['key'][0]
+        pos = result[i]['key'][1]
+        pola_sum = result[i]['value']
+        pola_cnt = results_t2['rows'][i]['value']
+        pola_avg = round((pola_sum/pola_cnt), 4)
+        if time_t not in data2['details']:
+            data2['details'][time_t] = {
+                pos: pola_avg
+            }
+        else:
+            data2['details'][time_t][pos] = pola_avg
+    
+    data = [data1, data2]
+
+    return jsonify(data)

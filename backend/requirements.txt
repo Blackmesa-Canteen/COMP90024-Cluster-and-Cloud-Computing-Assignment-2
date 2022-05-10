@@ -2,3 +2,4 @@ Flask==2.1.1
 PyYAML==6.0
 CouchDB==1.2
 requests==2.25.1
+Flask-Cors==3.0.10

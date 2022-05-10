@@ -12,8 +12,14 @@ from itertools import count
 
 language_db_names = [
    'covid_search_tweet_mentioned_melb_db',
+   'history_house_price_tweet_db',
+   'history_life_db'
+]
+
+house_price_db_names = [
    'history_house_price_tweet_db'
 ]
+
 covid_db_name = "covid-19-tweets"
 all_tweets_db_name = "all-tweets"
 
@@ -52,7 +58,9 @@ twitter_hp_api = {
    'subjectivity': ['subjectivity_count', '1'],
    'map': ['map_count', '1'],
    'map-year': ['map_year_count', '2'],
-   'year-map': ['map_year_count', '2']
+   'year-map': ['map_year_count', '2'],
+   'map-count': ['map_polarity_quarter_count', '2'],
+   'map-sum': ['map_polarity_quarter_sum', '2']
 }
 
 twitter_covid_api = {
@@ -62,6 +70,35 @@ twitter_covid_api = {
    'language-month': ['language_month_count', '3'],
    'polarity': ['polarity_count', '1'],
    'subjectivity': ['subjectivity_count', '1']
+}
+
+# historical data distribution, used to estimate fresh twitter data
+as4_name_distribution = {
+   "Melbourne - Inner": [8641, 0.43114],
+   "Melbourne - Inner East": [1462, 0.07295],
+   "Melbourne - Inner South": [1657, 0.08268],
+   "Melbourne - North East": [2218, 0.11067],
+   "Melbourne - North West": [1234, 0.06157],
+   "Melbourne - Outer East": [1658, 0.08273],
+   "Melbourne - South East": [1490, 0.07434],
+   "Melbourne - West": [1564, 0.07804],
+   "Mornington Peninsula": [46, 0.0023],
+   "Other Place": [72, 0.00359],
+}
+
+sorted_random_num = [0.43114, 0.11067, 0.08273, 0.08268, 0.07804, 0.07434, 0.07295, 0.06157, 0.00359, 0.0023]
+
+as4_code_distribution = {
+   "206": [8641, 0.43114],
+   "207": [1462, 0.07295],
+   "208": [1657, 0.08268],
+   "209": [2218, 0.11067],
+   "210": [1234, 0.06157],
+   "211": [1658, 0.08273],
+   "212": [1490, 0.07434],
+   "213": [1564, 0.07804],
+   "214": [46, 0.0023],
+   "-1": [72, 0.00359],
 }
 
 as4_name_box = {

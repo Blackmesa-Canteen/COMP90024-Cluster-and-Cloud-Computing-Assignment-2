@@ -54,9 +54,9 @@ class Database:
     
 
     def get_house_price(self, type=None, view=None):
-        view_name = 'house_price'
+        view_name = 'sale_quarter_pos_type'
         group_level = ''
-        doc = 'house_price_view'
+        doc = 'scenario'
         if view is not None:
             try:
                 doc = type + '_price'
@@ -80,7 +80,7 @@ class Database:
             except KeyError:
                 view_name = 'kksk'
         req_link = self.req_url.format(db='history_house_price_tweet_db', 
-            doc='house_price_view', view_name=view_name, group_level=group_level)
+            doc='scenario', view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
     
@@ -126,15 +126,21 @@ class Database:
 
 if __name__ == '__main__':
     db = Database()
-    print(db.__dict__)
+    # print(db.__dict__)
     db.connect()
-    print(db.__dict__)
+    # print(db.__dict__)
     # res = db.get_migration('population')
-    res = db.get_languages(constants.language_db_names)
+    # res = db.get_languages(constants.language_db_names)
+    res = db.get_house_price()
     print(res)
-    for each_db in res:
+    cnt = 1
+    for each_db in res['rows']:
+        if cnt > 10:
+            break
+        print(each_db['key'])
+        print(each_db['value'])
         print()
-        print(each_db['rows'])
+        cnt += 1
 
    
 

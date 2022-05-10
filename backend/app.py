@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from controller.demo_controller import demo_controller
 from controller.aurin_controller import aurin_controller
@@ -6,6 +7,7 @@ from controller.twitter_controller import twitter_controller
 from controller.scenario_controller import scenario_controller
 
 app = Flask(__name__)
+CORS(app)
 
 # route register
 app.register_blueprint(demo_controller, url_prefix='')
