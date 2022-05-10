@@ -138,6 +138,57 @@ BIRTH_INFO = {
 }
 
 
+EMPLOYMENT_DB = 'aurin_employment_db'
+
+UNEMPLOYMENT_PATH = '/data/Aurin/Employ/unemployment.csv'
+UNEMPLOYMENT_INFO = {
+    'mar_19': 'un_num_2019_3',
+    'jun_19': 'un_num_2019_6',
+    'sep_19': 'un_num_2019_9',
+    'dec_19': 'un_num_2019_12',
+    'mar_20': 'un_num_2020_3',
+    'jun_20': 'un_num_2020_6',
+    'sep_20': 'un_num_2020_9',
+    'dec_20': 'un_num_2020_12',
+    'mar_21': 'un_num_2021_3',
+    'jun_21': 'un_num_2021_6',
+    'sep_21': 'un_num_2021_9'
+}
+
+UNEMPLOYMENT_RATE_PATH = '/data/Aurin/Employ/unemployment_rate.csv'
+UNEMPLOYMENT_RATE_INFO = {
+    'mar_19': 'un_rate_2019_3',
+    'jun_19': 'un_rate_2019_6',
+    'sep_19': 'un_rate_2019_9',
+    'dec_19': 'un_rate_2019_12',
+    'mar_20': 'un_rate_2020_3',
+    'jun_20': 'un_rate_2020_6',
+    'sep_20': 'un_rate_2020_9',
+    'dec_20': 'un_rate_2020_12',
+    'mar_21': 'un_rate_2021_3',
+    'jun_21': 'un_rate_2021_6',
+    'sep_21': 'un_rate_2021_9'
+}
+
+EMPLOYMENT_PATH = '/data/Aurin/Employ/unemployment.csv'
+EMPLOYMENT_INFO = {
+    'mar_19': 'num_2019_3',
+    'jun_19': 'num_2019_6',
+    'sep_19': 'num_2019_9',
+    'dec_19': 'num_2019_12',
+    'mar_20': 'num_2020_3',
+    'jun_20': 'num_2020_6',
+    'sep_20': 'num_2020_9',
+    'dec_20': 'num_2020_12',
+    'mar_21': 'num_2021_3',
+    'jun_21': 'num_2021_6',
+    'sep_21': 'num_2021_9'
+}
+
+
+
+
+
 # education data, not useful for now
 EDUCATION_DB = 'aurin_education_db'
 EDUCATION_PATH = '/data/Aurin/Education/'

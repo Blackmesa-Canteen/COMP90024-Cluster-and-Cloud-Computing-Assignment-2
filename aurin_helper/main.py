@@ -139,6 +139,21 @@ def save_migrations():
       save_single_file(migration_path+file_name, cfg.MIGRATION_INFO, data_to_saved)
    return database.save_common(cfg.MIGRATION_DB, data_to_saved)
 
+def save_employment():
+   employment_path = path.get_path() + cfg.EMPLOYMENT_PATH
+   data_to_saved = save_single_file(employment_path, cfg.EMPLOYMENT_INFO, {})
+   return database.save_common(cfg.EMPLOYMENT_DB, data_to_saved)
+
+def save_unemployment():
+   unemployment_path = path.get_path() + cfg.UNEMPLOYMENT_PATH
+   data_to_saved = save_single_file(unemployment_path, cfg.UNEMPLOYMENT_INFO, {})
+   return database.save_common(cfg.EMPLOYMENT_DB, data_to_saved)
+
+def save_unemployment_rate():
+   unemployment_s_path = path.get_path() + cfg.UNEMPLOYMENT_RATE_PATH
+   data_to_saved = save_single_file(unemployment_s_path, cfg.UNEMPLOYMENT_RATE_INFO, {})
+   return database.save_common(cfg.EMPLOYMENT_DB, data_to_saved)
+
 # not useful for now
 def save_education():
    education_path = path.get_path() + cfg.EDUCATION_PATH
@@ -159,4 +174,7 @@ if __name__ == '__main__':
    print(save_migrations())
    print(save_education())
    print(save_birth())
+   print(save_employment())
+   print(save_unemployment())
+   print(save_unemployment_rate())
    pass
