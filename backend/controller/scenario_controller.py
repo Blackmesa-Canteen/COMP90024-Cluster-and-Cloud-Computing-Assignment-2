@@ -95,7 +95,7 @@ def process_languages_with_time():
     return jsonify(data)
 
 
-# Get languages data with month level for display
+# Get house price data for display
 @scenario_controller.route('/house-price', methods=['GET'])
 def process_house_price():
     server.connect()
@@ -156,4 +156,62 @@ def process_house_price():
     
     data = [data1, data2]
 
+    return jsonify(data)
+
+@scenario_controller.route('/stream', methods=['GET'])
+def process_live_twitter():
+    server.connect()
+
+    results_p = server.get_live_twitter('polarity')['rows']
+    results_s = server.get_live_twitter('subjectivity')['rows']
+    results_src = server.get_live_twitter('source')['rows']
+    latest_tweets = server.get_live_twitter('latest')
+
+    data1 = {
+        'name': 'polarity',
+        'details': {}
+    }
+
+    for res in results_p:
+        data1['details'][res['key']] = res['value']
+    
+    data2 = {
+        'name': 'subjectivity',
+        'details': {}
+    }
+
+    for res in results_s:
+        data2['details'][res['key']] = res['value']
+
+    data3 = {
+        'name': 'source',
+        'details': {}
+    }
+
+    for res in results_src:
+        data3['details'][res['key']] = res['value']
+    
+
+    data4 = {
+        'name': 'smaple',
+        'details': []
+    }
+
+    ids = []
+    for res in latest_tweets['results']:
+        ids.append(res['id'])
+    
+    tweets = server.get_tweets(ids)
+    for tweet in tweets:
+        data4['details'].append({
+            'time': tweet['created_at'],
+            'lang': tweet['lang'],
+            'source': tweet['source'],
+            'text': tweet['text'],
+            'polarity': tweet['polarity'],
+            'subjectivity': tweet['subjectivity']
+        })
+
+
+    data = [data1, data2, data3, data4]
     return jsonify(data)

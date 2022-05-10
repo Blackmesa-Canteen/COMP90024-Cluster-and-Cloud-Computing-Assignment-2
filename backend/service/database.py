@@ -123,6 +123,31 @@ class Database:
             response = requests.get(req_link)
             responses.append(json.loads(response.text))
         return responses
+    
+    def get_live_twitter(self, view):
+        db_name = constants.live_tweets_db_name
+        if view != 'latest':
+            view_api = constants.twitter_live_api[view]
+            view_name = view_api[0]
+            group_level = ('?group_level=' + view_api[1])
+            req_link = self.req_url.format(db=db_name, 
+                doc='scenario', view_name=view_name, group_level=group_level)
+        else:
+            req_link = self.get_server_link() + '/' + db_name + '/_changes?descending=true&limit=10'
+        
+        response = requests.get(req_link)
+        return json.loads(response.text)
+    
+    def get_tweets(self, ids):
+        results = []
+        db_name = constants.live_tweets_db_name
+        req_link = self.get_server_link() + '/' + db_name + '/'
+        for id in ids:
+            each_req = req_link + id
+            response = requests.get(each_req)
+            results.append(json.loads(response.text))
+        return results
+
 
 if __name__ == '__main__':
     db = Database()

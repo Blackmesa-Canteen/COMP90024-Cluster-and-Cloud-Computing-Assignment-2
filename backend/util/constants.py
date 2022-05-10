@@ -22,6 +22,7 @@ house_price_db_names = [
 
 covid_db_name = "covid-19-tweets"
 all_tweets_db_name = "all-tweets"
+live_tweets_db_name = 'stream_debug_db'
 
 income_api = {
    'position': ['income_by_pos', '1'],
@@ -71,6 +72,14 @@ twitter_covid_api = {
    'polarity': ['polarity_count', '1'],
    'subjectivity': ['subjectivity_count', '1']
 }
+
+twitter_live_api = {
+   'polarity': ['polarity_count', '1'],
+   'subjectivity': ['subjectivity_count', '1'],
+   'source': ['source_count', '1'],
+   'language': ['language_count', '1']
+}
+
 
 # historical data distribution, used to estimate fresh twitter data
 as4_name_distribution = {
