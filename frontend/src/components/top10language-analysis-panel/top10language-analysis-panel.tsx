@@ -26,12 +26,21 @@ const Top10LanguageAnalysisPanel = ({ languageCountData }: Top10LanguageAnalysis
         }
       })
     })
-    setDisplayData(Object.keys(resultData).map(keyd => {
+    const d = Object.keys(resultData).map(keyd => {
       return {
         xValue: keyd,
         yValue: resultData[keyd]
       }
-    }).slice(0, 11))
+    }).sort((a, b) => {
+      if (a.yValue > b.yValue) {
+        return -1
+      }
+      else if(a.yValue < b.yValue) {
+        return 1
+      }
+      return 0
+    })
+    setDisplayData(d.slice(0, 11))
   }, 
   [displayOptions, languageCountData])
 
