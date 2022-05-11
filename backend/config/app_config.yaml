@@ -4,19 +4,18 @@ app:
   db:
     username: admin
     password: admin
-    # password: password
-    # password: 0F9YUJIgGoxIhgRWfHKS
     port: 5984
     host-list:
       # local test
       # - 127.0.0.1
-      # Xiao Tian test
-      # - 161.117.88.132
       # MRC cluster
       - 172.26.128.63
       - 172.26.129.177
       - 172.26.134.100
-    master-node:
-      - 172.26.128.63
+    master-node: 172.26.128.63
+    house-price-db: history_house_price_tweet_db
+    covid-db: covid_search_tweet_mentioned_melb_db
+    lockdown-db: covid_search_tweet_melb_jul_to_sep_2020_db
+    stream-db: stream_debug_db
 
 

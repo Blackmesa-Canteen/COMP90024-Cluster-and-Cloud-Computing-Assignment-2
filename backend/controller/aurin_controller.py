@@ -14,18 +14,6 @@ aurin_controller = Blueprint('aurin_controller', __name__)
 server = Database()
 
 
-# Get all house price (RAI) data
-@aurin_controller.route('/rai', methods=['GET'])
-def get_rai():
-    server.connect()
-    result = server.get_rai()
-    data = result['rows']
-    processed_data = []
-    for each in data:
-        processed_data.append({each['key']: each['value']})
-    return jsonify(processed_data)
-
-
 # Get all incom data
 @aurin_controller.route('/income', methods=['GET'])
 def get_income():
@@ -52,17 +40,6 @@ def get_house_price():
     return server.get_house_price()
 
 
-# Get specific view of house price data
-@aurin_controller.route('/house-price/<type>/<view>', methods=['GET'])
-def get_house_price_with_view(type, view):
-    server.connect()
-    result = server.get_house_price(type, view)
-    try:
-        data = result['rows']
-    except KeyError:
-        abort(404)
-    return jsonify(data)
-
 # Get all house migration(foreigner) data
 @aurin_controller.route('/migration', methods=['GET'])
 def get_migration():
@@ -70,6 +47,7 @@ def get_migration():
     return server.get_migration()
 
 
+# Get specific view of migration data
 @aurin_controller.route('/migration/<view>', methods=['GET'])
 def get_migration_with_view(view):
     server.connect()

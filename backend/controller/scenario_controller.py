@@ -8,36 +8,46 @@
 -------------------------------------------------
 """
 from service.database import Database
+from util import config_handler as cfg_handler
 from util import constants
-from flask import Blueprint, abort, jsonify
+from flask import Blueprint, jsonify
 
 scenario_controller = Blueprint('scenario_controller', __name__)
 server = Database()
+cfg = cfg_handler.ConfigHandler()
 
 # Get languages data
 @scenario_controller.route('/languages', methods=['GET'])
 def process_languages():
     server.connect()
 
-    # Get Twitter language counting information
-    processed_dbs = constants.language_db_names
+
+    # get Twitter language counting information
+    processed_dbs = cfg.get_twitter_dbs()
     twitter_results = server.get_languages(processed_dbs)
+
     twitter_data = {
         'name': 'twitter',
         'total': 0,
         'details': {}
     }
+
     for result in twitter_results:
-        languages = result['rows']
-        for language in languages:
-            twitter_data['total'] += language['value']
-            if (lang:= language['key']) not in twitter_data['details']:
-                twitter_data['details'][lang] = language['value']
-            else:
-                twitter_data['details'][lang] += language['value']
+        try:
+            languages = result['rows']
+            for language in languages:
+                twitter_data['total'] += language['value']
+                if (lang:= language['key']) not in twitter_data['details']:
+                    twitter_data['details'][lang] = language['value']
+                else:
+                    twitter_data['details'][lang] += language['value']
+        except KeyError:
+            continue
+
     twitter_data['english_proportion'] = twitter_data['details']['en'] / twitter_data['total']
 
-    # Get 2016 Population (foreigner) base data
+
+    # get 2016 Population (foreigner) base data
     population_result = server.get_migration('population')['rows'][0]
     population = {
         'name': 'population',
@@ -45,12 +55,14 @@ def process_languages():
     }
     population['details'][population_result['key']] = population_result['value']
 
-    # Get 2017 - 2020 Population Migration Data
+    # get 2017 - 2020 Population Migration Data
     migration = {
         'name': 'migration',
         'details': {}
     }
+
     migration_results = server.get_migration('year')['rows']
+
     for result in migration_results:
         year = result['key']
         year_int = int(year)
@@ -58,7 +70,8 @@ def process_languages():
         migration['details'][year] = num
         population['details'][year] = population['details'][str(year_int-1)] + num
     
-    # Get 2016 - 2020 Total Population Data
+
+    # get 2016 - 2020 Total Population Data
     total_population = {
         'name': 'total_population',
         'details': {}
@@ -79,10 +92,12 @@ def process_languages():
 def process_languages_with_time():
     server.connect()
 
-    # Get Twitter language counting information
-    processed_dbs = constants.language_db_names
+
+    # get Twitter language counting information
+    processed_dbs = cfg.get_twitter_dbs()
     results = server.get_languages(processed_dbs, "month")
     data = {}
+
     for result in results:
         for each in result['rows']:
             month = each['key'][0] + '-' + each['key'][1]
@@ -92,6 +107,7 @@ def process_languages_with_time():
                 data[month] = {lang: count}
             else:
                 data[month][lang] = count
+    
     return jsonify(data)
 
 
@@ -100,13 +116,14 @@ def process_languages_with_time():
 def process_house_price():
     server.connect()
 
-    results = server.get_house_price()
-    result = results['rows']
+    # get 2014 - 2017 aruin house price information
+    results = server.get_house_price()['rows']
     data1 = {
         'name': 'aurin_house_price',
         'details': {}
     }
-    for each in result:
+
+    for each in results:
         key = each['key']
         value = each['value']
         _time = key[0] + '-' + key[1]
@@ -130,11 +147,13 @@ def process_house_price():
                     'max': value[1]
                 }
 
+    # get 2014 - 2017 aruin income information
+    results_income = server.get_income('year-position')['rows']
     data2 = {
         'name': 'aurin_income',
         'details': {}
     }
-    results_income = server.get_income('year-position')['rows']
+
     for res in results_income:
         time = res['key'][0]
         position = res['key'][1]
@@ -143,10 +162,8 @@ def process_house_price():
         else:
             data2['details'][time][position] = res['value']
 
+    # get 2014 - 2017 twitter house price information 
     results_twitter = server.get_twitter_house_price('map-avg')['rows']
-
-    print(results_twitter)
-
     data3 = {
         'name':'twitter',
         'details': {}
@@ -165,10 +182,13 @@ def process_house_price():
 
     return jsonify(data)
 
+
+# Get covid data and empolyment data for display
 @scenario_controller.route('/covid', methods=['GET'])
 def process_covid():
     server.connect()
 
+    # 3 aurin employment data from 2019 - 2021
     unempoly_results = server.get_employments("unemployment")['rows']
     unempoly_rate_results = server.get_employments("unemployment-rate")['rows']
     empoly_results = server.get_employments("employment")['rows']
@@ -189,7 +209,7 @@ def process_covid():
 
     for res in unempoly_rate_results:
         time = res['key'][-7:]
-        data2['details'][time] = res['value']
+        data2['details'][time] = round(res['value'], 4)
     
     data3 = {
         'name': 'unemployment',
@@ -200,22 +220,26 @@ def process_covid():
         time = res['key'][-7:]
         data3['details'][time] = res['value']
 
+    # get 2020 twitter data polarity
+    total_results = server.get_twitter_covid('polarity')['rows']
     data4 = {
         'name': 'total_polarity',
         'details': {}
     }
-    total_results = server.get_twitter_covid('polarity')['rows']
+
     for res in total_results:
         key = res['key']
         time = key[0] + '-' + key[1]
         data4['details'][time] = round(res['value'], 4)
 
+    # get 2020.7 - 2020-9 twitter data polarity
+    lockdown_results = server.get_twitter_covid('polarity', 
+        cfg.get_lockdown_db)['rows']
     data5 = {
         'name': 'lockdowm_polarity',
         'details': {}
     }
-    lockdown_results = server.get_twitter_covid('polarity', 
-        'covid_search_tweet_melb_jul_to_sep_2020_db')['rows']
+    
     for res in lockdown_results:
         key = res['key']
         time = key[0] + '-' + key[1] + '-' + key[2]
@@ -225,14 +249,17 @@ def process_covid():
     return jsonify(data)
 
 
-
+# Get stream data (live tweets) for display
 @scenario_controller.route('/stream', methods=['GET'])
 def process_live_twitter():
     server.connect()
 
+    # get all live data information (polarity, subjectivity, source)
     results_p = server.get_live_twitter('polarity')['rows']
     results_s = server.get_live_twitter('subjectivity')['rows']
     results_src = server.get_live_twitter('source')['rows']
+
+    # latest sample data for display
     latest_tweets = server.get_live_twitter('latest')
 
     data1 = {
@@ -261,7 +288,7 @@ def process_live_twitter():
     
 
     data4 = {
-        'name': 'smaple',
+        'name': 'sample',
         'details': []
     }
 
@@ -271,7 +298,6 @@ def process_live_twitter():
     
     tweets = server.get_tweets(ids)
     for tweet in tweets:
-        print(tweet)
         try:
             data4['details'].append({
                 'time': tweet['created_at'],

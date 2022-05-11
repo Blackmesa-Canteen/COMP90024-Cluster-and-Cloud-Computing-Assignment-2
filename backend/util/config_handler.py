@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     config_handler
+   File Name:     config_handler
    Description :  siongleton helper to parse and hold config
-   Author :       Xiaotian Li
-   date：          14/04/2022
+   Author :       Xiaotian Li, Bocan Yang
+   date:          14/04/2022
 -------------------------------------------------
 """
 import os
@@ -45,6 +45,10 @@ class ConfigHandler:
                 self.__db_port = str(cfgs['app']['db']['port'])
                 self.__db_username = cfgs['app']['db']['username']
                 self.__db_password = cfgs['app']['db']['password']
+                self.__hp_db = cfgs['app']['db']['house-price-db']
+                self.__covid_db = cfgs['app']['db']['covid-db']
+                self.__lockdown_db = cfgs['app']['db']['lockdown-db']
+                self.__stream_db = cfgs['app']['db']['stream-db']
 
         return cls.__instance
 
@@ -52,6 +56,24 @@ class ConfigHandler:
     def __init__(self):
         pass
 
+    def get_hp_db(self):
+        return self.__hp_db
+    
+    def get_covid_db(self):
+        return self.__covid_db
+    
+    def get_lockdown_db(self):
+        return self.__lockdown_db
+    
+    def get_stream_db(self):
+        return self.__stream_db
+    
+    def get_covid_dbs(self):
+        return [self.__covid_db, self.__lockdown_db]
+
+    def get_twitter_dbs(self):
+        return [self.__hp_db, self.__covid_db, self.__lockdown_db, self.__stream_db]
+    
     def get_db_master_node(self):
         return self.__db_master_node
 
@@ -87,5 +109,11 @@ class ConfigHandler:
         return res
 
 if __name__ == '__main__':
-    config_handler = ConfigHandler()
-    print(config_handler.get_db_host_list())
+    cfg = ConfigHandler()
+    # print(config_handler.get_db_host_list())
+    # print(cfg.get_covid_db())
+    # print(cfg.get_hp_db())
+    # print(cfg.get_lockdown_db())
+    # print(cfg.get_stream_db())
+    print(cfg.get_covid_dbs())
+    print(cfg.get_twitter_dbs())
