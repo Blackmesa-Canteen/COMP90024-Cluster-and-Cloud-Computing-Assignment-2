@@ -16,8 +16,9 @@ language_db_names = [
    'history_life_db'
 ]
 
-house_price_db_names = [
-   'history_house_price_tweet_db'
+covid_db_names = [
+   'covid_search_tweet_mentioned_melb_db',
+   'covid_search_tweet_melb_jul_to_sep_2020_db',
 ]
 
 covid_db_name = "covid-19-tweets"
@@ -27,8 +28,8 @@ live_tweets_db_name = 'stream_debug_db'
 income_api = {
    'position': ['income_by_pos', '1'],
    'year': ['income_by_year', '1'],
-   'year-position': ['income_by_year_pos', '2'],
-   'position-year': ['income_by_year_pos', '2']
+   'year-position': ['income_year_pos', '2'],
+   'position-year': ['income_year_pos', '2']
 }
 
 hp_api = {
@@ -61,7 +62,8 @@ twitter_hp_api = {
    'map-year': ['map_year_count', '2'],
    'year-map': ['map_year_count', '2'],
    'map-count': ['map_polarity_quarter_count', '2'],
-   'map-sum': ['map_polarity_quarter_sum', '2']
+   'map-sum': ['map_polarity_quarter_sum', '2'],
+   'map-avg': ['map_polarity_quarter_avg', '2'],
 }
 
 twitter_covid_api = {
@@ -69,8 +71,14 @@ twitter_covid_api = {
    'language-year': ['language_year_count', '2'],
    'language-quarter': ['language_quarter_count', '3'],
    'language-month': ['language_month_count', '3'],
-   'polarity': ['polarity_count', '1'],
+   'polarity': ['polarity_day_avg', '3'],
    'subjectivity': ['subjectivity_count', '1']
+}
+
+employ_api = {
+   'unemployment': ['unemployment_sum', '1'],
+   'unemployment-rate': ['unemployment_rate_sum', '1'],
+   'employment': ['employment_sum', '1']
 }
 
 twitter_live_api = {

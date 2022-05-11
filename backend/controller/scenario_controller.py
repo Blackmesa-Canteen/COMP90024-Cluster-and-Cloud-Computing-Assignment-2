@@ -103,7 +103,7 @@ def process_house_price():
     results = server.get_house_price()
     result = results['rows']
     data1 = {
-        'name': 'aurin',
+        'name': 'aurin_house_price',
         'details': {}
     }
     for each in result:
@@ -130,33 +130,101 @@ def process_house_price():
                     'max': value[1]
                 }
 
-    results_t1 = server.get_twitter_house_price('map-sum')
-    results_t2 = server.get_twitter_house_price('map-count')
-
-    result = results_t1['rows']
-    res_length = len(result)
-
     data2 = {
+        'name': 'aurin_income',
+        'details': {}
+    }
+    results_income = server.get_income('year-position')['rows']
+    for res in results_income:
+        time = res['key'][0]
+        position = res['key'][1]
+        if time not in data2['details']:
+            data2['details'][time] = {position: res['value']}
+        else:
+            data2['details'][time][position] = res['value']
+
+    results_twitter = server.get_twitter_house_price('map-avg')['rows']
+
+    print(results_twitter)
+
+    data3 = {
         'name':'twitter',
         'details': {}
     }
 
-    for i in range(res_length):
-        time_t = result[i]['key'][0]
-        pos = result[i]['key'][1]
-        pola_sum = result[i]['value']
-        pola_cnt = results_t2['rows'][i]['value']
-        pola_avg = round((pola_sum/pola_cnt), 4)
-        if time_t not in data2['details']:
-            data2['details'][time_t] = {
-                pos: pola_avg
-            }
+    for res in results_twitter:
+        time = res['key'][0]
+        position = res['key'][1]
+        polarity = round(res['value'], 4)
+        if time not in data3['details']:
+            data3['details'][time] = {position: polarity}
         else:
-            data2['details'][time_t][pos] = pola_avg
-    
-    data = [data1, data2]
+            data3['details'][time][position] = polarity
+
+    data = [data1, data2, data3]
 
     return jsonify(data)
+
+@scenario_controller.route('/covid', methods=['GET'])
+def process_covid():
+    server.connect()
+
+    unempoly_results = server.get_employments("unemployment")['rows']
+    unempoly_rate_results = server.get_employments("unemployment-rate")['rows']
+    empoly_results = server.get_employments("employment")['rows']
+
+    data1 = {
+        'name': 'unemployment',
+        'details': {}
+    }
+
+    for res in unempoly_results:
+        time = res['key'][-7:]
+        data1['details'][time] = res['value']
+    
+    data2 = {
+        'name': 'unemployment_rate',
+        'details': {}
+    }
+
+    for res in unempoly_rate_results:
+        time = res['key'][-7:]
+        data2['details'][time] = res['value']
+    
+    data3 = {
+        'name': 'unemployment',
+        'details': {}
+    }
+
+    for res in empoly_results:
+        time = res['key'][-7:]
+        data3['details'][time] = res['value']
+
+    data4 = {
+        'name': 'total_polarity',
+        'details': {}
+    }
+    total_results = server.get_twitter_covid('polarity')['rows']
+    for res in total_results:
+        key = res['key']
+        time = key[0] + '-' + key[1]
+        data4['details'][time] = round(res['value'], 4)
+
+    data5 = {
+        'name': 'lockdowm_polarity',
+        'details': {}
+    }
+    lockdown_results = server.get_twitter_covid('polarity', 
+        'covid_search_tweet_melb_jul_to_sep_2020_db')['rows']
+    for res in lockdown_results:
+        key = res['key']
+        time = key[0] + '-' + key[1] + '-' + key[2]
+        data5['details'][time] = round(res['value'], 4)
+
+    data = [data1, data2, data3, data4, data5]
+    return jsonify(data)
+
+
 
 @scenario_controller.route('/stream', methods=['GET'])
 def process_live_twitter():
@@ -203,15 +271,18 @@ def process_live_twitter():
     
     tweets = server.get_tweets(ids)
     for tweet in tweets:
-        data4['details'].append({
-            'time': tweet['created_at'],
-            'lang': tweet['lang'],
-            'source': tweet['source'],
-            'text': tweet['text'],
-            'polarity': tweet['polarity'],
-            'subjectivity': tweet['subjectivity']
-        })
-
+        print(tweet)
+        try:
+            data4['details'].append({
+                'time': tweet['created_at'],
+                'lang': tweet['lang'],
+                'source': tweet['source'],
+                'text': tweet['text'],
+                'polarity': tweet['polarity'],
+                'subjectivity': tweet['subjectivity']
+            })
+        except KeyError:
+            continue
 
     data = [data1, data2, data3, data4]
     return jsonify(data)

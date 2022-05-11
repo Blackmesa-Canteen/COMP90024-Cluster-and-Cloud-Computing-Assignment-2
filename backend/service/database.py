@@ -47,7 +47,7 @@ class Database:
                 group_level = '?group_level=' + constants.income_api[view][1]
             except KeyError:
                 view_name = 'kksk'
-        req_link = self.req_url.format(db='aurin_income_db', doc='income', 
+        req_link = self.req_url.format(db='aurin_income_db', doc='scenario', 
             view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
@@ -85,7 +85,7 @@ class Database:
         return json.loads(response.text)
     
 
-    def get_twitter_covid(self, view=None):
+    def get_twitter_covid(self, view=None, db_name='covid_search_tweet_mentioned_melb_db'):
         view_name = 'show_all'
         group_level = ''
         if view is not None:
@@ -94,7 +94,7 @@ class Database:
                 group_level = '?group_level=' + constants.twitter_covid_api[view][1]
             except KeyError:
                 view_name = 'kksk'
-        req_link = self.req_url.format(db='covid_search_tweet_mentioned_melb_db', 
+        req_link = self.req_url.format(db=db_name, 
             doc='scenario', view_name=view_name, group_level=group_level)
         response = requests.get(req_link)
         return json.loads(response.text)
@@ -147,7 +147,15 @@ class Database:
             response = requests.get(each_req)
             results.append(json.loads(response.text))
         return results
-
+    
+    def get_employments(self, view):
+        view_api = constants.employ_api[view]
+        view_name = view_api[0]
+        group_level = ('?group_level=' + view_api[1])
+        req_link = self.req_url.format(db='aurin_employment_db', 
+            doc='scenario', view_name=view_name, group_level=group_level)
+        response = requests.get(req_link)
+        return json.loads(response.text)
 
 if __name__ == '__main__':
     db = Database()
