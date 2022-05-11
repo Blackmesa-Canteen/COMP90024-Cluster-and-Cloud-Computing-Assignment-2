@@ -212,7 +212,7 @@ def process_covid():
         data2['details'][time] = round(res['value'], 4)
     
     data3 = {
-        'name': 'unemployment',
+        'name': 'employment',
         'details': {}
     }
 
@@ -233,8 +233,7 @@ def process_covid():
         data4['details'][time] = round(res['value'], 4)
 
     # get 2020.7 - 2020-9 twitter data polarity
-    lockdown_results = server.get_twitter_covid('polarity', 
-        cfg.get_lockdown_db)['rows']
+    lockdown_results = server.get_twitter_covid('polarity', cfg.get_lockdown_db())['rows']
     data5 = {
         'name': 'lockdowm_polarity',
         'details': {}

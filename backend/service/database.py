@@ -138,11 +138,11 @@ class Database:
     
 
     # Get twitter data about covid 
-    def get_twitter_covid(self, view=None, db_name='covid_search_tweet_mentioned_melb_db'):
+    def get_twitter_covid(self, view=None, db=None):
         # defualt names
         view_name = 'show_all'
         group_level = ''
-        db_name = self.cfg.get_covid_db()
+        db_name = self.cfg.get_covid_db() if db is None else db
 
         if view is not None:
             try:
@@ -153,6 +153,7 @@ class Database:
         
         req_link = self.req_url.format(db=db_name, doc='scenario',
             view_name=view_name, group_level=group_level)
+        print(req_link)
         response = requests.get(req_link)
 
         return json.loads(response.text)
