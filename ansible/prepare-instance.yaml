@@ -6,5 +6,7 @@
 
   roles:
      - role: common-dependencies
+     - role: mount-volumes
      - role: docker
      - role: git-checkout-repo
+     

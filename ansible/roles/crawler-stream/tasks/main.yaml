@@ -1,0 +1,37 @@
+---
+- name: Stop a container with a command
+  become: true
+  community.docker.docker_container:
+    name: stream_crawler
+    state: absent 
+
+- name: Build an image
+  become: true
+  community.docker.docker_image:
+    build:
+      path: "{{CRAWLER_PATH}}"
+    name: twitter_crawler_demo
+    tag: v1
+    # push: yes
+    source: build
+
+- name: Start a container with a command
+  become: true
+  community.docker.docker_container:
+    name: stream_crawler
+    image: twitter_crawler_demo:v1
+    mounts:
+      - type: "bind"
+        source: "/data/covid-tweet-ids"
+        target: "/data/covid-tweet-ids"
+      - type: "bind"
+        source: "/data/historical-tweets/twitter-melb.json"
+        target: "/data/historical-tweets/twitter-melb.json"
+      - type: "bind"
+        source: "{{CRAWLER_PATH}}/config"
+        target: "/twitter_crawler/config"
+    state: started
+    env:
+      SCENARIO="1" 
+
+    

@@ -1,8 +1,16 @@
 ---
 # source code repo
+- name: Create directory
+  become: true
+  ansible.builtin.file:
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    path: /data/COMP90024/
+    #recurse: yes
+    state: directory
+
 - name: git pull/clone
+  #become: true
   git: 
     repo: https://{{git_token}}:@github.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2.git
     dest: /data/COMP90024/
-    clone: yes
-    update: yes

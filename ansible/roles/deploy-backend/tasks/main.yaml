@@ -1,0 +1,38 @@
+---
+- name: Stop a container with a command
+  become: true
+  community.docker.docker_container:
+    name: backend
+    state: absent 
+    
+- name: Remove image
+  become: true
+  community.docker.docker_image:
+    state: absent
+    name: backend_docker
+    # tag: v1
+
+- name: Build an image
+  become: true
+  community.docker.docker_image:
+    build:
+      path: "{{BACKEND_PATH}}"
+    name: backend_docker
+    #push: yes
+    source: build
+
+# - name: Use command to build image
+#   become: true
+#   ansible.builtin.shell:
+#     cmd: docker build -t backend_docker:latest .
+#     chdir: /data/COMP90024/backend
+
+- name: Start a container with a command
+  become: true
+  community.docker.docker_container:
+    name: backend
+    image: backend_docker:latest
+    detach: yes
+    ports: 
+      - "5000:5000"
+    

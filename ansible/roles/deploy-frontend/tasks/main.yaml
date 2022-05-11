@@ -1,0 +1,76 @@
+---
+# run docker compose for web app(include back/frond end)
+- name: Create frontend directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ FRONTEND_PATH }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    #recurse: yes
+    state: directory
+
+- name: Create frontend build directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ FRONTEND_PATH }}/build"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    #recurse: yes
+    state: directory
+
+- name: generate nginx configuration
+  become: true
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: "{{ FRONTEND_PATH }}/nginx.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: generate dockerfile
+  become: true
+  ansible.builtin.template:
+    src: dockerfile.j2
+    dest: "{{ FRONTEND_PATH }}/Dockerfile"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Stop a container with a command
+  become: true
+  community.docker.docker_container:
+    name: frontend
+    state: absent 
+
+- name: Remove image
+  become: true
+  community.docker.docker_image:
+    state: absent
+    name: frontend
+    # tag: v1
+
+# - name: Build an image
+#   become: true
+#   community.docker.docker_image:
+#     build:
+#       path: "{{FRONTEND_PATH}}"
+#     name: frontend
+#     tag: v1
+#     #push: yes
+#     source: build
+
+- name: This command will change the working directory to somedir/
+  become: true
+  ansible.builtin.shell:
+    cmd: docker build -t frontend:latest .
+    chdir: /data/COMP90024/frontend
+
+- name: Start a container with a command
+  become: true
+  community.docker.docker_container:
+    name: frontend
+    image: frontend:latest
+    # detach: yes
+    # restart: yes
+    ports: 
+      - "80:80"
+    state: started
+    

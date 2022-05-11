@@ -12,13 +12,28 @@ ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 # Volume
 volumes:
   - vol_name: MRC-vol-back-1
-    vol_size: 120
+    vol_size: 100
   - vol_name: MRC-vol-back-2
-    vol_size: 120
+    vol_size: 100
   - vol_name: MRC-vol-back-3
-    vol_size: 120
+    vol_size: 100
+  - vol_name: MRC-vol-back-1-docker
+    vol_size: 20
+  - vol_name: MRC-vol-back-2-docker
+    vol_size: 20
+  - vol_name: MRC-vol-back-3-docker
+    vol_size: 20
   - vol_name: MRC-vol-front-1
     vol_size: 50
+  - vol_name: MRC-vol-front-1-docker
+    vol_size: 10
+
+#volume mouting info
+mount_info:
+  - device: /dev/vdb
+    mountpoint: /data
+  - device: /dev/vdc
+    mountpoint: /var/lib/docker
 
 # Security group
 security_groups:
@@ -52,23 +67,30 @@ security_groups:
     port_range_min: 9100
     port_range_max: 9100
     remote_ip_prefix: 0.0.0.0/0
+  - name: backend_interaction
+    description: "CouchDB cluster communication"
+    protocol: tcp
+    port_range_min: 5000
+    port_range_max: 5000
+    remote_ip_prefix: 0.0.0.0/0
+  
 
 # Instance
 back_instances:
   - name: backend-1
-    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm']
-    volumes: ['MRC-vol-back-1']
+    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm', 'backend_interaction']
+    volumes: ['MRC-vol-back-1', 'MRC-vol-back-1-docker']
   - name: backend-2
-    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm']
-    volumes: ['MRC-vol-back-2']
+    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm', 'backend_interaction']
+    volumes: ['MRC-vol-back-2', 'MRC-vol-back-2-docker']
   - name: backend-3
-    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm']
-    volumes: ['MRC-vol-back-3']
+    security_groups: ['mrc_ssh', 'mrc_http', 'couchdb_http', 'couchdb_mapper', 'couchdb_comm', 'backend_interaction']
+    volumes: ['MRC-vol-back-3', 'MRC-vol-back-3-docker']
 
 front_instances:
   - name: frontend-1
-    security_groups: ['mrc_ssh', 'mrc_http']
-    volumes: ['MRC-vol-front-1']
+    security_groups: ['mrc_ssh', 'mrc_http', 'backend_interaction']
+    volumes: ['MRC-vol-front-1', 'MRC-vol-front-1-docker']
 
 git_dir: /data/COMP90024
 git_user: ZRuizz
