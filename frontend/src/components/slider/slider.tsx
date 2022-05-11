@@ -4,8 +4,16 @@ import Slider from '@mui/material/Slider';
 
 const minDistance = 0.01;
 
-const SliderComponent = () => {
-  const [value1, setValue1] = React.useState<number[]>([20, 37]);
+interface SliderComponentProps {
+  startEndDate: number[],
+  selectedStartEndDate: number[],
+  updateSelectedStartEndDate: (updatedStartEndDate: number[]) => void
+}
+
+const SliderComponent = ({ startEndDate, selectedStartEndDate, updateSelectedStartEndDate }: SliderComponentProps) => {
+  // const [value1, setValue1] = React.useState<number[]>([20, 37]);
+  console.log('startEndDate222')
+  console.log(startEndDate)
 
   const handleChange1 = (
     event: Event,
@@ -17,9 +25,9 @@ const SliderComponent = () => {
     }
 
     if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+      updateSelectedStartEndDate([Math.min(newValue[0], selectedStartEndDate[1] - minDistance), selectedStartEndDate[1]]);
     } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+      updateSelectedStartEndDate([selectedStartEndDate[0], Math.max(newValue[1], selectedStartEndDate[0] + minDistance)]);
     }
   };
 
@@ -27,9 +35,11 @@ const SliderComponent = () => {
     <Box sx={{ width: 300 }}>
       <Slider
         getAriaLabel={() => 'Minimum distance'}
-        value={value1}
+        value={selectedStartEndDate}
         onChange={handleChange1}
         valueLabelDisplay="auto"
+        min={startEndDate[0]}
+        max={startEndDate[1]}
         // getAriaValueText={valuetext}
         disableSwap
       />

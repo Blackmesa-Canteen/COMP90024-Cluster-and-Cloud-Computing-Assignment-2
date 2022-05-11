@@ -16,9 +16,6 @@ const PopulationAnalysisOptionPanel = () => {
   const { setDisplayOptions, setScenario, displayOptions } = useContext(DataDisplayContext)
   const [selectedDataSet, setSelectedDataSet] = useState(displayOptions as string[])
 
-  console.log('displayOptions=>')
-  console.log(displayOptions)
-
   const deleteSelectedDataset = (datasetToDelete: string) => {
     setSelectedDataSet(selectedDataSet.filter(sds => sds !== datasetToDelete))
   }

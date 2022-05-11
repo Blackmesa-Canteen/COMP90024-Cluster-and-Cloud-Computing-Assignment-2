@@ -16,7 +16,7 @@ import Looks3Icon from '@mui/icons-material/Looks3';
 import Top10LanguageAnalysisOptionsPanel from "../top10language-analysis-options-panel/top10language-analysis-options-panel";
 
 const LeftDrawer = () => {
-  const { openOptionsDrawer, setOpenOptionsDrawer, selectedScenario } = useContext(DataDisplayContext)
+  const { openOptionsDrawer, setOpenOptionsDrawer, selectedScenario, setScenario } = useContext(DataDisplayContext)
   const [ currentSelectedScenario, setCurrentSelectedScenario] = useState(selectedScenario)
 
   const optionsPanel = useMemo(() => {
@@ -46,7 +46,10 @@ const LeftDrawer = () => {
             <Box sx={{padding: '20px'}}>
               <DropdownSelector 
                 menuItems={Object.values(Scenarios)}
-                updateWhenSelect={(scenario: string) => setCurrentSelectedScenario(scenario)}
+                updateWhenSelect={(scenario: string) => {
+                  setCurrentSelectedScenario(scenario)
+                  setScenario(scenario)
+                }}
                 selectedItem={currentSelectedScenario}
               />
             </Box>

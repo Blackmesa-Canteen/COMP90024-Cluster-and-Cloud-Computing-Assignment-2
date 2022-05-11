@@ -4,7 +4,7 @@ ENV WORKDIR="/Backend"
 RUN mkdir $WORKDIR
 WORKDIR $WORKDIR
 
-ADD ./config/app_config.yaml $WORKDIR/app_config.yaml
+ADD ./config/app_config.yaml $WORKDIR/config/app_config.yaml
 ADD ./controller $WORKDIR/controller
 ADD ./service $WORKDIR/service
 ADD ./util $WORKDIR/util

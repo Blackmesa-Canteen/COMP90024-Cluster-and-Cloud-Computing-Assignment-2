@@ -10,69 +10,59 @@
 
 from itertools import count
 
-language_db_names = [
-   'covid_search_tweet_mentioned_melb_db',
-   'history_house_price_tweet_db',
-   'history_life_db'
-]
 
-house_price_db_names = [
-   'history_house_price_tweet_db'
-]
-
-covid_db_name = "covid-19-tweets"
-all_tweets_db_name = "all-tweets"
-live_tweets_db_name = 'stream_debug_db'
-
+# aurin income APIs
 income_api = {
-   'position': ['income_by_pos', '1'],
-   'year': ['income_by_year', '1'],
-   'year-position': ['income_by_year_pos', '2'],
-   'position-year': ['income_by_year_pos', '2']
+   'position': ['income_pos', '1'],
+   'year': ['income_year', '1'],
+   'year-position': ['income_year_pos', '2'],
+   'position-year': ['income_year_pos', '2']
 }
 
+# aurin house price APIs
 hp_api = {
-   'position': ['_avg_stat_by_pos', '1'],
-   'year': ['_avg_stat_by_year', '1'],
-   'type': ['_avg_stat_by_type', '1'],
-   'type-position': ['_avg_stat_by_type_pos', '2'],
-   'position-type': ['_avg_stat_by_type_pos', '2'],
-   'type-year': ['_avg_stat_by_type_year', '2'],
-   'year-type': ['_avg_stat_by_type_year', '2'],
-   'position-year': ['_avg_stat_by_year_pos', '2'],
-   'year-position': ['_avg_stat_by_year_pos', '2'],
-   'sumary': ['_avg_stat_by_type_year_pos', '3']
+   'sumary': ['sale_quarter_pos_type', '3'],
 }
 
+# aurin migration APIs
 migration_api = {
-   'sex': ['sex_2016', '1'],
    'year': ['year_sum', '1'],
    'population': ['population_sum', '1'],
    'total-population': ['total_population_sum', '1'],
-   'english': ['english_2016', ''],
-   'English': ['english_2016', '']
 }
 
+# aurin employment APIs
+employ_api = {
+   'unemployment': ['unemployment_sum', '1'],
+   'unemployment-rate': ['unemployment_rate_sum', '1'],
+   'employment': ['employment_sum', '1']
+}
+
+# twitter house price APIs
 twitter_hp_api = {
+   'language': ['language_count', '1'],
+   'language-year': ['language_year_count', '2'],
+   'language-quarter': ['language_quarter_count', '3'],
+   'language-month': ['language_month_count', '3'],
    'year': ['year_count', '1'],
    'polarity': ['polarity_count', '1'],
    'subjectivity': ['subjectivity_count', '1'],
    'map': ['map_count', '1'],
-   'map-year': ['map_year_count', '2'],
-   'year-map': ['map_year_count', '2'],
-   'map-count': ['map_polarity_quarter_count', '2'],
-   'map-sum': ['map_polarity_quarter_sum', '2']
+   'map-avg': ['map_polarity_quarter_avg', '2'],
 }
 
+# twitter covid APIs
 twitter_covid_api = {
    'language': ['language_count', '1'],
    'language-year': ['language_year_count', '2'],
    'language-quarter': ['language_quarter_count', '3'],
    'language-month': ['language_month_count', '3'],
-   'polarity': ['polarity_count', '1'],
-   'subjectivity': ['subjectivity_count', '1']
+   'polarity': ['polarity_day_avg', '3'],
+   'map': ['map_count', '1'],
+   'map-year': ['map_year_count', '2'],
 }
 
+# twitter stream APIs
 twitter_live_api = {
    'polarity': ['polarity_count', '1'],
    'subjectivity': ['subjectivity_count', '1'],

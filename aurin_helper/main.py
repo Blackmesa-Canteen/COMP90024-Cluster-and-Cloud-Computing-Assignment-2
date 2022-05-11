@@ -14,7 +14,7 @@ import os
 from uuid import uuid4
 
 from helper import path, database
-from config import my_config as cfg
+from config import config as cfg
 
 
 # transform E price (1.222E8) to float value
@@ -31,21 +31,6 @@ def process_price(val):
    return price
 
 
-# process rai data format
-def process_data(data):
-   saved_data = {}
-   for key, val in data.items():
-      year_quarter = key[-7:].split('_')
-      year, quarter = year_quarter[0], year_quarter[1]
-      avg_q = val['sum'] / val['count']
-      if year not in saved_data:
-         saved_data[year] = {'total': avg_q, 'quarters': {}}
-      else:
-         saved_data[year]['total'] += avg_q
-      saved_data[year]['quarters'][quarter] = avg_q
-   return saved_data
-
-
 # save one file data to database
 def save_single_file(file_path, data_info, data_to_saved):
    with open(file_path, 'r') as file:
@@ -58,31 +43,6 @@ def save_single_file(file_path, data_info, data_to_saved):
          data_to_saved[uuid4().hex] = row_data
    return data_to_saved
 
-
-# save rai data
-def save_rai(): 
-   file_path = path.get_path() + cfg.RAI_FILE_PATH
-
-   with open(file_path, 'r') as file:
-      reader = csv.DictReader(file)
-      data_to_saved = {}
-
-      for row in reader:
-         for key, value in row.items():        
-            if key in cfg.USELESS_INFO:
-               continue # skip
-            value = float(value) if value != 'null' else 0.0
-            if key not in data_to_saved:
-               data_to_saved[key] = {
-                  'sum': value,
-                  'count': 1 if value != 0.0 else 0
-               }
-            else:
-               data_to_saved[key]['sum'] += value
-               data_to_saved[key]['count'] += 1 if value != 0.0 else 0
-
-      saved_data = process_data(data_to_saved)
-      return database.save_rai(saved_data)
 
 # save house price data
 def save_house_price():
@@ -154,25 +114,13 @@ def save_unemployment_rate():
    data_to_saved = save_single_file(unemployment_s_path, cfg.UNEMPLOYMENT_RATE_INFO, {})
    return database.save_common(cfg.EMPLOYMENT_DB, data_to_saved)
 
-# not useful for now
-def save_education():
-   education_path = path.get_path() + cfg.EDUCATION_PATH
-   data_to_saved = {}
-   for file_name in os.listdir(education_path):
-      if file_name[-4:] != '.csv': continue
-      save_single_file(education_path+file_name, cfg.EDUCATION_INFO, data_to_saved)
-   return database.save_common(cfg.EDUCATION_DB, data_to_saved)
-
-
 
 # run all the functions to save all data to database
 if __name__ == '__main__':
-   print(save_rai())
    print(save_house_price())
    print(save_income())
    print(save_born())
    print(save_migrations())
-   print(save_education())
    print(save_birth())
    print(save_employment())
    print(save_unemployment())

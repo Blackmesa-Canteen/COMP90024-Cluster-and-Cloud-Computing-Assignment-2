@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     demo_controller
+   File Name:     demo_controller
    Description :  TODO
    Author :       Xiaotian Li
-   date：          14/04/2022
+   date:          14/04/2022
 -------------------------------------------------
 """
 from flask import Flask, Blueprint
