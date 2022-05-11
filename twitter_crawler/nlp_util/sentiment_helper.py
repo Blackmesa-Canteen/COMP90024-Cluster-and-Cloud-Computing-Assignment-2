@@ -8,6 +8,7 @@
 -------------------------------------------------
 """
 import nltk
+import ssl
 from nltk.corpus import twitter_samples
 
 import re
@@ -29,7 +30,15 @@ class SentimentHelper:
             cls.__instance = super(SentimentHelper, cls).__new__(
                 cls, *args, **kwargs)
             # init
+            try:
+                _create_unverified_https_context = ssl._create_unverified_context
+            except AttributeError:
+                pass
+            else:
+                ssl._create_default_https_context = _create_unverified_https_context
+            print('download stopwords...')
             nltk.download('stopwords')
+            print('download stopwords finished')
 
         return cls.__instance
 

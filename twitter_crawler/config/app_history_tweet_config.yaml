@@ -18,16 +18,16 @@ app:
   # don't input to many
   # if key-word is an empty list, i.e. [], get all twitter
   key-word-list:
-    - house
-    - price
+    - property
+    - estate
 
-  target-db-name: history_debug_db
+  target-db-name: history_house_price_tweet_db
 
   # 0~100, very loose to very strict match, 100 means the text must have key words
   key-word-match-degree: 63
 
   # true or false
-  is-fetch-english-tweet-only: true
+  is-fetch-english-tweet-only: false
 
   # melbourne place box
   target-box-points:
@@ -40,10 +40,10 @@ app:
 
   db:
     username: admin
-    password: 0F9YUJIgGoxIhgRWfHKS
+    password: admin
     port: 5984
     host-list:
-      - 161.117.88.132
+      - 172.26.134.100
 #      - 127.0.0.1
 #      - 127.0.0.1
 

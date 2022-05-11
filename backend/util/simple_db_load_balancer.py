@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     simple_load_balancer
-   Description :  thread-safe load balancer to RR the request host of couch DB
-   Author :       Xiaotian Li
-   date：          14/04/2022
+   File Name:     simple_load_balancer
+   Description:   thread-safe load balancer to RR the request host of couch DB
+   Author:        Xiaotian Li
+   date:          14/04/2022
 -------------------------------------------------
 """
 import threading
 
 from util.config_handler import ConfigHandler
 
-from loguru import logger
+# from loguru import logger
 
 
 class SimpleDbLoadBalancer:
@@ -56,7 +56,7 @@ class SimpleDbLoadBalancer:
 
                 return res
             else:
-                logger.error("host list out of bound at get_current_db_host")
+                # logger.error("host list out of bound at get_current_db_host")
                 exit(-1)
         finally:
             self.lock.release()
