@@ -4,7 +4,8 @@ export enum Panels{
 
 export enum Scenarios {
   POPULATION_ANALYSIS = 'Population Analysis',
-  TOP_10_LANGUAGE_ANALYSIS = 'Top 10 Languages Analysis'
+  TOP_10_LANGUAGE_ANALYSIS = 'Top 10 Languages Analysis',
+  LOCK_DOWN_INFLUENCE_ANALYSIS = 'Lock down influence analysis'
 }
 
 export enum Population_Panel_Options {

@@ -14,6 +14,7 @@ import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import PopulationAnalysisOptionPanel from "../population-analysis-option-panel/population-analysis-option-panel";
 import Looks3Icon from '@mui/icons-material/Looks3';
 import Top10LanguageAnalysisOptionsPanel from "../top10language-analysis-options-panel/top10language-analysis-options-panel";
+import LockdownInfluenceAnalysisOptionPanel from "../lockdown-influence-analysis-option-panel/lockdown-influence-analysis-option-panel";
 
 const LeftDrawer = () => {
   const { openOptionsDrawer, setOpenOptionsDrawer, selectedScenario, setScenario } = useContext(DataDisplayContext)
@@ -25,6 +26,8 @@ const LeftDrawer = () => {
         return <PopulationAnalysisOptionPanel/>
       case Scenarios.TOP_10_LANGUAGE_ANALYSIS:
         return <Top10LanguageAnalysisOptionsPanel/>
+      case Scenarios.LOCK_DOWN_INFLUENCE_ANALYSIS:
+        return <LockdownInfluenceAnalysisOptionPanel/>
     }
   }, [currentSelectedScenario])
 
