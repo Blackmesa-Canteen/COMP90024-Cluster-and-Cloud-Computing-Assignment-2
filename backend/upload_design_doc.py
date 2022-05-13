@@ -255,7 +255,7 @@ if __name__ == '__main__':
     if response.status_code != 201:
         print('Error uploading')
     
-    for each in cfg.get_twitter_dbs:
+    for each in cfg.get_twitter_dbs():
         response = requests.put(
             req_link.format(db=each, design_doc='languages'),
             headers={"Content-Type": "application/json"},
