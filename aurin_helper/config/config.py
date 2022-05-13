@@ -175,7 +175,7 @@ UNEMPLOYMENT_RATE_INFO = {
     'sep_21': 'un_rate_2021_9'
 }
 
-EMPLOYMENT_PATH = '/data/Aurin/Employ/unemployment.csv'
+EMPLOYMENT_PATH = '/data/Aurin/Employ/employment.csv'
 EMPLOYMENT_INFO = {
     'mar_19': 'num_2019_3',
     'jun_19': 'num_2019_6',
