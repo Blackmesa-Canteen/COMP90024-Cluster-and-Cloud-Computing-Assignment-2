@@ -73,8 +73,10 @@ const HousePriceAnalysisPanel = () => {
           feature.properties.price = d[feature.name][priceType]
         }
         return feature})
+      const newData = Object.assign({}, data)
       console.log('update data')
-      setDisplayData(data)
+      console.log(data)
+      setDisplayData(newData)
     }
   }, [selectedTime, houseType])
 
