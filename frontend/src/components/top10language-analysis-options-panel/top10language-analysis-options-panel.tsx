@@ -17,9 +17,10 @@ const Top10LanguageAnalysisOptionsPanel = () => {
   useEffect(() => {
     console.log('displayOptions111=>')
     console.log(displayOptions)
-    if (displayOptions[0] === 1 && displayOptions[1] === 2)
-    setStartEndDate([displayOptions[0], displayOptions[1]])
-    setSelectedStartEndDate([displayOptions[0], displayOptions[1]])
+    if (startEndDate[0] !== 1 && startEndDate[1] !== 2) {
+      setStartEndDate([displayOptions[0], displayOptions[1]])
+      setSelectedStartEndDate([displayOptions[0], displayOptions[1]])
+    }
   }, [displayOptions])
 
   return (

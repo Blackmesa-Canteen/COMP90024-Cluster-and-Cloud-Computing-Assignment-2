@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from "react";
 
 import DropdownSelector from "../dropdown-selector/dropdown-selector";
-import { Scenarios } from "../../meta-data";
+import { Population_Panel_Options, Scenarios } from "../../meta-data";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer/Drawer";
@@ -18,7 +18,7 @@ import LockdownInfluenceAnalysisOptionPanel from "../lockdown-influence-analysis
 import HousePriceOptionsPanel from "../house-price-options-panel/house-price-options-panel";
 
 const LeftDrawer = () => {
-  const { openOptionsDrawer, setOpenOptionsDrawer, selectedScenario, setScenario } = useContext(DataDisplayContext)
+  const { openOptionsDrawer, setOpenOptionsDrawer, selectedScenario, setScenario, setDisplayOptions } = useContext(DataDisplayContext)
   const [ currentSelectedScenario, setCurrentSelectedScenario] = useState(selectedScenario)
 
   const optionsPanel = useMemo(() => {
@@ -55,6 +55,18 @@ const LeftDrawer = () => {
                 updateWhenSelect={(scenario: string) => {
                   setCurrentSelectedScenario(scenario)
                   setScenario(scenario)
+                  switch(scenario) {
+                    case Scenarios.POPULATION_ANALYSIS:
+                      setDisplayOptions(Object.values(Population_Panel_Options))
+                      break;
+                    case Scenarios.TOP_10_LANGUAGE_ANALYSIS:
+                      // setDisplayOptions([1,2])
+                      break;
+                    case Scenarios.HOUSE_PRICE_ANALYSIS:
+                      break;
+                    case Scenarios.LOCK_DOWN_INFLUENCE_ANALYSIS:
+                      break;
+                  }
                 }}
                 selectedItem={currentSelectedScenario}
               />

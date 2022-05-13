@@ -1,5 +1,5 @@
 export const fetchPopulationData = () => {
-  return fetch('http://localhost:5000/api/scenario/languages', {mode: 'cors'})
+  return fetch('http://172.26.135.17:80/api/scenario/languages', {mode: 'cors'})
   .then(async (data) => {
     const JSONData = await data.json()
     return JSONData
@@ -7,7 +7,7 @@ export const fetchPopulationData = () => {
 }
 
 export const fetchLanguagesCountData = () => {
-  return fetch('http://localhost:5000/api/scenario/languages-month', {mode: 'cors'})
+  return fetch('http://172.26.135.17:80/api/scenario/languages-month', {mode: 'cors'})
     .then(async (data) => {
       const JSONData = await data.json()
       return JSONData
@@ -15,7 +15,7 @@ export const fetchLanguagesCountData = () => {
 }
 
 export const fetchCovidData = () => {
-  return fetch('http://localhost:5000/api/scenario/covid', {mode: 'cors'})
+  return fetch('http://172.26.135.17:80/api/scenario/covid', {mode: 'cors'})
     .then(async (data) => {
       const JSONData = await data.json()
       return JSONData
@@ -23,7 +23,7 @@ export const fetchCovidData = () => {
 }
 
 export const fetchHousePriceData = () => {
-  return fetch('http://localhost:5000/api/scenario/house-price', {mode: 'cors'})
+  return fetch('http://172.26.135.17:80/api/scenario/house-price', {mode: 'cors'})
     .then(async (data) => {
       const JSONData = await data.json()
       return JSONData
