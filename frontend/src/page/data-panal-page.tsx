@@ -1,6 +1,7 @@
 import Container from "@mui/material/Container";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { DataDisplayContext } from "../App";
+import HousePriceAnalysisPanel from "../components/house-price-analysis-panel/house-price-analysis-panel";
 import LeftDrawer from "../components/left-drawer/left-drawer";
 import LockdownInfluenceAnalysisPanel from "../components/lockdown-influence-analysis-panel/lockdown-influence-analysis-panel";
 import PopulationAnalysisPanel from "../components/population-analysis-panel/population-analysis-panel";
@@ -19,6 +20,8 @@ const DataPanelPage = () => {
         return <Top10LanguageAnalysisPanel languageCountData={languageCountData}/>
       case Scenarios.LOCK_DOWN_INFLUENCE_ANALYSIS:
         return <LockdownInfluenceAnalysisPanel/>
+      case Scenarios.HOUSE_PRICE_ANALYSIS:
+        return <HousePriceAnalysisPanel/>
     }
   }, [selectedScenario])
   

@@ -12,8 +12,8 @@ interface SliderComponentProps {
 
 const SliderComponent = ({ startEndDate, selectedStartEndDate, updateSelectedStartEndDate }: SliderComponentProps) => {
   // const [value1, setValue1] = React.useState<number[]>([20, 37]);
-  console.log('startEndDate222')
-  console.log(startEndDate)
+  // console.log('startEndDate222')
+  // console.log(startEndDate)
 
   const handleChange1 = (
     event: Event,

@@ -21,3 +21,11 @@ export const fetchCovidData = () => {
       return JSONData
     })
 }
+
+export const fetchHousePriceData = () => {
+  return fetch('http://localhost:5000/api/scenario/house-price', {mode: 'cors'})
+    .then(async (data) => {
+      const JSONData = await data.json()
+      return JSONData
+    })
+}
