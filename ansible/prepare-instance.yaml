@@ -1,9 +1,9 @@
 ---
+# mount volumes and install common dependencies including Docker, git, etc. 
 - hosts: all
   vars_files:
     - host_vars/nectar.yaml
   gather_facts: true
-
   roles:
      - role: common-dependencies
      - role: mount-volumes

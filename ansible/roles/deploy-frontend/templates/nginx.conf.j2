@@ -1,43 +1,50 @@
 user nginx;
 
 worker_processes auto;
-error_log logs/error.log error;
-pid logs/nginx.pid;
+pid /run/nginx.pid;
 
 events {
     worker_connections  1024;
 }
 
 http {
-    include       mime.types;
-    default_type  application/octet-stream;
-	log_format combined '$remote_addr - $remote_user [$time_local] '
-                    '"$request" $status $body_bytes_sent '
-                    '"$http_referer" "$http_user_agent"';			
-	access_log logs/access.log combined;
     sendfile        on;
+    tcp_nopush      on;
     keepalive_timeout  65;
+
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    ##
+    # gzip setting
+    ##
+    gzip on;
+    gzip_disable "msie6";
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    # load balance
+    upstream backend{
+        server {{groups['backend'][0]}}:{{BACKEND_PORT}} max_fails=3 fail_timeout=30s;
+        server {{groups['backend'][1]}}:{{BACKEND_PORT}} max_fails=3 fail_timeout=30s;
+        server {{groups['backend'][2]}}:{{BACKEND_PORT}} max_fails=3 fail_timeout=30s;
+    }
 
     server {
         listen      80;
         server_name  localhost;
 
         location / {
-            root   /dist;
+            root   /build;
             index  index.html;
+            try_files $uri /index.html;
         }
-		
-		location /backend/ {
-			proxy_pass {{groups['backend'][0]}}:{{BACKEND_PORT}}; # backend node 1 url(http://ip:port)
-		}
-
-		location /backend2/ {
-			proxy_pass {{groups['backend'][1]}}:{{BACKEND_PORT}}; # backend node 2 url(http://ip:port)
-		}
-
-        location /backend3/ {
-			proxy_pass {{groups['backend'][2]}}:{{BACKEND_PORT}}; # backend node 3 url(http://ip:port)
-		}
+        
+        location ~/api/ {
+            proxy_pass http://backend; # proxy, backend will match in upstream
+        }
 
         error_page   500 502 503 504  /50x.html;
         location = /50x.html {

@@ -1,3 +1,4 @@
+# create instances accroding to nectar.yaml
 - hosts: localhost
   vars_files:
     - host_vars/nectar.yaml
@@ -9,6 +10,5 @@
     - role: openstack-create-volume
     - role: openstack-create-security-group
     - role: openstack-create-instance
-    - role: openstack-put-keys
     
 

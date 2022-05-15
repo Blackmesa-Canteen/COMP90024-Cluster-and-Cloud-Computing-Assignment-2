@@ -1,4 +1,44 @@
 ---
+- name: git pull/clone
+  #become: true
+  git: 
+    repo: https://{{git_token}}:@github.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2.git
+    dest: /data/COMP90024/
+    version: dev-frontend
+    force: yes
+
+# Install dependencies on the host
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name: ['nodejs', 'npm']
+    state: latest
+    update_cache: yes
+
+- name: Use command to install npm n
+  become: true
+  ansible.builtin.shell:
+    cmd: npm i -g n --force
+    chdir: /data/COMP90024/frontend
+
+- name: Use command to upgrade node
+  become: true
+  ansible.builtin.shell:
+    cmd: n latest
+    chdir: /data/COMP90024/frontend
+
+- name: Use command to npm install
+  become: true
+  ansible.builtin.shell:
+    cmd: npm install
+    chdir: /data/COMP90024/frontend
+
+- name: npm run build
+  become: true
+  ansible.builtin.shell:
+    cmd: npm run build
+    chdir: /data/COMP90024/frontend
+
 # run docker compose for web app(include back/frond end)
 - name: Create frontend directory
   become: true
@@ -40,37 +80,23 @@
     name: frontend
     state: absent 
 
-- name: Remove image
+- name: Build an image
   become: true
   community.docker.docker_image:
-    state: absent
+    build:
+      path: "{{FRONTEND_PATH}}"
     name: frontend
-    # tag: v1
-
-# - name: Build an image
-#   become: true
-#   community.docker.docker_image:
-#     build:
-#       path: "{{FRONTEND_PATH}}"
-#     name: frontend
-#     tag: v1
-#     #push: yes
-#     source: build
-
-- name: This command will change the working directory to somedir/
-  become: true
-  ansible.builtin.shell:
-    cmd: docker build -t frontend:latest .
-    chdir: /data/COMP90024/frontend
+    #push: yes
+    source: build
+    force_source: yes
 
 - name: Start a container with a command
   become: true
   community.docker.docker_container:
     name: frontend
-    image: frontend:latest
-    # detach: yes
+    image: frontend
+    detach: yes
     # restart: yes
     ports: 
       - "80:80"
-    state: started
     

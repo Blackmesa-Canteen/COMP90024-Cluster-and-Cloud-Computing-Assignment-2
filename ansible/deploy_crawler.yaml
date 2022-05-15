@@ -1,30 +1,27 @@
 ---
+# deploy twitter steaming crawler on node backend[0]
 - hosts: stream_crawler
   vars_files:
     - host_vars/backend.yaml
   gather_facts: true
-
   roles:
-    # - role: docker # duplicated. for test
     - role: git-checkout-repo
     - role: crawler-stream
 
+# deploy twitter search Covid crawler on node backend[1]
 - hosts: covid_search_crawler
   vars_files:
     - host_vars/backend.yaml
   gather_facts: true
-
   roles:
-    # - role: docker # duplicated. for test
     - role: git-checkout-repo
     - role: crawler-covid
 
+# deploy twitter historical data crawler on node backend[2]
 - hosts: historical_crawler
   vars_files:
     - host_vars/backend.yaml
   gather_facts: true
-
   roles:
-    # - role: docker # duplicated. for test
     - role: git-checkout-repo
     - role: crawler-historical

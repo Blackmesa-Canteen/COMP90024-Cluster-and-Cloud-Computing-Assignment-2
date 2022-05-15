@@ -1,20 +1,21 @@
 ---
-# - hosts: backend
-#   vars_files:
-#     - host_vars/backend.yaml
-#   gather_facts: true
+# create CouchDB containers and run them
+- hosts: backend
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+  roles:
+    - role: backend-create-docker-couchdb
 
-#   roles:
-#     # - role: docker # duplicated. for test
-#     - role: backend-create-docker-couchdb
+# setup the CouchDB cluster
+- hosts: masternode
+  vars_files:
+    - host_vars/backend.yaml
+  gather_facts: true
+  roles:
+    - role: backend-create-couchdb-cluster
 
-# - hosts: masternode
-#   vars_files:
-#     - host_vars/backend.yaml
-#   gather_facts: true
-#   roles:
-#     - role: backend-create-couchdb-cluster
-
+# deploy backend applications
 - hosts: backend
   vars_files:
     - host_vars/backend.yaml

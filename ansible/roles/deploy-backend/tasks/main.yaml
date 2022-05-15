@@ -20,12 +20,7 @@
     name: backend_docker
     #push: yes
     source: build
-
-# - name: Use command to build image
-#   become: true
-#   ansible.builtin.shell:
-#     cmd: docker build -t backend_docker:latest .
-#     chdir: /data/COMP90024/backend
+    force_source: yes
 
 - name: Start a container with a command
   become: true

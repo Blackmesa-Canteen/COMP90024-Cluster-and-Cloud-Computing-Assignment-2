@@ -1,11 +1,8 @@
 FROM nginx:latest
 
-RUN mkdir /dist
-COPY ./build /dist
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
-# ENV BACKEND_URL="{{groups['backend'][2]}}"
-# ENV BACKEND2_URL="{{groups['backend'][2]}}"
-# ENV BACKEND3_URL="{{groups['backend'][2]}}"
+# Copy the built resources
+RUN mkdir /build
+COPY build /build
+COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD nginx -g 'daemon off;'

@@ -73,6 +73,12 @@ security_groups:
     port_range_min: 5000
     port_range_max: 5000
     remote_ip_prefix: 0.0.0.0/0
+  - name: frontend_web_http
+    description: "Frontend http access"
+    protocol: tcp
+    port_range_min: 3000
+    port_range_max: 3000
+    remote_ip_prefix: 0.0.0.0/0
   
 
 # Instance
@@ -89,7 +95,7 @@ back_instances:
 
 front_instances:
   - name: frontend-1
-    security_groups: ['mrc_ssh', 'mrc_http', 'backend_interaction']
+    security_groups: ['mrc_ssh', 'mrc_http', 'backend_interaction', 'frontend_web_http']
     volumes: ['MRC-vol-front-1', 'MRC-vol-front-1-docker']
 
 git_dir: /data/COMP90024

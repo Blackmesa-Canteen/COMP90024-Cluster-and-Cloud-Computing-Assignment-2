@@ -14,6 +14,7 @@
     tag: v1
     # push: yes
     source: build
+    force_source: yes
 
 - name: Start a container with a command
   become: true
