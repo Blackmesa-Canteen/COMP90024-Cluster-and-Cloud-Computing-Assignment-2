@@ -6,6 +6,7 @@ import LeftDrawer from "../components/left-drawer/left-drawer";
 import LockdownInfluenceAnalysisPanel from "../components/lockdown-influence-analysis-panel/lockdown-influence-analysis-panel";
 import PopulationAnalysisPanel from "../components/population-analysis-panel/population-analysis-panel";
 import Top10LanguageAnalysisPanel from "../components/top10language-analysis-panel/top10language-analysis-panel";
+import TwitterAnalysisOptionPanel from "../components/twitter-analysis-panel/twitter-analysis-panel";
 import { Scenarios } from "../meta-data";
 import { fetchLanguagesCountData } from "../services/services";
 
@@ -22,6 +23,8 @@ const DataPanelPage = () => {
         return <LockdownInfluenceAnalysisPanel/>
       case Scenarios.HOUSE_PRICE_ANALYSIS:
         return <HousePriceAnalysisPanel/>
+      case Scenarios.TWITTER_ANALYSIS:
+        return <TwitterAnalysisOptionPanel/>
     }
   }, [selectedScenario])
   

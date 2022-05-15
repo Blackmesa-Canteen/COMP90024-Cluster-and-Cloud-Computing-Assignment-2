@@ -7,7 +7,7 @@ export enum Scenarios {
   TOP_10_LANGUAGE_ANALYSIS = 'Top 10 Languages Analysis',
   HOUSE_PRICE_ANALYSIS = 'House Price Analysis',
   LOCK_DOWN_INFLUENCE_ANALYSIS = 'Lock down influence analysis',
-
+  TWITTER_ANALYSIS = 'Twitter Analysis'
 }
 
 export enum Population_Panel_Options {

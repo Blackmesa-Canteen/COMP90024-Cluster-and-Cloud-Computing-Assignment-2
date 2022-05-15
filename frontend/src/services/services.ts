@@ -29,3 +29,11 @@ export const fetchHousePriceData = () => {
       return JSONData
     })
 }
+
+export const fetchTwitter = () => {
+  return fetch('http://172.26.135.17:80/api/scenario/stream', {mode: 'cors'})
+    .then(async (data) => {
+      const JSONData = await data.json()
+      return JSONData
+    })
+}
