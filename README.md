@@ -23,6 +23,7 @@ of Tweets. The CouchDB setup is based on a cluster setup.
 - React.js
 - Docker
 - Nginx
+- NLTK + TextBlob
 
 ## License
 ```
