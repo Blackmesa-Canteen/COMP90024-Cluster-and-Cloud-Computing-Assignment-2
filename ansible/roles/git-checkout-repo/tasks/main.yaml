@@ -14,3 +14,4 @@
   git: 
     repo: https://{{git_token}}:@github.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2.git
     dest: /data/COMP90024/
+    force: yes

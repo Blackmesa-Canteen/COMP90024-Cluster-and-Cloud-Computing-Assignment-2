@@ -41,42 +41,6 @@
     name: ['docker-compose']
     state: latest
 
-# # Proxy seettings for docker
-# # check docker.service.d path
-# - name: docker.service.d path
-#   become: true
-#   file:
-#     path: '/etc/systemd/system/docker.service.d'
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0755'
-#     recurse: yes
-#     state: directory
-
-# # create docker proxy file
-# - name: create docker proxy file
-#   file:
-#     path: "/etc/systemd/system/docker.service.d/http-proxy.conf"
-#     state: touch
-
-# # Configure docker proxy
-# - name: Configure Docker proxy
-#   become: true
-#   blockinfile:
-#     path: /etc/systemd/system/docker.service.d/http-proxy.conf
-#     block: |
-#       [Service]
-#       Environment="HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "HTTPS_PROXY=http://wwwproxy.unimelb.edu.au:8000/" "http_proxy=http://wwwproxy.unimelb.edu.au:8000/" "https_proxy=http://wwwproxy.unimelb.edu.au:8000/" "no_proxy=localhost, 127.0.0.1, localaddress, 172.16.0.0/12, /melbourne.rc.nectar.org.au, .storage.unimelb.edu.au, .cloud.unimelb.edu.au"
-
-# # flush docker proxy
-# - name: Flush docker proxy
-#   become: true
-#   command: systemctl daemon-reload
-  
-# restart docker 
-- name: Restart docker 
-  become: true
-  command: systemctl restart docker
 
 # check docker state
 - name: check docker state

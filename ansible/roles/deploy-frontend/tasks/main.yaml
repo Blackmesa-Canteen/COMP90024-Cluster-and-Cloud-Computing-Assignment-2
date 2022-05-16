@@ -39,25 +39,6 @@
     cmd: npm run build
     chdir: /data/COMP90024/frontend
 
-# run docker compose for web app(include back/frond end)
-- name: Create frontend directory
-  become: true
-  ansible.builtin.file:
-    path: "{{ FRONTEND_PATH }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    #recurse: yes
-    state: directory
-
-- name: Create frontend build directory
-  become: true
-  ansible.builtin.file:
-    path: "{{ FRONTEND_PATH }}/build"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    #recurse: yes
-    state: directory
-
 - name: generate nginx configuration
   become: true
   ansible.builtin.template:

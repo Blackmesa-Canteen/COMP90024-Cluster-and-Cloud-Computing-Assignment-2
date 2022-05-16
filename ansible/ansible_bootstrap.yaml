@@ -1,5 +1,4 @@
 # Integrated ansible playbook
-
 # create mrc instances/dependencies
 - hosts: localhost
   vars_files:
@@ -11,7 +10,6 @@
     - role: openstack-create-volume
     - role: openstack-create-security-group
     - role: openstack-create-instance
-    - role: openstack-put-keys
 
 # prepare instance/envir
 - hosts: all
