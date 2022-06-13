@@ -12,7 +12,7 @@ R.
 Prof. Richard O. Sinnott
 
 ## Report
-
+[Team Report PDF](https://github.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2/blob/main/docs/ccc2022-Team52.pdf)
  
 ## Introduction
 The focus of this project is toharvest tweets from Melbourne on the MRC and undertake a variety of social media data analytics
@@ -38,6 +38,11 @@ of Tweets. The CouchDB setup is based on a cluster setup.
 - Docker
 - Nginx
 - NLTK + TextBlob
+
+## Architecture
+![Architectutre](https://raw.githubusercontent.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2/main/docs/Architecture.jpg)
+
+![Crawler](https://raw.githubusercontent.com/Blackmesa-Canteen/COMP90024-Cluster-and-Cloud-Computing-Assignment-2/main/docs/crawler.jpg)
 
 ## License
 ```
